@@ -2,7 +2,6 @@ package menuscene;
 
 import pulpcore.Stage;
 import pulpcore.image.CoreFont;
-import pulpcore.image.CoreGraphics;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Sprite;

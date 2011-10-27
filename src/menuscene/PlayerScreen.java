@@ -1,10 +1,5 @@
 package menuscene;
 
-import static pulpcore.image.Colors.BLACK;
-import static pulpcore.image.Colors.WHITE;
-
-import java.util.Calendar;
-
 import pulpcore.Input;
 import pulpcore.Stage;
 import pulpcore.animation.Easing;
@@ -15,7 +10,6 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.FilledSprite;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
-import pulpcore.sprite.Sprite;
 
 public class PlayerScreen extends Scene2D{
 	
@@ -60,6 +54,11 @@ public class PlayerScreen extends Scene2D{
         {
         	number = number % 3 + 1;
         	load();
+        }
+        
+        if(continueLabel.isMouseDown())
+        {
+        	Stage.setScene(new GameScreen());
         }
     }
 }
