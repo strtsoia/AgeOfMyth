@@ -1,13 +1,9 @@
 package menuscene;
 
-import pulpcore.Input;
 import pulpcore.Stage;
-import pulpcore.animation.Easing;
-import pulpcore.animation.Timeline;
 import pulpcore.image.Colors;
 import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
-import pulpcore.sprite.FilledSprite;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 
@@ -19,8 +15,12 @@ public class PlayerScreen extends Scene2D{
 	Label continueLabel;
 	Label backLabel;
 	
-	int number = 0;
+	private static int number = 0;
 	
+	public static int getNumber() {
+		return number;
+	}
+
 	public void load()
 	{
 		background = new ImageSprite("playscreen.png",0,0,Stage.getWidth(),Stage.getHeight());
