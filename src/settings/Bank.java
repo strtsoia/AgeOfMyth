@@ -12,8 +12,8 @@ public class Bank {
 
 	private static Bank bank;
 	
-	private Hashtable<GlobalDef.resources, Integer> resourcePool = 
-			new Hashtable<GlobalDef.resources, Integer>();
+	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
+			new Hashtable<GlobalDef.Resources, Integer>();
 	
 	private Bank()
 	{
@@ -44,25 +44,26 @@ public class Bank {
 			return bank;
 	}
 	
+	// utility function
 	private void InitialPool(int res)
 	{
-		resourcePool.put(GlobalDef.resources.FOOD, res);
-		resourcePool.put(GlobalDef.resources.WOOD, res);
-		resourcePool.put(GlobalDef.resources.GOLD, res);
-		resourcePool.put(GlobalDef.resources.FAVOR, res);
-		resourcePool.put(GlobalDef.resources.VICTORY, 30);
+		resourcePool.put(GlobalDef.Resources.FOOD, res);
+		resourcePool.put(GlobalDef.Resources.WOOD, res);
+		resourcePool.put(GlobalDef.Resources.GOLD, res);
+		resourcePool.put(GlobalDef.Resources.FAVOR, res);
+		resourcePool.put(GlobalDef.Resources.VICTORY, 30);
 		
 	}
 	
 	// add resource to resource pool
-	public void AddToResPool(Hashtable<GlobalDef.resources, Integer> ht)
+	public void AddToResPool(Hashtable<GlobalDef.Resources, Integer> ht)
 	{
-		Set<GlobalDef.resources> kSet = ht.keySet();
-		Iterator<GlobalDef.resources> iter = kSet.iterator();
+		Set<GlobalDef.Resources> kSet = ht.keySet();
+		Iterator<GlobalDef.Resources> iter = kSet.iterator();
 		
 		//iterate all resource and add to pool
 		while(iter.hasNext()){
-			GlobalDef.resources res = iter.next();
+			GlobalDef.Resources res = iter.next();
 			int num = ht.get(res);
 			int numPool = resourcePool.get(res);
 			resourcePool.put(res, num + numPool);
@@ -73,14 +74,14 @@ public class Bank {
 	// since it reflects actual resource get from resource pool. E.g, request resource
 	// may be 5 cubes, but resource pool only has 3, so ht will change to store 3 after
 	// this call.
-	public void RemoveFromResPool(Hashtable<GlobalDef.resources, Integer> ht)
+	public void RemoveFromResPool(Hashtable<GlobalDef.Resources, Integer> ht)
 	{
-		Set<GlobalDef.resources> kSet = ht.keySet();
-		Iterator<GlobalDef.resources> iter = kSet.iterator();
+		Set<GlobalDef.Resources> kSet = ht.keySet();
+		Iterator<GlobalDef.Resources> iter = kSet.iterator();
 		
 		//iterate all resource and remove from pool
 		while(iter.hasNext()){
-			GlobalDef.resources res = iter.next();
+			GlobalDef.Resources res = iter.next();
 			int num = ht.get(res);
 			int numPool = resourcePool.get(res);
 			

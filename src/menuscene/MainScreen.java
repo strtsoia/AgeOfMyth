@@ -21,7 +21,6 @@ public class MainScreen extends Scene2D{
 	}
 	
 	
-	 
 	@Override
     public void update(int elapsedTime) { 
 		
