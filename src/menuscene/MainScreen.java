@@ -10,7 +10,6 @@ import pulpcore.Input;
 public class MainScreen extends Scene2D{
 
 	ImageSprite background;
-	Sprite ic_play;
 	
 	@Override
     public void load() {
@@ -18,8 +17,6 @@ public class MainScreen extends Scene2D{
 		
 		background = new ImageSprite("background.png",0,0,Stage.getWidth(),Stage.getHeight());
 		add(background);
-		
-		ic_play = new ImageSprite("ball.png",0,0);
 		
 	}
 	

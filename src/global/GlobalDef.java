@@ -2,7 +2,7 @@ package global;
 /*
  * this class contains all global data, such as, units, resources, tiles
  */
-public class GlobalData {
+public class GlobalDef {
 
 	public static enum resources
 	{

@@ -1,6 +1,6 @@
 package settings;
 
-import global.GlobalData;
+import global.GlobalDef;
 
 import java.util.Hashtable;
 import java.util.Set;
@@ -12,13 +12,13 @@ public class Bank {
 
 	private static Bank bank;
 	
-	private Hashtable<GlobalData.resources, Integer> resourcePool = 
-			new Hashtable<GlobalData.resources, Integer>();
+	private Hashtable<GlobalDef.resources, Integer> resourcePool = 
+			new Hashtable<GlobalDef.resources, Integer>();
 	
 	private Bank()
 	{
 		// initial pool based on number of players
-		int numOfPlayer = 2;//PlayerScreen.getNumber();
+		int numOfPlayer = PlayerScreen.getNumber();
 		switch(numOfPlayer)
 		{
 			case 2:
@@ -46,23 +46,23 @@ public class Bank {
 	
 	private void InitialPool(int res)
 	{
-		resourcePool.put(GlobalData.resources.FOOD, res);
-		resourcePool.put(GlobalData.resources.WOOD, res);
-		resourcePool.put(GlobalData.resources.GOLD, res);
-		resourcePool.put(GlobalData.resources.FAVOR, res);
-		resourcePool.put(GlobalData.resources.VICTORY, 30);
+		resourcePool.put(GlobalDef.resources.FOOD, res);
+		resourcePool.put(GlobalDef.resources.WOOD, res);
+		resourcePool.put(GlobalDef.resources.GOLD, res);
+		resourcePool.put(GlobalDef.resources.FAVOR, res);
+		resourcePool.put(GlobalDef.resources.VICTORY, 30);
 		
 	}
 	
 	// add resource to resource pool
-	public void AddToResPool(Hashtable<GlobalData.resources, Integer> ht)
+	public void AddToResPool(Hashtable<GlobalDef.resources, Integer> ht)
 	{
-		Set<GlobalData.resources> kSet = ht.keySet();
-		Iterator<GlobalData.resources> iter = kSet.iterator();
+		Set<GlobalDef.resources> kSet = ht.keySet();
+		Iterator<GlobalDef.resources> iter = kSet.iterator();
 		
 		//iterate all resource and add to pool
 		while(iter.hasNext()){
-			GlobalData.resources res = iter.next();
+			GlobalDef.resources res = iter.next();
 			int num = ht.get(res);
 			int numPool = resourcePool.get(res);
 			resourcePool.put(res, num + numPool);
@@ -71,16 +71,16 @@ public class Bank {
 	
 	// remove from resource pool. note: after this call, parameter ht may change
 	// since it reflects actual resource get from resource pool. E.g, request resource
-	// may be 5 cubes, but resource pool only has 3, so ht will chage to store 3 after
+	// may be 5 cubes, but resource pool only has 3, so ht will change to store 3 after
 	// this call.
-	public void RemoveFromResPool(Hashtable<GlobalData.resources, Integer> ht)
+	public void RemoveFromResPool(Hashtable<GlobalDef.resources, Integer> ht)
 	{
-		Set<GlobalData.resources> kSet = ht.keySet();
-		Iterator<GlobalData.resources> iter = kSet.iterator();
+		Set<GlobalDef.resources> kSet = ht.keySet();
+		Iterator<GlobalDef.resources> iter = kSet.iterator();
 		
 		//iterate all resource and remove from pool
 		while(iter.hasNext()){
-			GlobalData.resources res = iter.next();
+			GlobalDef.resources res = iter.next();
 			int num = ht.get(res);
 			int numPool = resourcePool.get(res);
 			
