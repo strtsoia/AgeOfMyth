@@ -14,7 +14,12 @@ public class Bank {
 	
 	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
 			new Hashtable<GlobalDef.Resources, Integer>();
+	private Hashtable<GlobalDef.BuildingTiles, Integer> buildingPool =
+			new Hashtable<GlobalDef.BuildingTiles, Integer>();
+	private Hashtable<GlobalDef.ProductionTiles, Integer> productionPool =
+			new Hashtable<GlobalDef.ProductionTiles, Integer>();
 	
+	// constructor
 	private Bank()
 	{
 		// initial pool based on number of players
@@ -22,15 +27,18 @@ public class Bank {
 		switch(numOfPlayer)
 		{
 			case 2:
-				InitialPool(20);
+				InitialResourcePool(20);
 				break;
 			case 3:
-				InitialPool(25);
+				InitialResourcePool(25);
 				break;
 			case 4:
-				InitialPool(30);
+				InitialResourcePool(30);
 				break;
 		}
+		
+		InitialBuildingPool();
+		InitialProductionPool();
 	}
 	
 	// singleton pattern
@@ -45,7 +53,7 @@ public class Bank {
 	}
 	
 	// utility function
-	private void InitialPool(int res)
+	private void InitialResourcePool(int res)
 	{
 		resourcePool.put(GlobalDef.Resources.FOOD, res);
 		resourcePool.put(GlobalDef.Resources.WOOD, res);
@@ -55,7 +63,52 @@ public class Bank {
 		
 	}
 	
-	// add resource to resource pool
+	// utility function
+	private void InitialBuildingPool()
+	{
+		buildingPool.put(GlobalDef.BuildingTiles.Wonder, 1);
+		buildingPool.put(GlobalDef.BuildingTiles.Granary, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.Wall, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.Quarry, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.GoldMint, 3);
+		buildingPool.put(GlobalDef.BuildingTiles.Market, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.Armory, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.SiegeEngineWorkshop, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.Monument, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.GreatTemple, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.StoreHouse, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.WoodWorkshop, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.Tower, 4);
+		buildingPool.put(GlobalDef.BuildingTiles.House, 40);
+		
+	}
+	
+	private void InitialProductionPool()
+	{
+		productionPool.put(GlobalDef.ProductionTiles.FertileA, 12);
+		productionPool.put(GlobalDef.ProductionTiles.FertileB, 3);
+		productionPool.put(GlobalDef.ProductionTiles.FertileC, 3);
+		productionPool.put(GlobalDef.ProductionTiles.FertileD, 3);
+		productionPool.put(GlobalDef.ProductionTiles.FertileA, 9);
+		productionPool.put(GlobalDef.ProductionTiles.FertileB, 2);
+		productionPool.put(GlobalDef.ProductionTiles.FertileC, 2);
+		productionPool.put(GlobalDef.ProductionTiles.FertileD, 2);
+		productionPool.put(GlobalDef.ProductionTiles.HillA, 4);
+		productionPool.put(GlobalDef.ProductionTiles.HillB, 4);
+		productionPool.put(GlobalDef.ProductionTiles.HillC, 4);
+		productionPool.put(GlobalDef.ProductionTiles.HillD, 4);
+		productionPool.put(GlobalDef.ProductionTiles.MountainA, 6);
+		productionPool.put(GlobalDef.ProductionTiles.MountainB, 3);
+		productionPool.put(GlobalDef.ProductionTiles.MountainC, 3);
+		productionPool.put(GlobalDef.ProductionTiles.DesertA, 7);
+		productionPool.put(GlobalDef.ProductionTiles.DesertB, 7);
+		productionPool.put(GlobalDef.ProductionTiles.SwampA, 4);
+		productionPool.put(GlobalDef.ProductionTiles.SwampB, 4);
+		productionPool.put(GlobalDef.ProductionTiles.SwampC, 4);
+		
+	}
+	
+	/*// add resource to resource pool
 	public void AddToResPool(Hashtable<GlobalDef.Resources, Integer> ht)
 	{
 		Set<GlobalDef.Resources> kSet = ht.keySet();
@@ -94,5 +147,5 @@ public class Bank {
 			}
 		}
 	}
-
+*/
 }
