@@ -16,6 +16,7 @@ public class MainScreen extends Scene2D{
 		CoreFont font = CoreFont.getSystemFont();
 		
 		background = new ImageSprite("background.png",0,0,Stage.getWidth(),Stage.getHeight());
+		
 		add(background);
 		
 	}

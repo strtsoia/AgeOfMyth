@@ -4,13 +4,26 @@ package global;
  */
 public class GlobalDef {
 
-	public static enum Resources
+	public enum Resources
 	{
 		FOOD,
 		WOOD,
 		GOLD,
 		FAVOR,
 		VICTORY;
+	}
+	
+	public enum TileType
+	{
+		Production,
+		Building
+	}
+	
+	public enum CardType
+	{
+		Permanent,
+		Random,
+		Battle
 	}
 	
 	public enum BuildingTiles
@@ -40,6 +53,30 @@ public class GlobalDef {
 		Desert,
 		Swamp
 		
+	}
+	
+	public enum ProductionTiles
+	{
+		FertileA,
+		FertileB,
+		FertileC,
+		FertileD,
+		ForestA,
+		ForestB,
+		ForestC,
+		ForestD,
+		HillA,
+		HillB,
+		HillC,
+		HillD,
+		MountainA,
+		MountainB,
+		MountainC,
+		DesertA,
+		DesertB,
+		SwampA,
+		SwampB,
+		SwampC
 	}
 	
 	public enum Unit 
