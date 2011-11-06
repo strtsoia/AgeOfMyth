@@ -1,0 +1,44 @@
+package battlecard;
+
+import java.util.Hashtable;
+
+import global.GlobalDef;
+
+public final class MythicGreekHero extends BattleCard{
+
+	private static MythicGreekHero mythicGreekHero;
+	
+	private MythicGreekHero()
+	{
+		 cost.put(GlobalDef.Resources.FAVOR, 4);
+		 cost.put(GlobalDef.Resources.GOLD, 4);
+	}
+	
+	private final static int rolls = 5;
+	private static int bonus = 0;
+	private static Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
+	
+	public static int getRolls() {
+		return rolls + bonus;
+	}
+
+	public static Hashtable<GlobalDef.Resources, Integer> getCost() {
+		return cost;
+	}
+
+	public static MythicGreekHero getInstance()
+	{
+		if(mythicGreekHero == null){
+			mythicGreekHero = new MythicGreekHero();
+			return mythicGreekHero;
+		}
+		
+		return mythicGreekHero;
+	}
+	
+	public static void CheckBonus(BattleCard opponent)
+	{
+        bonus = 0;
+	}
+	
+}
