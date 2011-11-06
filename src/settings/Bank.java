@@ -6,6 +6,22 @@ import java.util.Hashtable;
 import java.util.Set;
 import java.util.Iterator;
 
+import building.Building;
+import building.Armory;
+import building.Garnary;
+import building.GoldMint;
+import building.GreatTemple;
+import building.House;
+import building.Market;
+import building.Monument;
+import building.Quarry;
+import building.SiegeEngineWorkshop;
+import building.StoreHouse;
+import building.Tower;
+import building.Wall;
+import building.Wonder;
+import building.WoodWorkshop;
+
 import menuscene.PlayerScreen;
 
 public class Bank {
@@ -14,8 +30,8 @@ public class Bank {
 	
 	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
 			new Hashtable<GlobalDef.Resources, Integer>();
-	private Hashtable<GlobalDef.BuildingTiles, Integer> buildingPool =
-			new Hashtable<GlobalDef.BuildingTiles, Integer>();
+	private Hashtable<Building, Integer> buildingPool =
+			new Hashtable<Building, Integer>();
 	private Hashtable<GlobalDef.ProductionTiles, Integer> productionPool =
 			new Hashtable<GlobalDef.ProductionTiles, Integer>();
 	
@@ -66,20 +82,20 @@ public class Bank {
 	// utility function
 	private void InitialBuildingPool()
 	{
-		buildingPool.put(GlobalDef.BuildingTiles.Wonder, 1);
-		buildingPool.put(GlobalDef.BuildingTiles.Granary, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.Wall, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.Quarry, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.GoldMint, 3);
-		buildingPool.put(GlobalDef.BuildingTiles.Market, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.Armory, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.SiegeEngineWorkshop, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.Monument, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.GreatTemple, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.StoreHouse, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.WoodWorkshop, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.Tower, 4);
-		buildingPool.put(GlobalDef.BuildingTiles.House, 40);
+		buildingPool.put(Armory.GetInstance(), 1);
+		buildingPool.put(Garnary.GetInstance(), 4);
+		buildingPool.put(Wall.GetInstance(), 4);
+		buildingPool.put(Quarry.GetInstance(), 4);
+		buildingPool.put(GoldMint.GetInstance(), 3);
+		buildingPool.put(Market.GetInstance(), 4);
+		buildingPool.put(Wonder.GetInstance(), 4);
+		buildingPool.put(SiegeEngineWorkshop.GetInstance(), 4);
+		buildingPool.put(Monument.GetInstance(), 4);
+		buildingPool.put(GreatTemple.GetInstance(), 4);
+		buildingPool.put(StoreHouse.GetInstance(), 4);
+		buildingPool.put(WoodWorkshop.GetInstance(), 4);
+		buildingPool.put(Tower.GetInstance(), 4);
+		buildingPool.put(House.GetInstance(), 40);
 		
 	}
 	
@@ -108,44 +124,19 @@ public class Bank {
 		
 	}
 	
-	/*// add resource to resource pool
-	public void AddToResPool(Hashtable<GlobalDef.Resources, Integer> ht)
+	public void UpdateResourcePool(Hashtable<GlobalDef.Resources, Integer> table)
 	{
-		Set<GlobalDef.Resources> kSet = ht.keySet();
-		Iterator<GlobalDef.Resources> iter = kSet.iterator();
-		
-		//iterate all resource and add to pool
-		while(iter.hasNext()){
-			GlobalDef.Resources res = iter.next();
-			int num = ht.get(res);
-			int numPool = resourcePool.get(res);
-			resourcePool.put(res, num + numPool);
-		}
+		this.resourcePool = table;
 	}
 	
-	// remove from resource pool. note: after this call, parameter ht may change
-	// since it reflects actual resource get from resource pool. E.g, request resource
-	// may be 5 cubes, but resource pool only has 3, so ht will change to store 3 after
-	// this call.
-	public void RemoveFromResPool(Hashtable<GlobalDef.Resources, Integer> ht)
+	public void UpdateBuildingPool(Hashtable<Building, Integer> table)
 	{
-		Set<GlobalDef.Resources> kSet = ht.keySet();
-		Iterator<GlobalDef.Resources> iter = kSet.iterator();
-		
-		//iterate all resource and remove from pool
-		while(iter.hasNext()){
-			GlobalDef.Resources res = iter.next();
-			int num = ht.get(res);
-			int numPool = resourcePool.get(res);
-			
-			if(numPool < num){
-				resourcePool.put(res, 0);
-				ht.put(res, numPool);
-			}
-			else{
-				resourcePool.put(res, numPool - num);
-			}
-		}
+		this.buildingPool = table;
 	}
-*/
+	
+	public void UpdateProductionPool(Hashtable<GlobalDef.ProductionTiles, Integer> table)
+	{
+		this.productionPool = table;
+	}
+	
 }
