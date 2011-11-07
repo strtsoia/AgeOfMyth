@@ -13,11 +13,11 @@ public class Bank {
 
 	private static Bank bank;
 	
-	private static Hashtable<GlobalDef.Resources, Integer> resourcePool = 
+	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
 			new Hashtable<GlobalDef.Resources, Integer>();
-	private static Hashtable<Building, Integer> buildingPool =
+	private Hashtable<Building, Integer> buildingPool =
 			new Hashtable<Building, Integer>();
-	private static Hashtable<ResProduceTile, Integer> productionPool =
+	private Hashtable<ResProduceTile, Integer> productionPool =
 			new Hashtable<ResProduceTile, Integer>();
 	
 	// constructor
@@ -109,11 +109,11 @@ public class Bank {
 		
 	}
 	
-	public static void setResourcePool(Hashtable<GlobalDef.Resources, Integer> resourcePool) {
-		Bank.resourcePool = resourcePool;
+	public void setResourcePool(Hashtable<GlobalDef.Resources, Integer> resPool) {
+		resourcePool = resPool;
 	}
 
-	public static Hashtable<GlobalDef.Resources, Integer> getResourcePool() {
+	public Hashtable<GlobalDef.Resources, Integer> getResourcePool() {
 		return resourcePool;
 	}
 	

@@ -13,6 +13,8 @@ public final class ForestB extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final int ID = 5;
+	
 	private ForestB()
 	{
 		productivity.put(GlobalDef.Resources.FOOD, 1);
@@ -39,5 +41,9 @@ public final class ForestB extends ResProduceTile{
 	public Hashtable<GlobalDef.Resources, Integer> getProductivity() {
 		return productivity;
 	}
-
+	
+	public int GetID()
+	{
+		return ID;
+	}
 }

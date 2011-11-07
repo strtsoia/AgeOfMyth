@@ -13,6 +13,8 @@ public final class MountainC extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final int ID = 14;
+	
 	private MountainC()
 	{
 		productivity.put(GlobalDef.Resources.FOOD, 0);
@@ -38,6 +40,11 @@ public final class MountainC extends ResProduceTile{
 	
 	public Hashtable<GlobalDef.Resources, Integer> getProductivity() {
 		return productivity;
+	}
+	
+	public int GetID()
+	{
+		return ID;
 	}
 
 }

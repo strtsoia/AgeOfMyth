@@ -3,10 +3,9 @@ package component;
 import global.GlobalDef;
 import building.*;
 import battlecard.*;
+import tile.*;
 
 import java.util.Hashtable;
-import java.util.Set;
-import java.util.Iterator;
 
 import settings.Bank;
 import utility.ResourceHandler;
@@ -18,6 +17,7 @@ public class Board {
 	// different culture has different board terrain,must be determined by subclass
 	GlobalDef.Terrain[][] terrainOnBoard = new GlobalDef.Terrain[4][4];
 	Hashtable<GlobalDef.Resources,Integer>[][] productivity = new Hashtable[4][4];
+	ResProduceTile[][] pTilesOnBoard = new ResProduceTile[4][4];
 	
 	/* city area */
 	boolean[][] cityOccupied = new boolean[4][4];
@@ -34,6 +34,7 @@ public class Board {
 	{
 		InitialProductionBoard(race);
 		InitialCityBoard();
+		InitialHoldingArea(race);
 		
 	}
 	
@@ -348,13 +349,19 @@ public class Board {
 		ResourceHandler.Add(holdResource, res);
 	}
 	
-	public void Explore(Tile ptile)
+	public void Explore(ResProduceTile pTile)
 	{
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
-				if(ptile.equals(terrainOnBoard[row][col]) && productionOccupied[row][col] == false)
+				if(pTile.getTerrainType()  == terrainOnBoard[row][col]
+						&& productionOccupied[row][col] == false)
+				{
 					productionOccupied[row][col] = true;
+					productivity[row][col] = pTile.getProductivity();
+					pTilesOnBoard[row][col] = pTile;
+				}
+					
 			}	
 	}
 	

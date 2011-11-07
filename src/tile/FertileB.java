@@ -13,6 +13,8 @@ public final class FertileB extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final int ID = 1;
+	
 	private FertileB()
 	{
 		productivity.put(GlobalDef.Resources.FOOD, 0);
@@ -39,5 +41,9 @@ public final class FertileB extends ResProduceTile{
 	public Hashtable<GlobalDef.Resources, Integer> getProductivity() {
 		return productivity;
 	}
-
+	
+	public int GetID()
+	{
+		return ID;
+	}
 }

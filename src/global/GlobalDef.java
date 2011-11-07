@@ -2,7 +2,7 @@ package global;
 
 import java.util.Hashtable;
 /*
- * this class contains all global data, such as, units, resources, tiles
+ * this class contains all global data
  */
 public class GlobalDef {
 
@@ -20,13 +20,6 @@ public class GlobalDef {
 		Egypt,
 		Greek,
 		Norse
-	}
-	
-	public enum CardType
-	{
-		Permanent,
-		Random,
-		Battle
 	}
 	
 	
