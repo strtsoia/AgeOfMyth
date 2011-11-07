@@ -14,9 +14,9 @@ public final class Throwing extends BattleCard{
 		 cost.put(GlobalDef.Resources.FOOD, 1);
 	}
 	
-	private final static int rolls = 3;
-	private static int bonus = 0;
-	private static Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
+	private final int rolls = 3;
+	private int bonus = 0;
+	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 	
 	public int getRolls() {
 		return rolls + bonus;
@@ -36,7 +36,7 @@ public final class Throwing extends BattleCard{
 		return throwing;
 	}
 	
-	public static void CheckBonus(BattleCard opponent)
+	public void CheckBonus(BattleCard opponent)
 	{
 		if (Flyer.contains(opponent))
             bonus = 4;

@@ -6,7 +6,7 @@ import java.util.Hashtable;
 
 public class Tile {
 	
-	private GlobalDef.TileType tileType;
+/*	private GlobalDef.TileType tileType;
 	private Hashtable<GlobalDef.Resources, Integer> cost =
 			new Hashtable<GlobalDef.Resources, Integer>();
 	private Hashtable<GlobalDef.Resources, Integer> productivity =
@@ -36,6 +36,6 @@ public class Tile {
 	}
 	public void setTerrainType(GlobalDef.Terrain terrainType) {
 		this.terrainType = terrainType;
-	}
+	}*/
 	
 }

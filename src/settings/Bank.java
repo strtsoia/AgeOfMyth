@@ -3,24 +3,9 @@ package settings;
 import global.GlobalDef;
 
 import java.util.Hashtable;
-import java.util.Set;
-import java.util.Iterator;
 
-import building.Building;
-import building.Armory;
-import building.Garnary;
-import building.GoldMint;
-import building.GreatTemple;
-import building.House;
-import building.Market;
-import building.Monument;
-import building.Quarry;
-import building.SiegeEngineWorkshop;
-import building.StoreHouse;
-import building.Tower;
-import building.Wall;
-import building.Wonder;
-import building.WoodWorkshop;
+import building.*;
+import tile.*;
 
 import menuscene.PlayerScreen;
 
@@ -28,12 +13,12 @@ public class Bank {
 
 	private static Bank bank;
 	
-	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
+	private static Hashtable<GlobalDef.Resources, Integer> resourcePool = 
 			new Hashtable<GlobalDef.Resources, Integer>();
-	private Hashtable<Building, Integer> buildingPool =
+	private static Hashtable<Building, Integer> buildingPool =
 			new Hashtable<Building, Integer>();
-	private Hashtable<GlobalDef.ProductionTiles, Integer> productionPool =
-			new Hashtable<GlobalDef.ProductionTiles, Integer>();
+	private static Hashtable<ResProduceTile, Integer> productionPool =
+			new Hashtable<ResProduceTile, Integer>();
 	
 	// constructor
 	private Bank()
@@ -101,42 +86,36 @@ public class Bank {
 	
 	private void InitialProductionPool()
 	{
-		productionPool.put(GlobalDef.ProductionTiles.FertileA, 12);
-		productionPool.put(GlobalDef.ProductionTiles.FertileB, 3);
-		productionPool.put(GlobalDef.ProductionTiles.FertileC, 3);
-		productionPool.put(GlobalDef.ProductionTiles.FertileD, 3);
-		productionPool.put(GlobalDef.ProductionTiles.FertileA, 9);
-		productionPool.put(GlobalDef.ProductionTiles.FertileB, 2);
-		productionPool.put(GlobalDef.ProductionTiles.FertileC, 2);
-		productionPool.put(GlobalDef.ProductionTiles.FertileD, 2);
-		productionPool.put(GlobalDef.ProductionTiles.HillA, 4);
-		productionPool.put(GlobalDef.ProductionTiles.HillB, 4);
-		productionPool.put(GlobalDef.ProductionTiles.HillC, 4);
-		productionPool.put(GlobalDef.ProductionTiles.HillD, 4);
-		productionPool.put(GlobalDef.ProductionTiles.MountainA, 6);
-		productionPool.put(GlobalDef.ProductionTiles.MountainB, 3);
-		productionPool.put(GlobalDef.ProductionTiles.MountainC, 3);
-		productionPool.put(GlobalDef.ProductionTiles.DesertA, 7);
-		productionPool.put(GlobalDef.ProductionTiles.DesertB, 7);
-		productionPool.put(GlobalDef.ProductionTiles.SwampA, 4);
-		productionPool.put(GlobalDef.ProductionTiles.SwampB, 4);
-		productionPool.put(GlobalDef.ProductionTiles.SwampC, 4);
+		productionPool.put(FertileA.GetInstance(), 12);
+		productionPool.put(FertileB.GetInstance(), 3);
+		productionPool.put(FertileC.GetInstance(), 3);
+		productionPool.put(FertileD.GetInstance(), 3);
+		productionPool.put(ForestA.GetInstance(), 9);
+		productionPool.put(ForestB.GetInstance(), 2);
+		productionPool.put(ForestC.GetInstance(), 2);
+		productionPool.put(ForestD.GetInstance(), 2);
+		productionPool.put(HillsA.GetInstance(), 4);
+		productionPool.put(HillsB.GetInstance(), 4);
+		productionPool.put(HillsC.GetInstance(), 4);
+		productionPool.put(HillsD.GetInstance(), 4);
+		productionPool.put(MountainA.GetInstance(), 6);
+		productionPool.put(MountainB.GetInstance(), 3);
+		productionPool.put(MountainC.GetInstance(), 3);
+		productionPool.put(DesertA.GetInstance(), 7);
+		productionPool.put(DesertB.GetInstance(), 7);
+		productionPool.put(SwampA.GetInstance(), 4);
+		productionPool.put(SwampB.GetInstance(), 4);
+		productionPool.put(SwampC.GetInstance(), 4);
 		
 	}
 	
-	public void UpdateResourcePool(Hashtable<GlobalDef.Resources, Integer> table)
-	{
-		this.resourcePool = table;
+	public static void setResourcePool(Hashtable<GlobalDef.Resources, Integer> resourcePool) {
+		Bank.resourcePool = resourcePool;
+	}
+
+	public static Hashtable<GlobalDef.Resources, Integer> getResourcePool() {
+		return resourcePool;
 	}
 	
-	public void UpdateBuildingPool(Hashtable<Building, Integer> table)
-	{
-		this.buildingPool = table;
-	}
-	
-	public void UpdateProductionPool(Hashtable<GlobalDef.ProductionTiles, Integer> table)
-	{
-		this.productionPool = table;
-	}
 	
 }

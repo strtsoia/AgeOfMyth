@@ -2,6 +2,9 @@ package battlecard;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Hashtable;
+
+import global.GlobalDef;
 
 public abstract class BattleCard {
 
@@ -42,4 +45,8 @@ public abstract class BattleCard {
 				Manticore.getInstance(), Medusa.getInstance(), Minotaur.getInstance(), Nidhogg.getInstance(), Valkyric.getInstance(),
 				ForestGiant.getInstance(), Troll.getInstance(), Dwarf.getInstance()};
 	protected static final List<BattleCard> Myth = Arrays.asList(MythArray);
+	
+	public abstract int getRolls();
+	public abstract void CheckBonus(BattleCard card);
+	public abstract Hashtable<GlobalDef.Resources, Integer> getCost();
 }

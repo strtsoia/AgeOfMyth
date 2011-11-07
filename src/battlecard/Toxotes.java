@@ -14,15 +14,15 @@ public final class Toxotes extends BattleCard{
 		 cost.put(GlobalDef.Resources.WOOD, 1);
 	}
 	
-	private final static int rolls = 3;
-	private static int bonus = 0;
-	private static Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
+	private final int rolls = 3;
+	private int bonus = 0;
+	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 	
-	public static int getRolls() {
+	public int getRolls() {
 		return rolls + bonus;
 	}
 
-	public static Hashtable<GlobalDef.Resources, Integer> getCost() {
+	public Hashtable<GlobalDef.Resources, Integer> getCost() {
 		return cost;
 	}
 
@@ -36,7 +36,7 @@ public final class Toxotes extends BattleCard{
 		return toxotes;
 	}
 	
-	public static void CheckBonus(BattleCard opponent)
+	public void CheckBonus(BattleCard opponent)
 	{
 		if (Flyer.contains(opponent))
             bonus = 4;

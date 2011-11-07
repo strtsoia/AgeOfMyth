@@ -14,15 +14,15 @@ public final class Dwarf extends BattleCard{
 		 cost.put(GlobalDef.Resources.GOLD, 2);
 	}
 	
-	private final static int rolls = 4;
-	private static int bonus = 0;
-	private static Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
+	private final int rolls = 4;
+	private int bonus = 0;
+	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 	
-	public static int getRolls() {
+	public int getRolls() {
 		return rolls + bonus;
 	}
 
-	public static Hashtable<GlobalDef.Resources, Integer> getCost() {
+	public Hashtable<GlobalDef.Resources, Integer> getCost() {
 		return cost;
 	}
 
@@ -36,7 +36,7 @@ public final class Dwarf extends BattleCard{
 		return dwarf;
 	}
 	
-	public static void CheckBonus(BattleCard opponent)
+	public void CheckBonus(BattleCard opponent)
 	{
 		if (Giant.contains(opponent))
             bonus = 7;
