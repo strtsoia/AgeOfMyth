@@ -53,4 +53,23 @@ public class ResourceHandler {
 		
 	}
 	
+	// get resource(table2) from table1; return: true if enough; otherwise false
+	public static boolean isResEnough(Hashtable<GlobalDef.Resources, Integer> table1, Hashtable<GlobalDef.Resources, Integer>table2)
+	{
+		Set<GlobalDef.Resources> kSet = table1.keySet();
+		Iterator<GlobalDef.Resources> kIter = kSet.iterator();
+		
+		// iterates resource available
+		while(kIter.hasNext()){
+			GlobalDef.Resources resType = kIter.next();
+			int avaNum = table1.get(resType);
+			int reqNum = table2.get(resType);
+			
+			if(avaNum < reqNum)
+				return false;
+		}
+		
+		return true;
+	}
+	
 }
