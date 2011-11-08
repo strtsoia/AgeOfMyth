@@ -4,12 +4,13 @@ import global.GlobalDef;
 
 import java.util.Hashtable;
 
-import battlecard.*;
+import actioncard.AttackCard;
+import actioncard.*;
 
 public class Culture {
 
 	private Board gameBoard;
-	private Hashtable<BattleCard, Integer> PermanentcardPool = new Hashtable<BattleCard, Integer>();
+	private Hashtable<Card, Integer> permanentcardPool = new Hashtable<Card, Integer>();
 	
 	private boolean hasMarket;
 	private boolean hasMonument;
@@ -121,8 +122,14 @@ public class Culture {
 	public void setCurrentAge(GlobalDef.Age currentAge) {
 		this.currentAge = currentAge;
 	}
+	
+	
+	public Board getGameBoard() {
+		return gameBoard;
+	}
 
-	public Culture()
+
+	public Culture(GlobalDef.Races race)
 	{
 		hasMarket = false;
 		hasMonument = false;
@@ -135,8 +142,20 @@ public class Culture {
 		hasWoodWorkShop = false;
 		currentAge = GlobalDef.Age.Ancient;
 		
-	//	gameBoard = new Board();
+		InitialPermanentPool();
+		gameBoard = new Board(race);
 		
+	}
+	
+	private void InitialPermanentPool()
+	{
+		permanentcardPool.put(AttackCard.GetInstance(), 2);
+		permanentcardPool.put(BuildingCard.GetInstance(), 2);
+		permanentcardPool.put(ExploreCard.GetInstance(), 2);
+		permanentcardPool.put(GatherCard.GetInstance(), 2);
+		permanentcardPool.put(NextAgeCard.GetInstance(), 2);
+		permanentcardPool.put(TradeCard.GetInstance(), 2);
+		permanentcardPool.put(RecruitCard.GetInstance(), 2);
 	}
 	
 	public void DrawCard()

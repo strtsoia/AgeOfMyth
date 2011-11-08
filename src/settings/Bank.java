@@ -26,7 +26,8 @@ public class Bank {
 	private Bank()
 	{
 		// initial pool based on number of players
-		int numOfPlayer = PlayerScreen.getNumber();
+		//int numOfPlayer = PlayerScreen.getNumber();
+		int numOfPlayer = 2;
 		switch(numOfPlayer)
 		{
 			case 2:
