@@ -34,4 +34,16 @@ public class GlobalDef {
 		
 	}
 	
+	// how many number of players in game
+	private static int numOfPlayer;
+
+	public static int getNumOfPlayer() {
+		return numOfPlayer;
+	}
+
+	public static void setNumOfPlayer(int num) {
+		numOfPlayer = num;
+	}
+	
+	
 }
