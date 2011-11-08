@@ -19,6 +19,7 @@ public class Bank {
 			new Hashtable<Building, Integer>();
 	private Hashtable<ResProduceTile, Integer> productionPool =
 			new Hashtable<ResProduceTile, Integer>();
+	private int victoryCube;
 	private int[] victoryCard = new int[4];
 	
 	// constructor
@@ -64,7 +65,7 @@ public class Bank {
 		resourcePool.put(GlobalDef.Resources.WOOD, res);
 		resourcePool.put(GlobalDef.Resources.GOLD, res);
 		resourcePool.put(GlobalDef.Resources.FAVOR, res);
-		resourcePool.put(GlobalDef.Resources.VICTORY, 30);
+		victoryCube = 30;
 		
 	}
 	
@@ -123,9 +124,7 @@ public class Bank {
 	
 	public void PlaceVictoryCube(int index)
 	{
-		int vicNum = resourcePool.get(GlobalDef.Resources.VICTORY);
-		vicNum--;
-		resourcePool.put(GlobalDef.Resources.VICTORY, vicNum);
+		victoryCube = victoryCube - 1;
 		victoryCard[index]++;
 	}
 	
