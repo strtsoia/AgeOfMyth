@@ -34,6 +34,14 @@ public class GlobalDef {
 		
 	}
 	
+	public enum Age
+	{
+		Ancient,
+		Classical,
+		Heroic,
+		Mythic
+	}
+	
 	// how many number of players in game
 	private static int numOfPlayer;
 
