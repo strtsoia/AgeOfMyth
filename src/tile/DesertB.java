@@ -13,6 +13,7 @@ public final class DesertB extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private GlobalDef.Resources resourceType = GlobalDef.Resources.GOLD;
 	private final int ID = 16;
 	
 	private DesertB()
@@ -45,6 +46,11 @@ public final class DesertB extends ResProduceTile{
 	public int GetID()
 	{
 		return ID;
+	}
+	
+	public GlobalDef.Resources getResourceType()
+	{
+		return resourceType;
 	}
 
 }

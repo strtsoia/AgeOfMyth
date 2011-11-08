@@ -13,6 +13,8 @@ public final class MountainC extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final GlobalDef.Resources resourceType = GlobalDef.Resources.FAVOR;
+	
 	private final int ID = 14;
 	
 	private MountainC()
@@ -46,5 +48,9 @@ public final class MountainC extends ResProduceTile{
 	{
 		return ID;
 	}
-
+	
+	public GlobalDef.Resources getResourceType()
+	{
+		return resourceType;
+	}
 }

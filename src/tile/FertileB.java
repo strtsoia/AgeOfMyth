@@ -13,6 +13,8 @@ public final class FertileB extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private GlobalDef.Resources resourceType = GlobalDef.Resources.WOOD;
+	
 	private final int ID = 1;
 	
 	private FertileB()
@@ -45,5 +47,10 @@ public final class FertileB extends ResProduceTile{
 	public int GetID()
 	{
 		return ID;
+	}
+	
+	public GlobalDef.Resources getResourceType()
+	{
+		return resourceType;
 	}
 }

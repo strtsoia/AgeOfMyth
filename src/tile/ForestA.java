@@ -13,6 +13,8 @@ public final class ForestA extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final GlobalDef.Resources resourceType = GlobalDef.Resources.WOOD;
+	
 	private final int ID = 4;
 	
 	private ForestA()
@@ -46,5 +48,9 @@ public final class ForestA extends ResProduceTile{
 	{
 		return ID;
 	}
-
+	
+	public GlobalDef.Resources getResourceType()
+	{
+		return resourceType;
+	}
 }

@@ -335,20 +335,6 @@ public class Board {
 			}
 	}
 	
-	// return value: actual amount removed from board
-	// rt: required resource for removing
-	public Hashtable<GlobalDef.Resources,Integer> RemoveResource(Hashtable<GlobalDef.Resources, Integer> rt)
-	{
-		return ResourceHandler.Delete(holdResource, rt);
-	}
-		
-	
-
-	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> res)
-	{
-		ResourceHandler.Add(holdResource, res);
-	}
-	
 	public void Explore(ResProduceTile pTile)
 	{
 		for(int row = 0; row < 4; row++)
@@ -365,79 +351,59 @@ public class Board {
 			}	
 	}
 	
-	//////////////////////////////////////////////////////
-	
-	/*public void Explore(Tile ptile)
+	// return value: actual amount removed from board
+	// rt: required resource for removing
+	public Hashtable<GlobalDef.Resources,Integer> RemoveResource(Hashtable<GlobalDef.Resources, Integer> rt)
 	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(ptile.equals(terrainOnBoard[row][col]))
-					productionOccupied[row][col] = true;
-			}	
+		return ResourceHandler.Delete(holdResource, rt);
+	}
+		
+	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> res)
+	{
+		ResourceHandler.Add(holdResource, res);
 	}
 	
-	// 0: gather by terrain. 1: gather by resource type
+	// gatherType: 0 for gather by terrain. 1 for gather by resource type
 	public Hashtable<GlobalDef.Resources, Integer> Gather(boolean gatherType, GlobalDef.Resources resType,
-			GlobalDef.Terrain choosentype)
+			GlobalDef.Terrain choosenType)
 	{
 		Hashtable<GlobalDef.Resources, Integer> gatheredRes =
 				new Hashtable<GlobalDef.Resources, Integer>();
+		gatheredRes.put(GlobalDef.Resources.FAVOR, 0);
+		gatheredRes.put(GlobalDef.Resources.FOOD, 0);
+		gatheredRes.put(GlobalDef.Resources.GOLD, 0);
+		gatheredRes.put(GlobalDef.Resources.WOOD, 0);
 		
-		// gathered by resource type
+		// gather by terrain type
 		if(gatherType)
 		{
-			int numRes = 0;
 			for(int row = 0; row < 4; row++)
 				for(int col = 0; col < 4; col++)
 				{
-					if(productionOccupied[row][col] == true && productivity[row][col].containsKey(resType))
+					if(productionOccupied[row][col] == true && pTilesOnBoard[row][col].getTerrainType() == choosenType)
 					{
-						numRes += productivity[row][col].get(resType);
+						ResourceHandler.Add(gatheredRes, pTilesOnBoard[row][col].getProductivity());
 					}
-					
 				}
-			gatheredRes.put(resType, numRes);
 			return gatheredRes;
 		}
-		else
-		{// gathered by terrain type
+		else // gathered by resource type
+		{
+			int numRes = 0;
+			
 			for(int row = 0; row < 4; row++)
 				for(int col = 0; col < 4; col++)
 				{
-					if(productionOccupied[row][col] == true && boardTerrain[row][col].equals(choosentype))
+					GlobalDef.Resources currResType = pTilesOnBoard[row][col].getResourceType();
+					if(currResType == resType)
 					{
-						Set<GlobalDef.Resources> key = productivity[row][col].keySet();
-						Iterator<GlobalDef.Resources> iter = key.iterator();
-						GlobalDef.Resources kRes = iter.next();
-						int num = productivity[row][col].get(kRes);
-						gatheredRes.put(kRes, num);
+						numRes += pTilesOnBoard[row][col].getProductivity().get(resType);
 					}
 				}
+			
+			gatheredRes.put(resType, numRes);
 			return gatheredRes;
 		}
 	}
 	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> hRes)
-	{
-		Set<GlobalDef.Resources> kSet = hRes.keySet();
-		Iterator<GlobalDef.Resources> iter = kSet.iterator();
-		
-		while(iter.hasNext()){
-			GlobalDef.Resources rs = iter.next();
-			int num = hRes.get(rs);
-			int numHold = holdingAreaResource.get(rs);
-			holdingAreaResource.put(rs, num + numHold);
-		}
-	}*/
 }

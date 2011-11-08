@@ -13,6 +13,8 @@ public final class SwampB extends ResProduceTile{
 	private Hashtable<GlobalDef.Resources, Integer> productivity = 
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
+	private final GlobalDef.Resources resourceType = GlobalDef.Resources.FOOD;
+	
 	private final int ID = 18;
 	
 	private SwampB()
@@ -46,5 +48,9 @@ public final class SwampB extends ResProduceTile{
 	{
 		return ID;
 	}
-
+	
+	public GlobalDef.Resources getResourceType()
+	{
+		return resourceType;
+	}
 }

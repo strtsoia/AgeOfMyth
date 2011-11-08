@@ -19,6 +19,7 @@ public class Bank {
 			new Hashtable<Building, Integer>();
 	private Hashtable<ResProduceTile, Integer> productionPool =
 			new Hashtable<ResProduceTile, Integer>();
+	private int[] victoryCard = new int[4];
 	
 	// constructor
 	private Bank()
@@ -40,6 +41,9 @@ public class Bank {
 		
 		InitialBuildingPool();
 		InitialProductionPool();
+		
+		for(int i = 0; i < 4; i++)
+			victoryCard[i] = 0;
 	}
 	
 	// singleton pattern
@@ -117,5 +121,12 @@ public class Bank {
 		return resourcePool;
 	}
 	
+	public void PlaceVictoryCube(int index)
+	{
+		int vicNum = resourcePool.get(GlobalDef.Resources.VICTORY);
+		vicNum--;
+		resourcePool.put(GlobalDef.Resources.VICTORY, vicNum);
+		victoryCard[index]++;
+	}
 	
 }
