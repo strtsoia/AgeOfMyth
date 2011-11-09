@@ -8,6 +8,7 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.FilledSprite;
 import pulpcore.sprite.ImageSprite;
+import settings.GameSetting;
 
 import global.GlobalDef;
 
@@ -77,7 +78,7 @@ public class CultureScreen extends Scene2D{
 		 
 		 if(index == playerNumber)
 		 {
-			
+			 GameSetting.GetInstance();
 			 Stage.setScene(new GameScreen());
 		 }
 		 

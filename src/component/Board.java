@@ -29,6 +29,15 @@ public class Board {
 	Hashtable<Integer, BattleCard> unitsOnBoard = new Hashtable<Integer, BattleCard>();
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
 	
+	
+	public Hashtable<GlobalDef.Resources, Integer> getHoldResource() {
+		return holdResource;
+	}
+
+	public void setHoldResource(Hashtable<GlobalDef.Resources, Integer> holdResource) {
+		this.holdResource = holdResource;
+	}
+
 	// constructor
 	public Board(GlobalDef.Races race)
 	{

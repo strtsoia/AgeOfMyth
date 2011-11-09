@@ -3,7 +3,7 @@ package actioncard;
 import global.GlobalDef;
 
 import java.util.Hashtable;
-
+import component.Culture;
 public class ExploreCard extends Card{
 
 	private static ExploreCard exploreCard;
@@ -31,7 +31,7 @@ public class ExploreCard extends Card{
 		return false;
 	}
 	
-	public void Action()
+	public void Action(Culture player)
 	{
 		
 	}

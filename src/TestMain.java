@@ -14,9 +14,7 @@ public class TestMain {
 
 	public static void main(String args[])
 	{
-		Bank.getInstance();
-		Culture c = new Culture(GlobalDef.Races.Egypt);
-		Culture c1 =  new Culture(GlobalDef.Races.Greek);
+		
 	//	Hashtable<BattleCard, Integer> h = c.getGameBoard().unitsPool;
 		
 		//Board b = c.getGameBoard();

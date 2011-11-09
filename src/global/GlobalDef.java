@@ -21,8 +21,7 @@ public class GlobalDef {
 		Greek,
 		Norse
 	}
-	
-	
+		
 	public enum Terrain
 	{
 		Fertile,

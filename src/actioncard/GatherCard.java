@@ -1,5 +1,7 @@
 package actioncard;
 
+import component.Culture;
+
 public class GatherCard extends Card{
 
 	private static GatherCard gatherCard;
@@ -20,7 +22,7 @@ public class GatherCard extends Card{
 		return false;
 	}
 	
-	public void Action()
+	public void Action(Culture player)
 	{
 		
 	}
