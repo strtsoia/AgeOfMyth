@@ -1,15 +1,26 @@
 package settings;
 
+import menuscene.CultureScreen;
 import menuscene.PlayerScreen;
-import java.io.*;
+
+import global.GlobalDef;
+import component.*;
 public class GameSetting {
 
+
+	private GlobalDef.Races[] playerCulture;
+	private Culture[] players;
 	private int numOfPlayer;
 	
 	public GameSetting()
 	{
-		PlayerScreen p = new PlayerScreen();
-		numOfPlayer = p.getNumber();
-		System.out.println(numOfPlayer);
+		numOfPlayer = PlayerScreen.getNumber();
+		playerCulture = CultureScreen.getPlayerCulture();
+		players = new Culture[numOfPlayer];
+		
+		// Initialize Bank
+		Bank.getInstance();
+		for(int index = 0; index < numOfPlayer; index++)
+			players[index] = new Culture(playerCulture[index]);
 	}
 }
