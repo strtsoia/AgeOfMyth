@@ -15,7 +15,9 @@ public class PlayerScreen extends Scene2D{
 	Label continueLabel;
 	Label backLabel;
 	
-	private static int number = 0;
+	boolean hit = false;
+	
+	private static int number;
 	
 	public static int getNumber() {
 		return number;
@@ -50,15 +52,19 @@ public class PlayerScreen extends Scene2D{
     @Override
     public void update(int elapsedTime) 
     {
-        if(numLabel.isMouseDown())
+        if(numLabel.isMousePressed())
         {
-        	number = number % 3 + 1;
+        	hit = true;
+        	
+        }else if(numLabel.isMouseReleased() && hit)
+        {
+        	number = number % 6 + 1;
         	load();
         }
         
         if(continueLabel.isMouseDown())
         {
-        	Stage.setScene(new GameScreen());
+        	Stage.setScene(new CultureScreen());
         }
     }
 }
