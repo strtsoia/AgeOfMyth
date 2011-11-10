@@ -1,5 +1,6 @@
 package component;
 
+import building.*;
 import global.GlobalDef;
 
 import java.util.Hashtable;
@@ -12,108 +13,11 @@ public class Culture {
 	private Board gameBoard;
 	private Hashtable<Card, Integer> permanentcardPool = new Hashtable<Card, Integer>();
 	
-	private boolean hasMarket;
-	private boolean hasMonument;
-	private boolean hasWall;
-	private boolean hasWonder;
-	private boolean hasArmory;
-	private boolean hasQuary;
-	private boolean hasGarnary;
-	private boolean hasGoldMint;
-	private boolean hasWoodWorkShop;
+	// keep track of whether building has been constructed
+	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
 	private GlobalDef.Age currentAge;
 	
 	
-	public boolean isHasMarket() {
-		return hasMarket;
-	}
-
-
-	public void setHasMarket(boolean hasMarket) {
-		this.hasMarket = hasMarket;
-	}
-
-
-	public boolean isHasMonument() {
-		return hasMonument;
-	}
-
-
-	public void setHasMonument(boolean hasMonument) {
-		this.hasMonument = hasMonument;
-	}
-
-
-	public boolean isHasWall() {
-		return hasWall;
-	}
-
-
-	public void setHasWall(boolean hasWall) {
-		this.hasWall = hasWall;
-	}
-
-
-	public boolean isHasWonder() {
-		return hasWonder;
-	}
-
-
-	public void setHasWonder(boolean hasWonder) {
-		this.hasWonder = hasWonder;
-	}
-
-
-	public boolean isHasArmory() {
-		return hasArmory;
-	}
-
-
-	public void setHasArmory(boolean hasArmory) {
-		this.hasArmory = hasArmory;
-	}
-
-
-	public boolean isHasQuary() {
-		return hasQuary;
-	}
-
-
-	public void setHasQuary(boolean hasQuary) {
-		this.hasQuary = hasQuary;
-	}
-
-
-	public boolean isHasGarnary() {
-		return hasGarnary;
-	}
-
-
-	public void setHasGarnary(boolean hasGarnary) {
-		this.hasGarnary = hasGarnary;
-	}
-
-
-	public boolean isHasGoldMint() {
-		return hasGoldMint;
-	}
-
-
-	public void setHasGoldMint(boolean hasGoldMint) {
-		this.hasGoldMint = hasGoldMint;
-	}
-
-
-	public boolean isHasWoodWorkShop() {
-		return hasWoodWorkShop;
-	}
-
-
-	public void setHasWoodWorkShop(boolean hasWoodWorkShop) {
-		this.hasWoodWorkShop = hasWoodWorkShop;
-	}
-
-
 	public GlobalDef.Age getCurrentAge() {
 		return currentAge;
 	}
@@ -128,18 +32,34 @@ public class Culture {
 		return gameBoard;
 	}
 
+	
+	public Hashtable<Building, Boolean> getB_build() {
+		return b_build;
+	}
+
+	
+	public void setB_build(Hashtable<Building, Boolean> b_build) {
+		this.b_build = b_build;
+	}
+
 
 	public Culture(GlobalDef.Races race)
 	{
-		hasMarket = false;
-		hasMonument = false;
-		hasWall = false;
-		hasWonder = false;
-		hasArmory = false;
-		hasQuary = false;
-		hasGarnary = false;
-		hasGoldMint = false;
-		hasWoodWorkShop = false;
+		b_build.put(Armory.GetInstance(), false);
+		b_build.put(Garnary.GetInstance(), false);
+		b_build.put(GoldMint.GetInstance(), false);
+		b_build.put(GreatTemple.GetInstance(), false);
+		b_build.put(House.GetInstance(), false);
+		b_build.put(Market.GetInstance(), false);
+		b_build.put(Monument.GetInstance(), false);
+		b_build.put(SiegeEngineWorkshop.GetInstance(), false);
+		b_build.put(Quarry.GetInstance(), false);
+		b_build.put(StoreHouse.GetInstance(), false);
+		b_build.put(Tower.GetInstance(), false);
+		b_build.put(Wall.GetInstance(), false);
+		b_build.put(Wonder.GetInstance(), false);
+		b_build.put(WoodWorkshop.GetInstance(), false);
+		
 		currentAge = GlobalDef.Age.Ancient;
 		
 		InitialPermanentPool();

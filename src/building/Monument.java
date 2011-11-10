@@ -3,6 +3,8 @@ package building;
 import global.GlobalDef;
 import java.util.Hashtable;
 
+import component.Culture;
+
 public class Monument extends Building{
 
 	private Hashtable<GlobalDef.Resources, Integer> cost = 
@@ -13,6 +15,8 @@ public class Monument extends Building{
 	{
 		cost.put(GlobalDef.Resources.FOOD, 3);
 		cost.put(GlobalDef.Resources.GOLD, 2);
+		cost.put(GlobalDef.Resources.FAVOR, 0);
+		cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	public static Monument GetInstance()
@@ -29,12 +33,12 @@ public class Monument extends Building{
 		return cost;
 	}
 	
-	public void Behavior()
+	public void Behavior(Culture c)
 	{
 		
 	}
 	
-	public void UnBehavior(){
+	public void UnBehavior(Culture c){
 		
 	}
 }

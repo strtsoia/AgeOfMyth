@@ -29,7 +29,16 @@ public class Board {
 	Hashtable<Integer, BattleCard> unitsOnBoard = new Hashtable<Integer, BattleCard>();
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
 	
+	private int numOfVillager;
 	
+	public int getNumOfVillager() {
+		return numOfVillager;
+	}
+
+	public void setNumOfVillager(int numOfVillager) {
+		this.numOfVillager = numOfVillager;
+	}
+
 	public Hashtable<GlobalDef.Resources, Integer> getHoldResource() {
 		return holdResource;
 	}
@@ -44,6 +53,7 @@ public class Board {
 		InitialProductionBoard(race);
 		InitialCityBoard();
 		InitialHoldingArea(race);
+		numOfVillager = 0;
 		
 	}
 	

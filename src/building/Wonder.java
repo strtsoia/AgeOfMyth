@@ -3,6 +3,8 @@ package building;
 import global.GlobalDef;
 import java.util.Hashtable;
 
+import component.Culture;
+
 public class Wonder extends Building{
 
 	private Hashtable<GlobalDef.Resources, Integer> cost = 
@@ -11,10 +13,10 @@ public class Wonder extends Building{
 	
 	private Wonder()
 	{
-		cost.put(GlobalDef.Resources.FAVOR, 4);
-		cost.put(GlobalDef.Resources.GOLD, 4);
-		cost.put(GlobalDef.Resources.WOOD, 4);
-		cost.put(GlobalDef.Resources.FOOD, 4);
+		cost.put(GlobalDef.Resources.FAVOR, 10);
+		cost.put(GlobalDef.Resources.GOLD, 10);
+		cost.put(GlobalDef.Resources.WOOD, 10);
+		cost.put(GlobalDef.Resources.FOOD, 10);
 	}
 	
 	public static Wonder GetInstance()
@@ -31,12 +33,12 @@ public class Wonder extends Building{
 		return cost;
 	}
 	
-	public void Behavior()
+	public void Behavior(Culture c)
 	{
 		
 	}
 	
-	public void UnBehavior(){
+	public void UnBehavior(Culture c){
 		
 	}
 }

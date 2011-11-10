@@ -3,6 +3,8 @@ package building;
 import global.GlobalDef;
 import java.util.Hashtable;
 
+import component.Culture;
+
 public class GreatTemple extends Building{
 
 	private Hashtable<GlobalDef.Resources, Integer> cost = 
@@ -31,12 +33,12 @@ public class GreatTemple extends Building{
 		return cost;
 	}
 	
-	public void Behavior()
+	public void Behavior(Culture c)
 	{
 		
 	}
 	
-	public void UnBehavior(){
+	public void UnBehavior(Culture c){
 		
 	}
 }
