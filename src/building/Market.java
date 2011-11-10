@@ -3,6 +3,9 @@ package building;
 import global.GlobalDef;
 import java.util.Hashtable;
 
+import settings.Bank;
+import utility.ResourceHandler;
+
 import component.Culture;
 
 public class Market extends Building{
@@ -35,11 +38,27 @@ public class Market extends Building{
 	
 	public void Behavior(Culture c)
 	{
+		// update b_build table of player
+		Hashtable<Building, Boolean> table = c.getB_build();
+		table.put(Market.GetInstance(), true);
+		c.setB_build(table);
 		
+		// update building pools
+		Hashtable<Building, Integer> bTable = Bank.getInstance().getBuildingPool();
+		int numOfBuilding = bTable.get(Market.GetInstance());
+		numOfBuilding--;
+		bTable.put(Market.GetInstance(), numOfBuilding);
+		Bank.getInstance().setBuildingPool(bTable);
+		
+		// doing resource parts
+		ResourceHandler.Delete(c.getGameBoard().getHoldResource(), Market.GetInstance().getCost());
+		ResourceHandler.Add(Bank.getInstance().getResourcePool(), Market.GetInstance().getCost());
 	}
 	
 	public void UnBehavior(Culture c){
-		
+		Hashtable<Building, Boolean> table = c.getB_build();
+		table.put(Market.GetInstance(), false);
+		c.setB_build(table);
 	}
 }
 

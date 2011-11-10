@@ -69,8 +69,8 @@ public class GlobalDef {
 			buildMap.put(7, Monument.GetInstance());
 			buildMap.put(8, Garnary.GetInstance());
 			buildMap.put(9, GoldMint.GetInstance());
-			buildMap.put(10, WoodWorkshop.GetInstance());
-			buildMap.put(11, GreatTemple.GetInstance());
+			buildMap.put(10, GreatTemple.GetInstance());
+			buildMap.put(11, WoodWorkshop.GetInstance());
 			buildMap.put(12, Wonder.GetInstance());
 			buildMap.put(13, SiegeEngineWorkshop.GetInstance());
 			return buildMap;

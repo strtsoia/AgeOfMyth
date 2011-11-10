@@ -30,11 +30,18 @@ public class Board {
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
 	
 	private int numOfVillager;
+	private Culture player;
+	
+	
+	public void setCityOccupied(boolean[][] cityOccupied) {
+		this.cityOccupied = cityOccupied;
+	}
+	
 	
 	public int getNumOfVillager() {
 		return numOfVillager;
 	}
-
+	
 	public void setNumOfVillager(int numOfVillager) {
 		this.numOfVillager = numOfVillager;
 	}
@@ -48,12 +55,13 @@ public class Board {
 	}
 
 	// constructor
-	public Board(GlobalDef.Races race)
+	public Board(GlobalDef.Races race, Culture c)
 	{
 		InitialProductionBoard(race);
 		InitialCityBoard();
 		InitialHoldingArea(race);
 		numOfVillager = 0;
+		player = c;
 		
 	}
 	
@@ -335,7 +343,7 @@ public class Board {
 	public void RemoveBuilding(int row, int col)
 	{
 		cityOccupied[row][col] = false;
-		constructedBuilding[row][col].UnBehavior();
+		constructedBuilding[row][col].UnBehavior(player);
 		constructedBuilding[row][col] = null;
 	}
 	
@@ -348,7 +356,7 @@ public class Board {
 				{
 					cityOccupied[row][col] = true;
 					constructedBuilding[row][col] = build;
-					build.Behavior();
+					build.Behavior(player);
 					return;
 				}
 			}

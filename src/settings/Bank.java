@@ -122,6 +122,15 @@ public class Bank {
 		return resourcePool;
 	}
 	
+	
+	public Hashtable<Building, Integer> getBuildingPool() {
+		return buildingPool;
+	}
+
+	public void setBuildingPool(Hashtable<Building, Integer> buildingPool) {
+		this.buildingPool = buildingPool;
+	}
+
 	public void PlaceVictoryCube(int index)
 	{
 		victoryCube = victoryCube - 1;

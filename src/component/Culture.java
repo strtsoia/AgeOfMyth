@@ -63,7 +63,7 @@ public class Culture {
 		currentAge = GlobalDef.Age.Ancient;
 		
 		InitialPermanentPool();
-		gameBoard = new Board(race);
+		gameBoard = new Board(race, this);
 		
 	}
 	
