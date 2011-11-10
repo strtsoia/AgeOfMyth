@@ -15,19 +15,22 @@ public class ResourceHandler {
 		Set<GlobalDef.Resources> kSet = table1.keySet();
 		Iterator<GlobalDef.Resources> kIter = kSet.iterator();
 		
-		// iterates resource available
+		// iterates resource available except victory point cube
 		while(kIter.hasNext()){
 			GlobalDef.Resources resType = kIter.next();
-			int avaNum = table1.get(resType);
-			int reqNum = table2.get(resType);
-			
-			// if meets required resource
-			if(avaNum > reqNum){
-				retTable.put(resType, reqNum);
-				table1.put(resType, avaNum - reqNum);
-			}else{ //  not enough resource available
-				retTable.put(resType, avaNum);
-				table1.put(resType, 0);
+			if(resType != GlobalDef.Resources.VICTORY)
+			{
+				int avaNum = table1.get(resType);
+				int reqNum = table2.get(resType);
+				
+				// if meets required resource
+				if(avaNum > reqNum){
+					retTable.put(resType, reqNum);
+					table1.put(resType, avaNum - reqNum);
+				}else{ //  not enough resource available
+					retTable.put(resType, avaNum);
+					table1.put(resType, 0);
+				}
 			}
 		}
 		
@@ -41,13 +44,19 @@ public class ResourceHandler {
 		Set<GlobalDef.Resources> kSet = table1.keySet();
 		Iterator<GlobalDef.Resources> kIter = kSet.iterator();
 		
-		// iterates resource available
+		// iterates resource available except victory point cube
 		while(kIter.hasNext()){
 			GlobalDef.Resources resType = kIter.next();
-			int avaNum = table1.get(resType);
-			int reqNum = table2.get(resType);
-			
-			table1.put(resType, avaNum + reqNum);
+			if(resType != GlobalDef.Resources.VICTORY)
+			{
+				if(resType != GlobalDef.Resources.VICTORY)
+				{
+					int avaNum = table1.get(resType);
+					int reqNum = table2.get(resType);
+				
+					table1.put(resType, avaNum + reqNum);
+				}	
+			}
 			
 		}
 		
@@ -62,11 +71,14 @@ public class ResourceHandler {
 		// iterates resource available
 		while(kIter.hasNext()){
 			GlobalDef.Resources resType = kIter.next();
-			int avaNum = table1.get(resType);
-			int reqNum = table2.get(resType);
+			if(resType != GlobalDef.Resources.VICTORY)
+			{
+				int avaNum = table1.get(resType);
+				int reqNum = table2.get(resType);
 			
-			if(avaNum < reqNum)
-				return false;
+				if(avaNum < reqNum)
+					return false;
+			}		
 		}
 		
 		return true;

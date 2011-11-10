@@ -79,4 +79,22 @@ public class GlobalDef {
 		
 		return buildMap;
 	}
+	
+	private static Hashtable<Integer, Resources> resourceMap = new Hashtable<Integer, Resources>();
+	public static Hashtable<Integer, Resources> getResourceMap()
+	{
+		if(resourceMap.size() == 0 )
+		{
+			resourceMap.put(0, Resources.FOOD);
+			resourceMap.put(1, Resources.FAVOR);
+			resourceMap.put(2, Resources.WOOD);
+			resourceMap.put(3, Resources.GOLD);
+			resourceMap.put(4, Resources.VICTORY);
+			
+			return resourceMap;
+			
+		}
+		
+		return resourceMap;
+	}
 }

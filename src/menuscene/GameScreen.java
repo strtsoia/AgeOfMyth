@@ -2,6 +2,7 @@ package menuscene;
 
 import global.GlobalDef;
 import actioncard.BuildingCard;
+import actioncard.TradeCard;
 
 import component.Culture;
 
@@ -29,6 +30,11 @@ public class GameScreen extends Scene2D{
 		if(Input.isAltDown()){
 		
 		BuildingCard.GetInstance().Action(c);
+		}
+		
+		if(Input.isControlDown())
+		{
+			 TradeCard.GetInstance().Action(c);
 		}
 	}
 }
