@@ -3,7 +3,10 @@ package actioncard;
 import global.GlobalDef;
 
 import java.util.Hashtable;
+
+import pulpcore.Stage;
 import component.Culture;
+import menuscene.BuildingScreen;
 
 public class BuildingCard extends Card{
 
@@ -48,6 +51,9 @@ public class BuildingCard extends Card{
 	public void Action(Culture player)
 	{
 		
+		BuildingScreen bScreen = new BuildingScreen();
+		bScreen.Init(player, maxBuildNumber);
+		Stage.pushScene(bScreen);
 	}
 
 }

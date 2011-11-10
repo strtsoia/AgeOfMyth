@@ -14,7 +14,9 @@ public class TestMain {
 
 	public static void main(String args[])
 	{
-		
+		Bank.getInstance();
+		Culture c = new Culture(GlobalDef.Races.Egypt);
+		BuildingCard.GetInstance().Action(c);
 	//	Hashtable<BattleCard, Integer> h = c.getGameBoard().unitsPool;
 		
 		//Board b = c.getGameBoard();
