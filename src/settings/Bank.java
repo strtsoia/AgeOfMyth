@@ -37,7 +37,7 @@ public class Bank {
 				InitialResourcePool(30);
 				break;
 			default:// use for dubug
-				InitialResourcePool(5);
+				InitialResourcePool(30);
 				break;
 		}
 		

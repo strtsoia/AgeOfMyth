@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import menuscene.BuildingScreen;
 import pulpcore.Stage;
 import component.Culture;
-import menuscene.TradeScreens;
+import menuscene.TradeScreen;
 
 public class TradeCard extends Card{
 
@@ -48,7 +48,7 @@ public class TradeCard extends Card{
 	
 	public void Action(Culture player)
 	{
-		TradeScreens tScreen = new TradeScreens();
+		TradeScreen tScreen = new TradeScreen();
 		tScreen.Init(player);
 		Stage.pushScene(tScreen);
 	}
