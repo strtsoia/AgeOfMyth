@@ -49,14 +49,12 @@ public class ResourceHandler {
 			GlobalDef.Resources resType = kIter.next();
 			if(resType != GlobalDef.Resources.VICTORY)
 			{
-				if(resType != GlobalDef.Resources.VICTORY)
-				{
-					int avaNum = table1.get(resType);
-					int reqNum = table2.get(resType);
-				
-					table1.put(resType, avaNum + reqNum);
-				}	
-			}
+				int avaNum = table1.get(resType);
+				int reqNum = table2.get(resType);
+			
+				table1.put(resType, avaNum + reqNum);
+			}	
+			
 			
 		}
 		
