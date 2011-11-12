@@ -130,4 +130,13 @@ public class Bank {
 		this.buildingPool = buildingPool;
 	}
 
+	public Hashtable<ResProduceTile, Integer> getProductionPool() {
+		return productionPool;
+	}
+
+	public void setProductionPool(Hashtable<ResProduceTile, Integer> productionPool) {
+		this.productionPool = productionPool;
+	}
+	
+
 }

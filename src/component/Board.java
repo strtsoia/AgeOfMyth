@@ -13,15 +13,13 @@ import utility.ResourceHandler;
 public class Board {
 
 	/* production area */
-	boolean[][] productionOccupied = new boolean[4][4];
+	int[][] productionOccupied = new int[4][4];
 	// different culture has different board terrain,must be determined by subclass
 	GlobalDef.Terrain[][] terrainOnBoard = new GlobalDef.Terrain[4][4];
-	Hashtable<GlobalDef.Resources,Integer>[][] productivity = new Hashtable[4][4];
-	ResProduceTile[][] pTilesOnBoard = new ResProduceTile[4][4];
 	
-	/* city area */
-	boolean[][] cityOccupied = new boolean[4][4];
-	Building[][] constructedBuilding = new Building[4][4];
+	/* city area */ 
+	// store the ID of building: -1 indicates nothing
+	int[][] cityOccupied = new int[4][4];
 	
 	/* holding area */
 	Hashtable<BattleCard, Integer> holdingUnits = new Hashtable<BattleCard, Integer>();
@@ -33,11 +31,26 @@ public class Board {
 	private Culture player;
 	
 	
-	public void setCityOccupied(boolean[][] cityOccupied) {
+	public void setCityOccupied(int[][] cityOccupied) {
 		this.cityOccupied = cityOccupied;
 	}
 	
 	
+	public int[][] getCityOccupied() {
+		return cityOccupied;
+	}
+
+	
+	public int[][] getProductionOccupied() {
+		return productionOccupied;
+	}
+
+
+	public void setProductionOccupied(int[][] productionOccupied) {
+		this.productionOccupied = productionOccupied;
+	}
+
+
 	public int getNumOfVillager() {
 		return numOfVillager;
 	}
@@ -102,8 +115,7 @@ public class Board {
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
-				cityOccupied[row][col] = false;
-				constructedBuilding[row][col] = null;
+				cityOccupied[row][col] = -1;
 			}
 	}
 	
@@ -113,7 +125,7 @@ public class Board {
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
-				productionOccupied[row][col] = false;
+				productionOccupied[row][col] = -1;
 			}
 		
 		if(race.equals(GlobalDef.Races.Egypt))
@@ -342,37 +354,40 @@ public class Board {
 	
 	public void RemoveBuilding(int row, int col)
 	{
-		cityOccupied[row][col] = false;
-		constructedBuilding[row][col].UnBehavior(player);
-		constructedBuilding[row][col] = null;
+		GlobalDef.getBuildingMap().get(cityOccupied[row][col]).UnBehavior(player);
+		cityOccupied[row][col] = -1;
 	}
 	
-	public void PlaceBuilding(Building build)
+	public void PlaceBuilding(Building build, int ID)
 	{
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
-				if(cityOccupied[row][col] == false)
+				if(cityOccupied[row][col] == -1)
 				{
-					cityOccupied[row][col] = true;
-					constructedBuilding[row][col] = build;
+					cityOccupied[row][col] = ID;
 					build.Behavior(player);
 					return;
 				}
 			}
 	}
 	
-	public void Explore(ResProduceTile pTile)
+	public void Explore(ResProduceTile pTile, int ID)
 	{
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
 				if(pTile.getTerrainType()  == terrainOnBoard[row][col]
-						&& productionOccupied[row][col] == false)
+						&& productionOccupied[row][col] == -1)
 				{
-					productionOccupied[row][col] = true;
-					productivity[row][col] = pTile.getProductivity();
-					pTilesOnBoard[row][col] = pTile;
+					productionOccupied[row][col] = ID;
+					// delete tile from bank
+					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					int number = table.get(GlobalDef.getTileMap().get(ID));
+					number--;
+					table.put(GlobalDef.getTileMap().get(ID), number);
+					Bank.getInstance().setProductionPool(table);
+					return;
 				}
 					
 			}	
@@ -402,16 +417,26 @@ public class Board {
 		gatheredRes.put(GlobalDef.Resources.WOOD, 0);
 		
 		// gather by terrain type
-		if(gatherType)
+		if(!gatherType)
 		{
 			for(int row = 0; row < 4; row++)
 				for(int col = 0; col < 4; col++)
 				{
-					if(productionOccupied[row][col] == true && pTilesOnBoard[row][col].getTerrainType() == choosenType)
+					if(productionOccupied[row][col] >= 0)
 					{
-						ResourceHandler.Add(gatheredRes, pTilesOnBoard[row][col].getProductivity());
+						ResProduceTile tile = GlobalDef.getTileMap().get(productionOccupied[row][col]);
+						GlobalDef.Terrain terrain = tile.getTerrainType();
+						
+						if(choosenType == terrain)
+						{
+							// which type of resource
+							GlobalDef.Resources rType = tile.getResourceType();
+							int productivity = tile.getProductivity().get(rType);
+							gatheredRes.put(rType, productivity);
+						}
 					}
 				}
+			
 			return gatheredRes;
 		}
 		else // gathered by resource type
@@ -421,12 +446,17 @@ public class Board {
 			for(int row = 0; row < 4; row++)
 				for(int col = 0; col < 4; col++)
 				{
-					GlobalDef.Resources currResType = pTilesOnBoard[row][col].getResourceType();
-					if(currResType == resType)
+					if(productionOccupied[row][col] >= 0)
 					{
-						numRes += pTilesOnBoard[row][col].getProductivity().get(resType);
-					}
+						ResProduceTile tile = GlobalDef.getTileMap().get(productionOccupied[row][col]);
+						GlobalDef.Resources currResType = tile.getResourceType();
+						if(currResType == resType)
+						{
+							numRes += tile.getProductivity().get(currResType);
+						}
 				}
+					}
+				
 			
 			gatheredRes.put(resType, numRes);
 			return gatheredRes;

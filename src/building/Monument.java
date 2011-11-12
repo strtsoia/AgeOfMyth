@@ -56,6 +56,7 @@ public class Monument extends Building{
 	}
 	
 	public void UnBehavior(Culture c){
+		System.out.println("mmlj");
 		Hashtable<Building, Boolean> table = c.getB_build();
 		table.put(Monument.GetInstance(), false);
 		c.setB_build(table);

@@ -3,7 +3,11 @@ package actioncard;
 import global.GlobalDef;
 
 import java.util.Hashtable;
+
+import pulpcore.Stage;
 import component.Culture;
+import menuscene.ExploreScreen;
+
 public class ExploreCard extends Card{
 
 	private static ExploreCard exploreCard;
@@ -33,7 +37,9 @@ public class ExploreCard extends Card{
 	
 	public void Action(Culture player)
 	{
-		
+		ExploreScreen eScreen = new ExploreScreen();
+		eScreen.Init(5, player);
+		Stage.pushScene(eScreen);
 	}
 	
 }

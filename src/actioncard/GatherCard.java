@@ -1,6 +1,8 @@
 package actioncard;
 
+import pulpcore.Stage;
 import component.Culture;
+import menuscene.GatherScreen;
 
 public class GatherCard extends Card{
 
@@ -24,6 +26,8 @@ public class GatherCard extends Card{
 	
 	public void Action(Culture player)
 	{
-		
+		GatherScreen gScreen = new GatherScreen();
+		gScreen.Init(player);
+		Stage.pushScene(gScreen);
 	}
 }

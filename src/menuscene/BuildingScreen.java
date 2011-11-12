@@ -89,12 +89,12 @@ public class BuildingScreen extends Scene2D{
 						if(!hasBuild(ID) && ID > 0)
 						{
 							Building newBuild = GlobalDef.getBuildingMap().get(ID);
-							player.getGameBoard().PlaceBuilding(newBuild);
+							player.getGameBoard().PlaceBuilding(newBuild, ID);
 							constrctedNum++;
 						}else if(ID == 0 && player.getGameBoard().getNumOfVillager() <= 10) // house
 						{
 							Building newBuild = GlobalDef.getBuildingMap().get(ID);
-							player.getGameBoard().PlaceBuilding(newBuild);
+							player.getGameBoard().PlaceBuilding(newBuild, ID);
 							constrctedNum++;
 						}
 						 

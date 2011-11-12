@@ -2,6 +2,7 @@ package global;
 
 import java.util.Hashtable;
 import building.*;
+import tile.*;
 
 /*
  * this class contains all global data
@@ -54,6 +55,24 @@ public class GlobalDef {
 		numOfPlayer = num;
 	}
 	
+	private static Hashtable<Integer, Terrain> terrainMap = new Hashtable<Integer, Terrain>();
+	public static Hashtable<Integer, Terrain>getTerrainMap()
+	{
+		if(terrainMap.size() == 0)
+		{
+			terrainMap.put(0, Terrain.Fertile);
+			terrainMap.put(1, Terrain.Forest);
+			terrainMap.put(2, Terrain.Hills);
+			terrainMap.put(3, Terrain.Mountains);
+			terrainMap.put(4, Terrain.Desert);
+			terrainMap.put(5, Terrain.Swamp);
+			
+			return terrainMap;
+		}
+		
+		return terrainMap;
+	}
+	
 	private static Hashtable<Integer, Building> buildMap = new Hashtable<Integer, Building>();
 	public static Hashtable<Integer, Building> getBuildingMap()
 	{
@@ -97,4 +116,37 @@ public class GlobalDef {
 		
 		return resourceMap;
 	}
+	
+	private static Hashtable<Integer, ResProduceTile> tileMap = new Hashtable<Integer, ResProduceTile>();
+	public static Hashtable<Integer, ResProduceTile> getTileMap()
+	{
+		if(tileMap.size() == 0)
+		{
+			tileMap.put(0, FertileA.GetInstance());
+			tileMap.put(1, FertileB.GetInstance());
+			tileMap.put(2, FertileC.GetInstance());
+			tileMap.put(3, FertileD.GetInstance());
+			tileMap.put(4, ForestA.GetInstance());
+			tileMap.put(5, ForestB.GetInstance());
+			tileMap.put(6, ForestC.GetInstance());
+			tileMap.put(7, ForestD.GetInstance());
+			tileMap.put(8, HillsA.GetInstance());
+			tileMap.put(9, HillsB.GetInstance());
+			tileMap.put(10, HillsC.GetInstance());
+			tileMap.put(11, HillsD.GetInstance());
+			tileMap.put(12, MountainA.GetInstance());
+			tileMap.put(13, MountainB.GetInstance());
+			tileMap.put(14, MountainC.GetInstance());
+			tileMap.put(15, DesertA.GetInstance());
+			tileMap.put(16, DesertB.GetInstance());
+			tileMap.put(17, SwampA.GetInstance());
+			tileMap.put(18, SwampB.GetInstance());
+			tileMap.put(19, SwampC.GetInstance());
+			
+			return tileMap;
+		}
+		
+		return tileMap;
+	}
+
 }
