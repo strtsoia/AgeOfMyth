@@ -103,13 +103,13 @@ public class BuildingScreen extends Scene2D{
 				}
 			}
 		
-		// determine whether player's resource can not build any building
+		// determine whether player's resource can not build any building 
 		boolean meet = false;
 		for(int row = 0; row < 4; row++){
 			for(int col = 0; col < 4; col++)
 			{
 				ID = row * 4 + col;
-				if(ID < 14 && EnoughResource(ID)){
+				if(ID < 14 && EnoughResource(ID) && !hasBuild(ID)){
 					meet = true;
 					break;
 				}
