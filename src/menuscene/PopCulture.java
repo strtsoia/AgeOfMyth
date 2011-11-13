@@ -6,7 +6,6 @@ import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
-import pulpcore.sprite.Slider;
 import pulpcore.sprite.StretchableSprite;
 
 import global.GlobalDef;
