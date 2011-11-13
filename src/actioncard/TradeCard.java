@@ -4,7 +4,6 @@ import global.GlobalDef;
 
 import java.util.Hashtable;
 
-import menuscene.BuildingScreen;
 import pulpcore.Stage;
 import component.Culture;
 import menuscene.TradeScreen;
