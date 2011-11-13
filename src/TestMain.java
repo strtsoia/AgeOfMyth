@@ -17,18 +17,18 @@ public class TestMain {
 		Bank.getInstance();
 		Culture c = new Culture(GlobalDef.Races.Egypt);
 		BuildingCard.GetInstance().Action(c);
-	//	Hashtable<BattleCard, Integer> h = c.getGameBoard().unitsPool;
+		Hashtable<GlobalDef.Resources, Integer> h = c.getGameBoard().getHoldResource();
 		
 		//Board b = c.getGameBoard();
 		
 		// test bank initialization
-		/*Set<BattleCard> Kset = h.keySet();
-		Iterator<BattleCard> iter = Kset.iterator();
+		Set<GlobalDef.Resources> Kset = h.keySet();
+		Iterator<GlobalDef.Resources> iter = Kset.iterator();
 		
 		while(iter.hasNext()){
-			BattleCard bc = iter.next();
+			GlobalDef.Resources bc = iter.next();
 			System.out.println(bc + ":  " + h.get(bc));
-		}*/
+		}
 		// end of test bank initialization
 	}
 }
