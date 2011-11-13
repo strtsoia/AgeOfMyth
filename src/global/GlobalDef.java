@@ -3,6 +3,7 @@ package global;
 import java.util.Hashtable;
 import building.*;
 import tile.*;
+import battlecard.*;
 
 /*
  * this class contains all global data
@@ -149,4 +150,50 @@ public class GlobalDef {
 		return tileMap;
 	}
 
+	private static Hashtable<Integer, BattleCard> egyptBattleCard = new Hashtable<Integer, BattleCard>();
+	public static Hashtable<Integer, BattleCard> getEgyptBattleCard()
+	{
+		if(egyptBattleCard.size() == 0)
+		{
+			egyptBattleCard.put(0, Anubite.getInstance());
+			egyptBattleCard.put(1, Chariot.getInstance());
+			egyptBattleCard.put(2, Elephant.getInstance());
+			egyptBattleCard.put(3, Mummy.getInstance());
+			egyptBattleCard.put(4, Pharaoh.getInstance());
+			egyptBattleCard.put(5, Phoenix.getInstance());
+			egyptBattleCard.put(6, Priest.getInstance());
+			egyptBattleCard.put(7, Scorpion.getInstance());
+			egyptBattleCard.put(8, Osiris.getInstance());
+			egyptBattleCard.put(9, Spearman.getInstance());
+			egyptBattleCard.put(10, Sphinx.getInstance());
+			egyptBattleCard.put(11, Wadjet.getInstance());
+			
+			return egyptBattleCard;
+		}
+		
+		return egyptBattleCard;
+	}
+	
+	private static Hashtable<Integer, BattleCard> greekBattleCard = new Hashtable<Integer, BattleCard>();
+	public static Hashtable<Integer, BattleCard> getGreekBattleCard()
+	{
+		if(greekBattleCard.size() == 0)
+		{
+			return greekBattleCard;
+		}
+		
+		return greekBattleCard;
+	}
+	
+	private static Hashtable<Integer, BattleCard> norsekBattleCard = new Hashtable<Integer, BattleCard>();
+	public static Hashtable<Integer, BattleCard> getNorseBattleCard()
+	{
+		if(norsekBattleCard.size() == 0)
+		{
+			return norsekBattleCard;
+		}
+		
+		return norsekBattleCard;
+	}
+	
 }

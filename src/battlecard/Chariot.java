@@ -12,6 +12,8 @@ public final class Chariot extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.GOLD, 1);
 		 cost.put(GlobalDef.Resources.WOOD, 1);
+		 cost.put(GlobalDef.Resources.FAVOR, 0);
+		 cost.put(GlobalDef.Resources.FOOD, 0);
 	}
 	
 	private final int rolls = 3;

@@ -12,6 +12,8 @@ public final class HeroicNorseHero extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.FOOD, 3);
 		 cost.put(GlobalDef.Resources.GOLD, 3);
+		 cost.put(GlobalDef.Resources.FAVOR, 0);
+		 cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	private final static int rolls = 6;

@@ -36,7 +36,7 @@ public class ExploreCard extends Card{
 	public void Action(Culture player)
 	{
 		ExploreScreen eScreen = new ExploreScreen();
-		eScreen.Init(tilesNum, player);
+		eScreen.Init(5, player);
 		Stage.pushScene(eScreen);
 	}
 	

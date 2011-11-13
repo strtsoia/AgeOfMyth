@@ -12,6 +12,8 @@ public final class MythicNorseHero extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.FAVOR, 4);
 		 cost.put(GlobalDef.Resources.FOOD, 4);
+		 cost.put(GlobalDef.Resources.GOLD, 0);
+		 cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	private final int rolls = 8;

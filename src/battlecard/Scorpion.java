@@ -12,6 +12,8 @@ public final class Scorpion extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.FOOD, 4);
 		 cost.put(GlobalDef.Resources.GOLD, 2);
+		 cost.put(GlobalDef.Resources.FAVOR, 0);
+		 cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	private final int rolls = 5;

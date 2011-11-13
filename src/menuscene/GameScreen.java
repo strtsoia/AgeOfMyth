@@ -4,6 +4,7 @@ import global.GlobalDef;
 import actioncard.BuildingCard;
 import actioncard.ExploreCard;
 import actioncard.GatherCard;
+import actioncard.RecruitCard;
 import actioncard.TradeCard;
 
 import component.Culture;
@@ -110,6 +111,11 @@ public class GameScreen extends Scene2D{
 		if(Input.isShiftDown())
 		{
 			ExploreCard.GetInstance().Action(c);
+		}
+		
+		if(Input.isPressed(Input.KEY_CAPS_LOCK))
+		{
+			RecruitCard.GetInstance().Action(c);
 		}
 		
 	}

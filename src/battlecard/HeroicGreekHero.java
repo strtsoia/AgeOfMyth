@@ -12,6 +12,8 @@ public final class HeroicGreekHero extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.FOOD, 3);
 		 cost.put(GlobalDef.Resources.GOLD, 4);
+		 cost.put(GlobalDef.Resources.FAVOR, 0);
+		 cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	private final int rolls = 6;

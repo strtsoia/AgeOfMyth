@@ -12,6 +12,8 @@ public final class Mummy extends BattleCard{
 	{
 		 cost.put(GlobalDef.Resources.FAVOR, 2);
 		 cost.put(GlobalDef.Resources.GOLD, 3);
+		 cost.put(GlobalDef.Resources.FOOD, 0);
+		 cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 	
 	private final int rolls = 5;
