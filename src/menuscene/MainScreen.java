@@ -1,10 +1,8 @@
 package menuscene;
 
 import pulpcore.Stage;
-import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.ImageSprite;
-import pulpcore.sprite.Sprite;
 import pulpcore.Input;
 
 public class MainScreen extends Scene2D{
@@ -13,7 +11,7 @@ public class MainScreen extends Scene2D{
 	
 	@Override
     public void load() {
-		CoreFont font = CoreFont.getSystemFont();
+		//CoreFont font = CoreFont.getSystemFont();
 		
 		background = new ImageSprite("background.png",0,0,Stage.getWidth(),Stage.getHeight());
 		
