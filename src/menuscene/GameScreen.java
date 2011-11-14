@@ -31,12 +31,30 @@ public class GameScreen extends Scene2D{
 	// store img for production area dynamically
 	static ArrayList<ImageSprite> pList = new ArrayList<ImageSprite>();
 	
-	Culture c;
+	
+	//Culture c;
+
+	Culture[] player;
+	int index = 0;
+	String strBoardType;
+	
 	public void load()
 	{
-		board = new ImageSprite("GreekBoard.jpg", 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
-		add(board);
+		Bank.getInstance();
+		//c = new Culture(GlobalDef.Races.Greek);
 		
+		player = new Culture[2];
+		player[0] = new Culture(GlobalDef.Races.Egypt);
+		player[1] = new Culture(GlobalDef.Races.Greek);
+		
+		if(player[index].getRace() == GlobalDef.Races.Greek)
+			strBoardType = "GreekBoard.jpg";
+		else if(player[index].getRace() == GlobalDef.Races.Egypt)
+			strBoardType = "EgyptBoard.jpg";
+		
+		board = new ImageSprite(strBoardType, 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
+		add(board);
+		 
 		/* beginning to initialize building pic */
 		buildingSprite = new ImageSprite[14];
 		CoreImage[] build = CoreImage.load("/resource/buildTile.jpg").split(3, 1);
@@ -47,21 +65,24 @@ public class GameScreen extends Scene2D{
 		CoreImage[] production = CoreImage.load("/resource/resTile.jpg").split(3, 1);
 		productionTileImg = production[1].split(4,5);
 		
-		Bank.getInstance();
-		c = new Culture(GlobalDef.Races.Greek);
-		
 	}
 	
 	public void update(int elapsedTime)
 	{
-		
+		// draw background board
+		if(player[index].getRace() == GlobalDef.Races.Greek)
+			strBoardType = "GreekBoard.jpg";
+		else if(player[index].getRace() == GlobalDef.Races.Egypt)
+			strBoardType = "EgyptBoard.jpg";
+		board = new ImageSprite(strBoardType, 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
+		add(board);
 		// update city area, first clear city area, just remove all building image from board
 		Iterator<ImageSprite> bIter = bList.iterator();
 		while(bIter.hasNext())
 			remove(bIter.next()); 
 		
 		// update building area picture according to board info
-		int[][] cityBuilding = c.getGameBoard().getCityOccupied();
+		int[][] cityBuilding = player[index].getGameBoard().getCityOccupied();
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{ 
@@ -79,7 +100,7 @@ public class GameScreen extends Scene2D{
 		while(pIter.hasNext())
 			remove(pIter.next()); 
 		
-		int[][] productionTile = c.getGameBoard().getProductionOccupied();
+		int[][] productionTile = player[index].getGameBoard().getProductionOccupied();
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
@@ -94,34 +115,42 @@ public class GameScreen extends Scene2D{
 		
 		if(Input.isAltDown()){
 		
-			BuildingCard.GetInstance().Action(c);
+			BuildingCard.GetInstance().Action(player[index]);
 		}
 		
 		if(Input.isControlDown())
 		{
 			 
-			GatherCard.GetInstance().Action(c);
+			GatherCard.GetInstance().Action(player[index]);
 		}
 		
 		if(Input.isPressed(Input.KEY_SPACE))
 		{
-			TradeCard.GetInstance().Action(c);
+			TradeCard.GetInstance().Action(player[index]);
 		}
 		
 		if(Input.isShiftDown())
 		{
-			ExploreCard.GetInstance().Action(c);
+			ExploreCard.GetInstance().Action(player[index]);
 		}
 		
 		if(Input.isPressed(Input.KEY_0))
 		{
-			RecruitCard.GetInstance().Action(c);
+			RecruitCard.GetInstance().Action(player[index]);
 		}
 		
 		if(Input.isPressed(Input.KEY_1))
 		{
-			NextAgeCard.GetInstance().Action(c);
+			NextAgeCard.GetInstance().Action(player[index]);
 		}
+		
+		
+		if(Input.isPressed(Input.KEY_ENTER))
+		{
+			index++;
+			index = index % 2;
+		}
+		
 		
 	}
 	
