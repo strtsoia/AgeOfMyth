@@ -412,6 +412,7 @@ public class Board {
 							// which type of resource
 							GlobalDef.Resources rType = tile.getResourceType();
 							int productivity = tile.getProductivity().get(rType);
+							productivity = productivity * numOfVillager;
 							gatheredRes.put(rType, productivity);
 						}
 					}
@@ -436,7 +437,8 @@ public class Board {
 						}
 				}
 					}
-				
+			
+			numRes = numRes * numOfVillager;
 			gatheredRes.put(resType, numRes);
 			return gatheredRes;
 		}

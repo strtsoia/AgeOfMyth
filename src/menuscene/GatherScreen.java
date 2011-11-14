@@ -123,7 +123,8 @@ public class GatherScreen extends Scene2D{
 			group.add(terrainForm);
 		}
 		
-		if(finish && totalresType != 0 && totalTerrainType != 0)
+		if(finish && totalresType != 0 && totalTerrainType != 0
+				&& player.getGameBoard().getNumOfVillager() > 0)
 		{
 			messageLb = new Label("The resource you gathered is as follow:", 0, 0);
 			message = new Group( (350 - messageLb.width.get()) / 2, byRes.height.get() + byTerrain.height.get() + 100);
@@ -156,7 +157,7 @@ public class GatherScreen extends Scene2D{
 			
 		}
 		
-		if(totalresType == 0 || totalTerrainType == 0){
+		if(totalresType == 0 || totalTerrainType == 0 || player.getGameBoard().getNumOfVillager() == 0){
 			finish =  true;
 			errorLb = new Label("No resource can be gathered!!", 0, 0);
 			errorLb.setLocation((350 - errorLb.width.get()) / 2, 350);
