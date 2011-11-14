@@ -12,7 +12,6 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.Slider;
-import pulpcore.sprite.StretchableSprite;
 
 import settings.Bank;
 import utility.ResourceHandler;

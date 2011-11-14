@@ -34,7 +34,7 @@ public class RecruitScreen extends Scene2D{
 	GlobalDef.Races race;
 	int boundary = 0;
 	int[] heroID;
-	String strbackpop;
+	String strbackground;
 	
 	public void Init(Culture culture, int max, GlobalDef.Races r)
 	{
@@ -50,7 +50,7 @@ public class RecruitScreen extends Scene2D{
 		String strBattleCard = null;
 		if(race == GlobalDef.Races.Egypt){
 			strBattleCard = "egyptBattlecard.jpg";
-			strbackpop = "egyptpopback.jpg";
+			strbackground = "egyptpopback.jpg";
 			boundary = 11;
 			heroID[0] = 6;
 			heroID[1] = 4;
@@ -62,14 +62,14 @@ public class RecruitScreen extends Scene2D{
 			heroID[0] = 1;
 			heroID[1] = 3;
 			heroID[2] = 10;
-			strbackpop = "greekpopback.jpg";
+			strbackground = "greekpopback.jpg";
 		}
 		else{
 			strBattleCard = "norseBattlecard.jpg";
 			boundary = 10;
 		}
 		
-		background = new ImageSprite(strbackpop, Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 225, 400, 500);
+		background = new ImageSprite(strbackground, Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 225, 400, 500);
 		add(background);
 		
 		String loadImg = "/battlecard/" + strBattleCard;
