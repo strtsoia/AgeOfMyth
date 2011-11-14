@@ -437,7 +437,6 @@ public class Board {
 				}
 					}
 				
-			
 			gatheredRes.put(resType, numRes);
 			return gatheredRes;
 		}

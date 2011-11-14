@@ -8,6 +8,7 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
+import pulpcore.sprite.ImageSprite;
 
 import utility.ResourceHandler;
 import component.Culture;
@@ -21,11 +22,13 @@ public class BuildingScreen extends Scene2D{
 	CoreImage[] buildTileImg;
 	Button[][] buildBtn = new Button[4][4];
 	Label ok;
+	ImageSprite background;
 	Group buildForm;
 	
 	Culture player;
 	int maxNumOfBuilding;
 	int constrctedNum;
+	String strBackground;
 	
 	public void Init(Culture culture, int max)
 	{
@@ -36,6 +39,15 @@ public class BuildingScreen extends Scene2D{
 	
 	public void load()
 	{
+		if(player.getRace() == GlobalDef.Races.Egypt){
+			background = new ImageSprite("egyptpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
+			strBackground = "egyptpopback.jpg";
+		}
+		else if(player.getRace() == GlobalDef.Races.Greek){
+			background = new ImageSprite("greekpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
+			strBackground = "greekpopback.jpg";
+		}
+		
 		buildTileImg = CoreImage.load("/resource/buildTile.jpg").split(12, 4);
 		buildForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 200, 400, 450);
 		
@@ -57,14 +69,20 @@ public class BuildingScreen extends Scene2D{
 				
 			}
 		
-		ok = new Label("OK", 200, 425);
+		
+		ok = new Label("OK", 200, 405);
 		buildForm.add(ok);
+		add(background);
 		add(buildForm);
 	}
 	
 	@Override
     public void update(int elapsedTime) 
 	{
+		
+		// refresh background
+		background.setImage(strBackground);
+		
 		// determine which tile has been selected
 		int ID;
 		for(int row = 0; row < 4; row++)
