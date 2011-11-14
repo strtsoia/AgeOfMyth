@@ -6,6 +6,7 @@ import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
+import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.StretchableSprite;
@@ -18,6 +19,9 @@ import utility.ResourceHandler;
 public class GatherScreen extends Scene2D{
 	
 	final int width = 50;
+	
+	ImageSprite background;
+	String strbackground;
 	Label byRes;
 	Label byTerrain;
 	Label messageLb;
@@ -54,8 +58,18 @@ public class GatherScreen extends Scene2D{
 	
 	public void load()
 	{
+		if(player.getRace() == GlobalDef.Races.Egypt)
+		{
+			strbackground = "egyptpopback.jpg";
+		}else if(player.getRace() == GlobalDef.Races.Greek)
+		{
+			strbackground = "greekpopback.jpg";
+		}
+		
+		background = new ImageSprite(strbackground, Stage.getWidth() * 3 / 4 / 2 - 175, Stage.getHeight() * 3 / 4 / 2 - 150 , 350, 400);
+		add(background);
+		
 		group = new Group(Stage.getWidth() * 3 / 4 / 2 - 175, Stage.getHeight() * 3 / 4 / 2 - 150 , 350, 400);
-		group.add(new StretchableSprite("border.9.png", 0, 0, 350, 400));
 		
 		byRes = new Label("Gather by resource", 0, 0);
 		byRes.setLocation( (350 - byRes.width.get()) / 2, 20);
