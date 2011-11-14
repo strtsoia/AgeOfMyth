@@ -413,7 +413,9 @@ public class Board {
 							GlobalDef.Resources rType = tile.getResourceType();
 							int productivity = tile.getProductivity().get(rType);
 							productivity = productivity * numOfVillager;
-							gatheredRes.put(rType, productivity);
+							int number = gatheredRes.get(rType);
+							number = number + productivity;
+							gatheredRes.put(rType, number);
 						}
 					}
 				}

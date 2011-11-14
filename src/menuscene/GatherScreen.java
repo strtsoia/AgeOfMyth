@@ -159,7 +159,13 @@ public class GatherScreen extends Scene2D{
 		
 		if(totalresType == 0 || totalTerrainType == 0 || player.getGameBoard().getNumOfVillager() == 0){
 			finish =  true;
-			errorLb = new Label("No resource can be gathered!!", 0, 0);
+			if(player.getGameBoard().getNumOfVillager() == 0)
+			{
+				errorLb = new Label("No villager available to gather!", 0, 0);
+			}else{
+				errorLb = new Label("No resource can be gathered!!", 0, 0);
+			}
+			
 			errorLb.setLocation((350 - errorLb.width.get()) / 2, 350);
 			ok = new Label("OK", 0, 0);
 			ok.setLocation( (350 - ok.width.get()) / 2, 375);
@@ -213,7 +219,7 @@ public class GatherScreen extends Scene2D{
 					for(int i = 0; i < 4; i++)
 					{
 						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
-						System.out.println("Number is: " + resGathered[i]);
+						
 					}
 					
 					finish = true;
@@ -226,7 +232,6 @@ public class GatherScreen extends Scene2D{
 		
 		if(status == 2)
 		{
-						
 			// update picture and do background
 			for(int index = 0; index < 6; index++)
 			{
@@ -251,6 +256,7 @@ public class GatherScreen extends Scene2D{
 					for(int i = 0; i < 4; i++)
 					{
 						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
+						System.out.println("Number is: " + resGathered[i]);
 					}
 					
 					finish = true;
