@@ -36,7 +36,7 @@ public class ExploreScreen extends Scene2D{
 	public void load()
 	{
 		resTileImg = CoreImage.load("/resource/resTile.jpg").split(12, 5);
-		resForm = new Group(Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 150, 200, 300);
+		resForm = new Group(Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 150, 400, 300);
 		
 		Random r = new Random();
 		int[] tileID = new int[20];
