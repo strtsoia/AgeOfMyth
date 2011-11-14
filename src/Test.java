@@ -13,8 +13,6 @@ import settings.Bank;
 
 public class Test extends Scene2D{
 
-	Hashtable<GlobalDef.Resources, Integer> res = new Hashtable<GlobalDef.Resources, Integer>();
-	
 	public void load()
 	{
 		
