@@ -7,6 +7,7 @@ import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
+import pulpcore.sprite.Label;
 
 import utility.ResourceHandler;
 import component.Culture;
@@ -19,6 +20,7 @@ public class BuildingScreen extends Scene2D{
 	
 	CoreImage[] buildTileImg;
 	Button[][] buildBtn = new Button[4][4];
+	Label ok;
 	Group buildForm;
 	
 	Culture player;
@@ -35,7 +37,7 @@ public class BuildingScreen extends Scene2D{
 	public void load()
 	{
 		buildTileImg = CoreImage.load("/resource/buildTile.jpg").split(12, 4);
-		buildForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 200, 400, 400);
+		buildForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 200, 400, 450);
 		
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
@@ -54,7 +56,9 @@ public class BuildingScreen extends Scene2D{
 				}
 				
 			}
-			
+		
+		ok = new Label("OK", 200, 425);
+		buildForm.add(ok);
 		add(buildForm);
 	}
 	
@@ -70,7 +74,7 @@ public class BuildingScreen extends Scene2D{
 				if(ID < 14)
 				{
 					// drawing
-					if(!EnoughResource(ID))
+					if(!EnoughResource(ID) || constrctedNum == maxNumOfBuilding)
 						buildBtn[row][col].setImage(buildTileImg[row * 12 + col + 8]);
 					else if(hasBuild(ID))
 					{
@@ -83,7 +87,7 @@ public class BuildingScreen extends Scene2D{
 					}
 					
 					// build this one
-					if(buildBtn[row][col].isClicked() && EnoughResource(ID))
+					if(buildBtn[row][col].isClicked() && EnoughResource(ID) && constrctedNum < maxNumOfBuilding)
 					{
 						// building other than house
 						if(!hasBuild(ID) && ID > 0)
@@ -103,25 +107,10 @@ public class BuildingScreen extends Scene2D{
 				}
 			}
 		
-		// determine whether player's resource can not build any building 
-		boolean meet = false;
-		for(int row = 0; row < 4; row++){
-			for(int col = 0; col < 4; col++)
-			{
-				ID = row * 4 + col;
-				if(ID < 14 && EnoughResource(ID) && !hasBuild(ID)){
-					meet = true;
-					break;
-				}
-					
-			}
-			
-			if(meet)
-				break;
-		}
-		
-		if(constrctedNum == maxNumOfBuilding || meet == false)
+		if(ok.isMouseDown())
+		{
 			Stage.popScene();
+		}
 	}
 	
 	// check whether player's resource is qualified for certain building
