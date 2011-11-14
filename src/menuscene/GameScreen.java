@@ -35,15 +35,26 @@ public class GameScreen extends Scene2D{
 	//Culture c;
 
 	Culture[] player;
-	int index = 0;
+	int index;
+	private static int numOfPlayers;
 	String strBoardType;
+	GlobalDef.Races[] playerRace;
 	
+	// Initialize here
 	public void load()
 	{
+		// initialize bank
 		Bank.getInstance();
-		//c = new Culture(GlobalDef.Races.Greek);
 		
-		player = new Culture[2];
+		numOfPlayers = 2;
+		player = new Culture[numOfPlayers];
+		/*playerRace = CultureScreen.getPlayerCulture();
+		// create each players
+		for(int i = 0; i < numOfPlayers; i++)
+		{
+			player[i] = new Culture(playerRace[i]);
+		}*/
+		
 		player[0] = new Culture(GlobalDef.Races.Egypt);
 		player[1] = new Culture(GlobalDef.Races.Greek);
 		
@@ -69,13 +80,13 @@ public class GameScreen extends Scene2D{
 	
 	public void update(int elapsedTime)
 	{
-		// draw background board
+		// update background board for different players
 		if(player[index].getRace() == GlobalDef.Races.Greek)
 			strBoardType = "GreekBoard.jpg";
 		else if(player[index].getRace() == GlobalDef.Races.Egypt)
 			strBoardType = "EgyptBoard.jpg";
-		board = new ImageSprite(strBoardType, 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
-		add(board);
+		board.setImage(strBoardType);
+	
 		// update city area, first clear city area, just remove all building image from board
 		Iterator<ImageSprite> bIter = bList.iterator();
 		while(bIter.hasNext())
@@ -148,10 +159,14 @@ public class GameScreen extends Scene2D{
 		if(Input.isPressed(Input.KEY_ENTER))
 		{
 			index++;
-			index = index % 2;
+			index = index % numOfPlayers;
 		}
 		
 		
 	}
-	
+
+	public static int getNumOfPlayers() {
+		return numOfPlayers;
+	}
+
 }

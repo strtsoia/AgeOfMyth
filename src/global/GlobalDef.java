@@ -45,17 +45,6 @@ public class GlobalDef {
 		Mythic
 	}
 	
-	// how many number of players in game
-	private static int numOfPlayer;
-
-	public static int getNumOfPlayer() {
-		return numOfPlayer;
-	}
-
-	public static void setNumOfPlayer(int num) {
-		numOfPlayer = num;
-	}
-	
 	private static Hashtable<Integer, Terrain> terrainMap = new Hashtable<Integer, Terrain>();
 	public static Hashtable<Integer, Terrain>getTerrainMap()
 	{
