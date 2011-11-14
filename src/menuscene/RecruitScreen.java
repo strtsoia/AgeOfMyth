@@ -7,6 +7,7 @@ import component.Culture;
 
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
+import pulpcore.sprite.ImageSprite;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
@@ -21,6 +22,7 @@ public class RecruitScreen extends Scene2D{
 	final int width  = 100;
 	final int height = 150;
 	
+	ImageSprite background;
 	CoreImage[] battleCardImg;
 	Button[][] battleCardBtn = new Button[3][4];
 	Label ok;
@@ -32,6 +34,7 @@ public class RecruitScreen extends Scene2D{
 	GlobalDef.Races race;
 	int boundary = 0;
 	int[] heroID;
+	String strbackpop;
 	
 	public void Init(Culture culture, int max, GlobalDef.Races r)
 	{
@@ -47,6 +50,7 @@ public class RecruitScreen extends Scene2D{
 		String strBattleCard = null;
 		if(race == GlobalDef.Races.Egypt){
 			strBattleCard = "egyptBattlecard.jpg";
+			strbackpop = "egyptpopback.jpg";
 			boundary = 11;
 			heroID[0] = 6;
 			heroID[1] = 4;
@@ -58,11 +62,15 @@ public class RecruitScreen extends Scene2D{
 			heroID[0] = 1;
 			heroID[1] = 3;
 			heroID[2] = 10;
+			strbackpop = "greekpopback.jpg";
 		}
 		else{
 			strBattleCard = "norseBattlecard.jpg";
 			boundary = 10;
 		}
+		
+		background = new ImageSprite(strbackpop, Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 225, 400, 500);
+		add(background);
 		
 		String loadImg = "/battlecard/" + strBattleCard;
 		battleCardImg = CoreImage.load(loadImg).split(12, 3);

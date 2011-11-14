@@ -61,7 +61,6 @@ public class BuildingScreen extends Scene2D{
 				
 			}
 		
-		
 		ok = new Label("OK", 200, 405);
 		buildForm.add(ok);
 		add(background);
