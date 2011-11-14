@@ -25,7 +25,6 @@ public class RecruitCard extends Card{
 		this.cost = cost;
 	}
 
-
 	public int getMaxRecruitNum() {
 		return maxRecruitNum;
 	}
@@ -54,7 +53,7 @@ public class RecruitCard extends Card{
 	public void Action(Culture player)
 	{
 		RecruitScreen rScreen = new RecruitScreen();
-		rScreen.Init(player, maxRecruitNum, GlobalDef.Races.Egypt);
+		rScreen.Init(player, maxRecruitNum, player.getRace());
 		Stage.pushScene(rScreen);
 	}
 }

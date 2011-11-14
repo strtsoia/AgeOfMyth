@@ -16,7 +16,7 @@ public class Culture {
 	// keep track of whether building has been constructed
 	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
 	private GlobalDef.Age currentAge;
-	
+	private GlobalDef.Races race;
 	
 	public GlobalDef.Age getCurrentAge() {
 		return currentAge;
@@ -43,7 +43,7 @@ public class Culture {
 	}
 
 
-	public Culture(GlobalDef.Races race)
+	public Culture(GlobalDef.Races r)
 	{
 		b_build.put(Armory.GetInstance(), false);
 		b_build.put(Garnary.GetInstance(), false);
@@ -63,10 +63,15 @@ public class Culture {
 		currentAge = GlobalDef.Age.Ancient;
 		
 		InitialPermanentPool();
-		gameBoard = new Board(race, this);
-		
+		gameBoard = new Board(r, this);
+		race = r;
 	}
 	
+	
+	public GlobalDef.Races getRace() {
+		return race;
+	}
+
 	private void InitialPermanentPool()
 	{
 		permanentcardPool.put(AttackCard.GetInstance(), 2);

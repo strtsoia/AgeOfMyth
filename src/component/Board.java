@@ -28,7 +28,6 @@ public class Board {
 	
 	private int numOfVillager;
 	private Culture player;
-	private GlobalDef.Races race;
 	
 	public void setCityOccupied(int[][] cityOccupied) {
 		this.cityOccupied = cityOccupied;
@@ -70,7 +69,8 @@ public class Board {
 	public Hashtable<BattleCard, Integer> getUnitsPool() {
 		return unitsPool;
 	}
-
+	
+	
 	// constructor
 	public Board(GlobalDef.Races r, Culture c)
 	{
@@ -79,8 +79,6 @@ public class Board {
 		InitialHoldingArea(r);
 		numOfVillager = 0;
 		player = c;
-		race = r;
-		
 	}
 	
 	private void InitialHoldingArea(GlobalDef.Races race)
@@ -308,10 +306,10 @@ public class Board {
 	// check proper battle card for proper culture
 	private Hashtable<Integer, BattleCard> getUnitMap()
 	{
-		if(race == GlobalDef.Races.Egypt)
+		if(player.getRace() == GlobalDef.Races.Egypt)
 		{
 			return GlobalDef.getEgyptBattleCard();
-		}else if(race == GlobalDef.Races.Greek)
+		}else if(player.getRace() == GlobalDef.Races.Greek)
 		{
 			return GlobalDef.getGreekBattleCard();
 		}
