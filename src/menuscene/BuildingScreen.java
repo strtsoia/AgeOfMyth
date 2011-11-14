@@ -28,7 +28,6 @@ public class BuildingScreen extends Scene2D{
 	Culture player;
 	int maxNumOfBuilding;
 	int constrctedNum;
-	String strBackground;
 	
 	public void Init(Culture culture, int max)
 	{
@@ -39,14 +38,7 @@ public class BuildingScreen extends Scene2D{
 	
 	public void load()
 	{
-		if(player.getRace() == GlobalDef.Races.Egypt){
-			background = new ImageSprite("egyptpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
-			strBackground = "egyptpopback.jpg";
-		}
-		else if(player.getRace() == GlobalDef.Races.Greek){
-			background = new ImageSprite("greekpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
-			strBackground = "greekpopback.jpg";
-		}
+		background = new ImageSprite("/resource/buildpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
 		
 		buildTileImg = CoreImage.load("/resource/buildTile.jpg").split(12, 4);
 		buildForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 200, 400, 450);
@@ -79,10 +71,6 @@ public class BuildingScreen extends Scene2D{
 	@Override
     public void update(int elapsedTime) 
 	{
-		
-		// refresh background
-		background.setImage(strBackground);
-		
 		// determine which tile has been selected
 		int ID;
 		for(int row = 0; row < 4; row++)
