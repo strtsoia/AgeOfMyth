@@ -4,6 +4,7 @@ import global.GlobalDef;
 import actioncard.BuildingCard;
 import actioncard.ExploreCard;
 import actioncard.GatherCard;
+import actioncard.NextAgeCard;
 import actioncard.RecruitCard;
 import actioncard.TradeCard;
 
@@ -116,6 +117,11 @@ public class GameScreen extends Scene2D{
 		if(Input.isPressed(Input.KEY_0))
 		{
 			RecruitCard.GetInstance().Action(c);
+		}
+		
+		if(Input.isPressed(Input.KEY_1))
+		{
+			NextAgeCard.GetInstance().Action(c);
 		}
 		
 	}
