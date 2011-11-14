@@ -63,6 +63,9 @@ public class GatherScreen extends Scene2D{
 		byTerrain.setLocation( (350 - byTerrain.width.get()) / 2, byRes.height.get() + 20);
 		resBtn = new Button[4];
 		
+		totalresType = 4;
+		totalTerrainType = 6;
+		
 		if(status == 1)
 		{
 			// Form for resource choice

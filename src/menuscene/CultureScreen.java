@@ -110,7 +110,6 @@ public class CultureScreen extends Scene2D{
 		 
 	}
 
-
 	public static GlobalDef.Races[] getPlayerCulture()
 	{
 		return playerCulture;
