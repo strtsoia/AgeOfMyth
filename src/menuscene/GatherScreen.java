@@ -9,7 +9,6 @@ import pulpcore.sprite.Button;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.Group;
-import pulpcore.sprite.StretchableSprite;
 
 import component.Culture;
 import settings.Bank;

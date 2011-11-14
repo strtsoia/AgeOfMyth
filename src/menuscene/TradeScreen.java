@@ -9,6 +9,7 @@ import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
+import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.Slider;
 import pulpcore.sprite.StretchableSprite;
@@ -22,7 +23,9 @@ public class TradeScreen extends Scene2D{
 	final int width = 50;
 	Culture player;
 	boolean payOver;
+	String strbackground;
 	
+	ImageSprite background;
 	CoreImage[] cubesImg;
 	Button[] costBtn;
 	Group costForm;
@@ -42,11 +45,21 @@ public class TradeScreen extends Scene2D{
 	
 	public void load()
 	{
+		if(player.getRace() == GlobalDef.Races.Egypt)
+		{
+			strbackground = "egyptpopback.jpg";
+		}else if(player.getRace() == GlobalDef.Races.Greek)
+		{
+			strbackground = "greekpopback.jpg";
+		}
+		
+		background = new ImageSprite(strbackground, Stage.getWidth() / 2 - 250, Stage.getHeight() / 2 - 175, 500, 350);
+		add(background);
+		
 		cubesImg = CoreImage.load("/resource/resourceCubes.jpg").split(15, 1);
 		costBtn = new Button[4];
 		costLabel = new Label[4];
 		costForm = new Group(Stage.getWidth() / 2 - 250, Stage.getHeight() / 2 - 175, 500, 350);
-		costForm.add(new StretchableSprite("border.9.png", 0, 0, 500, 350));
 		
 		for(int index = 0; index < 4; index++)
 		{
