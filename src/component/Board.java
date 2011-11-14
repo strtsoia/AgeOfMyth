@@ -24,12 +24,11 @@ public class Board {
 	/* holding area */
 	Hashtable<BattleCard, Integer> holdingUnits = new Hashtable<BattleCard, Integer>();
 	Hashtable<GlobalDef.Resources, Integer> holdResource = new Hashtable<GlobalDef.Resources, Integer>();
-	Hashtable<Integer, BattleCard> unitsOnBoard = new Hashtable<Integer, BattleCard>();
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
 	
 	private int numOfVillager;
 	private Culture player;
-	
+	private GlobalDef.Races race;
 	
 	public void setCityOccupied(int[][] cityOccupied) {
 		this.cityOccupied = cityOccupied;
@@ -66,15 +65,21 @@ public class Board {
 	public void setHoldResource(Hashtable<GlobalDef.Resources, Integer> holdResource) {
 		this.holdResource = holdResource;
 	}
+	
+	
+	public Hashtable<BattleCard, Integer> getUnitsPool() {
+		return unitsPool;
+	}
 
 	// constructor
-	public Board(GlobalDef.Races race, Culture c)
+	public Board(GlobalDef.Races r, Culture c)
 	{
-		InitialProductionBoard(race);
+		InitialProductionBoard(r);
 		InitialCityBoard();
-		InitialHoldingArea(race);
+		InitialHoldingArea(r);
 		numOfVillager = 0;
 		player = c;
+		race = r;
 		
 	}
 	
@@ -88,10 +93,10 @@ public class Board {
 		
 		// initial resource each player get
 		Hashtable<GlobalDef.Resources, Integer> iniRes = new Hashtable<GlobalDef.Resources, Integer>();
-		iniRes.put(GlobalDef.Resources.FAVOR, 4);
-		iniRes.put(GlobalDef.Resources.FOOD, 4);
-		iniRes.put(GlobalDef.Resources.GOLD, 4);
-		iniRes.put(GlobalDef.Resources.WOOD, 4);
+		iniRes.put(GlobalDef.Resources.FAVOR, 14);
+		iniRes.put(GlobalDef.Resources.FOOD, 14);
+		iniRes.put(GlobalDef.Resources.GOLD, 14);
+		iniRes.put(GlobalDef.Resources.WOOD, 14);
 		
 		ResourceHandler.Add(holdResource, iniRes);
 		ResourceHandler.Delete(Bank.getInstance().getResourcePool(), iniRes);
@@ -238,20 +243,6 @@ public class Board {
 		holdingUnits.put(Spearman.getInstance(), 2);
 		holdingUnits.put(Elephant.getInstance(), 2);
 		
-		// build UnitOnBoard table, the key is position of that unit
-		unitsOnBoard.put(0, Scorpion.getInstance());
-		unitsOnBoard.put(1, Sphinx.getInstance());
-		unitsOnBoard.put(2, Wadjet.getInstance());
-		unitsOnBoard.put(3, Anubite.getInstance());
-		unitsOnBoard.put(4, Phoenix.getInstance());
-		unitsOnBoard.put(5, Priest.getInstance());
-		unitsOnBoard.put(6, Pharaoh.getInstance());
-		unitsOnBoard.put(7, Osiris.getInstance());
-		unitsOnBoard.put(8, Mummy.getInstance());
-		unitsOnBoard.put(9, Chariot.getInstance());
-		unitsOnBoard.put(10, Spearman.getInstance());
-		unitsOnBoard.put(11, Elephant.getInstance());
-		
 	}
 	
 	private void InitialUnitsForGreek()
@@ -283,18 +274,6 @@ public class Board {
 		holdingUnits.put(Hoplite.getInstance(), 2);
 		holdingUnits.put(Hippokon.getInstance(), 2);
 		
-		unitsOnBoard.put(0, Cyclops.getInstance());
-		unitsOnBoard.put(1, Medusa.getInstance());
-		unitsOnBoard.put(2, Minotaur.getInstance());
-		unitsOnBoard.put(3, Centaur.getInstance());
-		unitsOnBoard.put(4, Hydra.getInstance());
-		unitsOnBoard.put(5, ClassicalGreekHero.getInstance());
-		unitsOnBoard.put(6, HeroicGreekHero.getInstance());
-		unitsOnBoard.put(7, MythicGreekHero.getInstance());
-		unitsOnBoard.put(8, Manticore.getInstance());
-		unitsOnBoard.put(9, Toxotes.getInstance());
-		unitsOnBoard.put(10, Hoplite.getInstance());
-		unitsOnBoard.put(11, Hippokon.getInstance());
 	}
 	
 	private void InitialUnitsForNorse()
@@ -324,24 +303,27 @@ public class Board {
 		holdingUnits.put(MythicNorseHero.getInstance(), 0);
 		holdingUnits.put(ForestGiant.getInstance(), 0);
 		
-		unitsOnBoard.put(0, Valkyric.getInstance());
-		unitsOnBoard.put(1, Dwarf.getInstance());
-		unitsOnBoard.put(2, Troll.getInstance());
-		unitsOnBoard.put(3, Jarl.getInstance());
-		unitsOnBoard.put(4, Huskarl.getInstance());
-		unitsOnBoard.put(5, Throwing.getInstance());
-		unitsOnBoard.put(6, Nidhogg.getInstance());
-		unitsOnBoard.put(7, ClassicalNorseHero.getInstance());
-		unitsOnBoard.put(8, HeroicNorseHero.getInstance());
-		unitsOnBoard.put(9, MythicNorseHero.getInstance());
-		unitsOnBoard.put(10, ForestGiant.getInstance());
+	}
+	
+	// check proper battle card for proper culture
+	private Hashtable<Integer, BattleCard> getUnitMap()
+	{
+		if(race == GlobalDef.Races.Egypt)
+		{
+			return GlobalDef.getEgyptBattleCard();
+		}else if(race == GlobalDef.Races.Greek)
+		{
+			return GlobalDef.getGreekBattleCard();
+		}
+		
+		return GlobalDef.getNorseBattleCard();
 	}
 	
 	public void RemoveUnits(int ID)
 	{
-		int num = unitsPool.get(unitsOnBoard.get(ID));
-		unitsPool.put(unitsOnBoard.get(ID), num + 1);
-		holdingUnits.put(unitsOnBoard.get(ID), num - 1);
+		int num = unitsPool.get(getUnitMap().get(ID));
+		unitsPool.put(getUnitMap().get(ID), num + 1);
+		holdingUnits.put(getUnitMap().get(ID), num - 1);
 		
 	}
 	

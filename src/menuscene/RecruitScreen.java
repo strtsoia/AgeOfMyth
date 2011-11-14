@@ -55,6 +55,9 @@ public class RecruitScreen extends Scene2D{
 		else if(race == GlobalDef.Races.Greek){
 			strBattleCard = "greekBattlecard.jpg";
 			boundary = 11;
+			heroID[0] = 1;
+			heroID[1] = 3;
+			heroID[2] = 10;
 		}
 		else{
 			strBattleCard = "norseBattlecard.jpg";
@@ -75,8 +78,10 @@ public class RecruitScreen extends Scene2D{
 					CoreImage[] img = new CoreImage[]{battleCardImg[row * 12 + col], battleCardImg[row * 12 + col + 4], battleCardImg[row * 12 + col + 8]};
 					battleCardBtn[row][col] = new Button(img, col * width, row * height);
 					// if player's resource is not enough for this building. 
-					// or current age is not allowed to recruit specific unit,disable it
-					if(!EnoughResource(id) || !meetAgeRecruit(id) || maxNumOfRecruit == RecruitedNum)
+					// or current age is not allowed to recruit specific unit
+					// or has not unit available in units pool, disable it
+					if(!EnoughResource(id) || !meetAgeRecruit(id) || maxNumOfRecruit == RecruitedNum ||
+							!isAvailable(id))
 						battleCardBtn[row][col].setImage(img[2]);
 					
 					battleCardForm.add(battleCardBtn[row][col]);
@@ -101,12 +106,13 @@ public class RecruitScreen extends Scene2D{
 				if(ID <= boundary)
 				{
 					// drawing
-					if(!EnoughResource(ID) || !meetAgeRecruit(ID) || maxNumOfRecruit == RecruitedNum)
+					if(!EnoughResource(ID) || !meetAgeRecruit(ID) || maxNumOfRecruit == RecruitedNum ||
+							!isAvailable(ID))
 						battleCardBtn[row][col].setImage(battleCardImg[row * 12 + col + 8]);
 					
 					// recruit this unit
 					if(battleCardBtn[row][col].isClicked() && EnoughResource(ID) && meetAgeRecruit(ID)
-							&& maxNumOfRecruit > RecruitedNum)
+							&& maxNumOfRecruit > RecruitedNum && isAvailable(ID))
 					{
 						BattleCard battleCard = getUnitMap().get(ID);
 					
@@ -128,6 +134,16 @@ public class RecruitScreen extends Scene2D{
 		}
 	}
 	
+	
+	// check whether this units is available in unit pool
+	private boolean isAvailable(int ID)
+	{
+		BattleCard bc = getUnitMap().get(ID);
+		if(player.getGameBoard().getUnitsPool().get(bc) > 0)
+			return true;
+		return false;
+	}
+		
 	// check whether current age can recruit specific hero
 	private boolean meetAgeRecruit(int ID)
 	{
