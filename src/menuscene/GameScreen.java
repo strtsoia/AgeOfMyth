@@ -7,7 +7,6 @@ import actioncard.GatherCard;
 import actioncard.NextAgeCard;
 import actioncard.RecruitCard;
 import actioncard.TradeCard;
-
 import component.Culture;
 
 import pulpcore.Input;
