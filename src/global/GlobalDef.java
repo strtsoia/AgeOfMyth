@@ -179,6 +179,19 @@ public class GlobalDef {
 	{
 		if(greekBattleCard.size() == 0)
 		{
+			greekBattleCard.put(0, Centaur.getInstance());
+			greekBattleCard.put(1, ClassicalGreekHero.getInstance());
+			greekBattleCard.put(2, Cyclops.getInstance());
+			greekBattleCard.put(3, HeroicGreekHero.getInstance());
+			greekBattleCard.put(4, Hippokon.getInstance());
+			greekBattleCard.put(5, Hoplite.getInstance());
+			greekBattleCard.put(6, Hydra.getInstance());
+			greekBattleCard.put(7, Manticore.getInstance());
+			greekBattleCard.put(8, Medusa.getInstance());
+			greekBattleCard.put(9, Minotaur.getInstance());
+			greekBattleCard.put(10, MythicGreekHero.getInstance());
+			greekBattleCard.put(11, Toxotes.getInstance());
+			
 			return greekBattleCard;
 		}
 		
