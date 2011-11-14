@@ -3,7 +3,10 @@ package actioncard;
 import global.GlobalDef;
 
 import java.util.Hashtable;
+
+import pulpcore.Stage;
 import component.Culture;
+import menuscene.RecruitScreen;
 
 public class RecruitCard extends Card{
 
@@ -50,6 +53,8 @@ public class RecruitCard extends Card{
 	
 	public void Action(Culture player)
 	{
-		
+		RecruitScreen rScreen = new RecruitScreen();
+		rScreen.Init(player, maxRecruitNum, GlobalDef.Races.Egypt);
+		Stage.pushScene(rScreen);
 	}
 }

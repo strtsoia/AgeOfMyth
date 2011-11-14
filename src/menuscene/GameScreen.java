@@ -34,7 +34,7 @@ public class GameScreen extends Scene2D{
 	Culture c;
 	public void load()
 	{
-		board = new ImageSprite("GreekBoard.jpg", 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
+		board = new ImageSprite("EgyptBoard.jpg", 0, 0, Stage.getWidth()*3/4, Stage.getHeight());
 		add(board);
 		
 		/* beginning to initialize building pic */
@@ -48,7 +48,7 @@ public class GameScreen extends Scene2D{
 		productionTileImg = production[1].split(4,5);
 		
 		Bank.getInstance();
-		c = new Culture(GlobalDef.Races.Greek);
+		c = new Culture(GlobalDef.Races.Egypt);
 		
 	}
 	
@@ -74,7 +74,7 @@ public class GameScreen extends Scene2D{
 				}
 			}
 		
-		// update production area 
+		// update production area of player
 		Iterator<ImageSprite> pIter = pList.iterator();
 		while(pIter.hasNext())
 			remove(pIter.next()); 
@@ -113,7 +113,7 @@ public class GameScreen extends Scene2D{
 			ExploreCard.GetInstance().Action(c);
 		}
 		
-		if(Input.isPressed(Input.KEY_CAPS_LOCK))
+		if(Input.isPressed(Input.KEY_0))
 		{
 			RecruitCard.GetInstance().Action(c);
 		}
