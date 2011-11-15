@@ -1,6 +1,7 @@
 package menuscene;
 
 import global.GlobalDef;
+import actioncard.AttackCard;
 import actioncard.BuildingCard;
 import actioncard.ExploreCard;
 import actioncard.GatherCard;
@@ -46,17 +47,18 @@ public class GameScreen extends Scene2D{
 		// initialize bank
 		Bank.getInstance();
 		
-		numOfPlayers = 2;
+		numOfPlayers = 3;
 		player = new Culture[numOfPlayers];
 		/*playerRace = CultureScreen.getPlayerCulture();
 		// create each players
 		for(int i = 0; i < numOfPlayers; i++)
 		{
-			player[i] = new Culture(playerRace[i]);
+			player[i] = new Culture(playerRace[i], i);
 		}*/
 		
-		player[0] = new Culture(GlobalDef.Races.Egypt);
-		player[1] = new Culture(GlobalDef.Races.Greek);
+		player[0] = new Culture(GlobalDef.Races.Egypt,0);
+		player[1] = new Culture(GlobalDef.Races.Greek, 1);
+		player[2] = new Culture(GlobalDef.Races.Egypt, 2);
 		
 		if(player[index].getRace() == GlobalDef.Races.Greek)
 			strBoardType = "GreekBoard.jpg";
@@ -162,11 +164,19 @@ public class GameScreen extends Scene2D{
 			index = index % numOfPlayers;
 		}
 		
-		
+		if(Input.isPressed(Input.KEY_F1))
+		{
+			AttackCard.GetInstance().Action(player[index]);
+		}
 	}
 
 	public static int getNumOfPlayers() {
 		return numOfPlayers;
 	}
+
+	public Culture[] getPlayer() {
+		return player;
+	}
+
 
 }

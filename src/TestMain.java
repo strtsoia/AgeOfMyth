@@ -14,7 +14,7 @@ public class TestMain {
 
 	public static void main(String args[])
 	{
-		Bank.getInstance();
+		/*Bank.getInstance();
 		Culture c = new Culture(GlobalDef.Races.Egypt);
 		BuildingCard.GetInstance().Action(c);
 		Hashtable<GlobalDef.Resources, Integer> h = c.getGameBoard().getHoldResource();
@@ -28,7 +28,7 @@ public class TestMain {
 		while(iter.hasNext()){
 			GlobalDef.Resources bc = iter.next();
 			System.out.println(bc + ":  " + h.get(bc));
-		}
+		}*/
 		// end of test bank initialization
 	}
 }

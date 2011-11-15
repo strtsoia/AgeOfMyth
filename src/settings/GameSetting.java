@@ -21,8 +21,8 @@ public class GameSetting {
 		
 		// Initialize Bank
 		Bank.getInstance();
-		for(int index = 0; index < numOfPlayer; index++)
-			players[index] = new Culture(playerCulture[index]);
+		/*for(int index = 0; index < numOfPlayer; index++)
+			players[index] = new Culture(playerCulture[index]);*/
 		
 		/*****************************************************************************/
 		/*// print out information for each plaery's initial resource

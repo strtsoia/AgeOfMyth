@@ -18,6 +18,18 @@ public class Culture {
 	private GlobalDef.Age currentAge;
 	private GlobalDef.Races race;
 	
+	private int playerID;
+	
+	
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
+	}
+
+
 	public GlobalDef.Age getCurrentAge() {
 		return currentAge;
 	}
@@ -43,7 +55,7 @@ public class Culture {
 	}
 
 
-	public Culture(GlobalDef.Races r)
+	public Culture(GlobalDef.Races r, int id)
 	{
 		b_build.put(Armory.GetInstance(), false);
 		b_build.put(Garnary.GetInstance(), false);
@@ -65,6 +77,7 @@ public class Culture {
 		InitialPermanentPool();
 		gameBoard = new Board(r, this);
 		race = r;
+		playerID = id;
 	}
 	
 	

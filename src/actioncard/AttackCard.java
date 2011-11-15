@@ -1,6 +1,8 @@
 package actioncard;
 
+import pulpcore.Stage;
 import component.Culture;
+import menuscene.PreBattleScreen;
 
 public class AttackCard extends Card{
 
@@ -31,6 +33,8 @@ public class AttackCard extends Card{
 	
 	public void Action(Culture player)
 	{
-		
+		PreBattleScreen pBattle = new PreBattleScreen();
+		pBattle.Init(player);
+		Stage.pushScene(pBattle);
 	}
 }

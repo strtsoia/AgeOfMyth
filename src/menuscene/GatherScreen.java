@@ -181,18 +181,25 @@ public class GatherScreen extends Scene2D{
 	@Override
     public void update(int elapsedTime) 
 	{
-		if(byRes.isMousePressed() && totalTerrainType != 0 && totalresType != 0)
+		if(!finish)
 		{
-			status = 1;
-			load();		
+			if(byRes.isMousePressed() && totalTerrainType != 0 && totalresType != 0)
+			{
+				status = 1;
+				load();		
+			}
 		}
 		
-		if(byTerrain.isMousePressed() && totalresType != 0 && totalTerrainType != 0)
+		if(!finish)
 		{
-			status = 2;
-			load();
-			
+			if(byTerrain.isMousePressed() && totalresType != 0 && totalTerrainType != 0)
+			{
+				status = 2;
+				load();
+				
+			}
 		}
+		
 		
 		if(status == 1)
 		{
