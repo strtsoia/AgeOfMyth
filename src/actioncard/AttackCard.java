@@ -26,11 +26,6 @@ public class AttackCard extends Card{
 		return attackCard;
 	}
 	
-	public boolean isRandom()
-	{
-		return false;
-	}
-	
 	public void Action(Culture player)
 	{
 		PreBattleScreen pBattle = new PreBattleScreen();

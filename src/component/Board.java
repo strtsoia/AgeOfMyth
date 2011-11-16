@@ -29,48 +29,35 @@ public class Board {
 	private int numOfVillager;
 	private Culture player;
 	
-	public void setCityOccupied(int[][] cityOccupied) {
-		this.cityOccupied = cityOccupied;
-	}
-	
-	
 	public int[][] getCityOccupied() {
 		return cityOccupied;
 	}
 
-	
 	public int[][] getProductionOccupied() {
 		return productionOccupied;
 	}
-
-
-	public void setProductionOccupied(int[][] productionOccupied) {
-		this.productionOccupied = productionOccupied;
-	}
-
 
 	public int getNumOfVillager() {
 		return numOfVillager;
 	}
 	
-	public void setNumOfVillager(int numOfVillager) {
-		this.numOfVillager = numOfVillager;
+	public void setNumOfVillager(int number)
+	{
+		numOfVillager = number;
 	}
-
+	
 	public Hashtable<GlobalDef.Resources, Integer> getHoldResource() {
 		return holdResource;
 	}
 
-	public void setHoldResource(Hashtable<GlobalDef.Resources, Integer> holdResource) {
-		this.holdResource = holdResource;
-	}
-	
-	
 	public Hashtable<BattleCard, Integer> getUnitsPool() {
 		return unitsPool;
 	}
-	
-	
+		
+	public Hashtable<BattleCard, Integer> getHoldingUnits() {
+		return holdingUnits;
+	}
+
 	// constructor
 	public Board(GlobalDef.Races r, Culture c)
 	{

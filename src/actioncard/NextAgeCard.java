@@ -47,11 +47,6 @@ public class NextAgeCard extends Card{
 		return nextAgeCard;
 	}
 	
-	public boolean isRandom()
-	{
-		return false;
-	}
-
 	public void Action(Culture player)
 	{
 		if(player.getCurrentAge() == GlobalDef.Age.Ancient)

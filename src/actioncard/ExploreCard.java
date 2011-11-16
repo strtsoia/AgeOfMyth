@@ -27,11 +27,6 @@ public class ExploreCard extends Card{
 		return exploreCard;
 	}
 	
-	public boolean isRandom()
-	{
-		return false;
-	}
-	
 	public void Action(Culture player)
 	{
 		ExploreScreen eScreen = new ExploreScreen();

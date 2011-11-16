@@ -20,10 +20,6 @@ public class TradeCard extends Card{
 		return cost;
 	}
 
-	public void setCost(Hashtable<GlobalDef.Resources, Integer> cost) {
-		this.cost = cost;
-	}
-	
 	private TradeCard()
 	{
 		
@@ -38,11 +34,6 @@ public class TradeCard extends Card{
 		}
 		
 		return tradeCard;
-	}
-	
-	public boolean isRandom()
-	{
-		return false;
 	}
 	
 	public void Action(Culture player)

@@ -19,11 +19,6 @@ public class GatherCard extends Card{
 		return gatherCard;
 	}
 	
-	public boolean isRandom()
-	{
-		return false;
-	}
-	
 	public void Action(Culture player)
 	{
 		GatherScreen gScreen = new GatherScreen();

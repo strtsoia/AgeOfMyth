@@ -39,15 +39,6 @@ public class BuildingCard extends Card{
 	}
 
 	
-	public void setCost(Hashtable<GlobalDef.Resources, Integer> cost) {
-		this.cost = cost;
-	}
-	
-	public boolean isRandom()
-	{
-		return false;
-	}
-	
 	public void Action(Culture player)
 	{
 		

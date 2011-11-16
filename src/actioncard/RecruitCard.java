@@ -21,14 +21,6 @@ public class RecruitCard extends Card{
 		return cost;
 	}
 
-	public void setCost(Hashtable<GlobalDef.Resources, Integer> cost) {
-		this.cost = cost;
-	}
-
-	public int getMaxRecruitNum() {
-		return maxRecruitNum;
-	}
-	
 	private RecruitCard()
 	{
 		maxRecruitNum = 2;
@@ -43,11 +35,6 @@ public class RecruitCard extends Card{
 		}
 		
 		return recruitCard;
-	}
-	
-	public boolean isRandom()
-	{
-		return false;
 	}
 	
 	public void Action(Culture player)
