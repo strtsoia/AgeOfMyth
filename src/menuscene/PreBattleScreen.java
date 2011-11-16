@@ -188,7 +188,6 @@ public class PreBattleScreen extends Scene2D{
 			for(int index = 0; index < avaUnitsID.size(); index++)
 			{
 				int ID = avaUnitsID.get(index);
-				System.out.println(ID);
 				int row = ID / 4; int col = ID % 4;
 				CoreImage[] img = new CoreImage[]{attackerBattleCardImg[row * 12 + col], attackerBattleCardImg[row * 12 + col + 4],
 						attackerBattleCardImg[row * 12 + col + 8]};
