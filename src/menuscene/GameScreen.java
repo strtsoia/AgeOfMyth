@@ -35,7 +35,7 @@ public class GameScreen extends Scene2D{
 	
 	//Culture c;
 
-	Culture[] player;
+	private static Culture[] player;
 	int index;
 	private static int numOfPlayers;
 	String strBoardType;
@@ -47,7 +47,7 @@ public class GameScreen extends Scene2D{
 		// initialize bank
 		Bank.getInstance();
 		
-		numOfPlayers = 3;
+		numOfPlayers = 2;
 		player = new Culture[numOfPlayers];
 		/*playerRace = CultureScreen.getPlayerCulture();
 		// create each players
@@ -58,7 +58,7 @@ public class GameScreen extends Scene2D{
 		
 		player[0] = new Culture(GlobalDef.Races.Egypt,0);
 		player[1] = new Culture(GlobalDef.Races.Greek, 1);
-		player[2] = new Culture(GlobalDef.Races.Egypt, 2);
+		 
 		
 		if(player[index].getRace() == GlobalDef.Races.Greek)
 			strBoardType = "GreekBoard.jpg";
@@ -174,7 +174,7 @@ public class GameScreen extends Scene2D{
 		return numOfPlayers;
 	}
 
-	public Culture[] getPlayer() {
+	public static Culture[] getPlayer() {
 		return player;
 	}
 
