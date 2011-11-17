@@ -13,10 +13,12 @@ import pulpcore.sprite.ImageSprite;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
+import pulpcore.animation.Timeline;
 
 public class BattleScreen extends Scene2D{
 
 	ImageSprite background;
+	ImageSprite showDice;
 	ArrayList<Integer> attackUnits;	// actual attacker units
 	ArrayList<Integer> defenderUnits;	// actual defender units
 	CoreImage[] attackerBattleCardImg;
@@ -34,6 +36,8 @@ public class BattleScreen extends Scene2D{
 	boolean attackTurn;
 	boolean defenderTurn;
 	boolean battleRound;
+	
+	Timeline timeline;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -116,7 +120,8 @@ public class BattleScreen extends Scene2D{
 			String loadImg = "/dices/" + (i + 1) + ".png";
 			dices[i] = new ImageSprite(loadImg, (800 - 65) / 2, (600 - 65) /2);
 		}
-		add(dices[0]);
+		showDice = dices[0];
+		add(showDice);
 	}
 	
 	@Override
@@ -154,6 +159,17 @@ public class BattleScreen extends Scene2D{
 			}
 		}
 		
+		// animation roll dice
+		if(battleRound){
+			remove(showDice);
+			Random r = new Random();
+			int number = r.nextInt(6);
+			showDice = dices[number];
+			add(showDice);
+		}
+		if(showDice.isMouseDown()){
+			battleRound = false;
+		}	
 	}
 	
 	// check proper battle card for proper culture
