@@ -52,8 +52,10 @@ public class PreBattleScreen extends Scene2D{
 	ArrayList<Button> defenderUnitBtn;
 	Hashtable<Button, Integer> attackerBtnMapUnitID;
 	Hashtable<Button, Integer> defenderBtnMapUnitID;
-	ArrayList<BattleCard> attackerUnits;	// actual battlecard selected by attacker
-	ArrayList<BattleCard> defenderUnits;	// actual battlecard selected by defender
+	static ArrayList<BattleCard> attackerUnits;	// actual battlecard selected by attacker
+	static ArrayList<BattleCard> defenderUnits;	// actual battlecard selected by defender
+	static ArrayList<Integer> attackerUnitsID;	// ID of units selected to engage battle
+	static ArrayList<Integer> defenderUnitsID;
 	
 	public void Init(Culture culture, int maxUnit)
 	{
@@ -72,6 +74,8 @@ public class PreBattleScreen extends Scene2D{
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
 		attackerUnits = new ArrayList<BattleCard>();
 		defenderUnits = new ArrayList<BattleCard>();
+		attackerUnitsID = new ArrayList<Integer>();
+		defenderUnitsID = new ArrayList<Integer>();
 		players = GameScreen.getPlayer();
 	}
 	
@@ -395,8 +399,9 @@ public class PreBattleScreen extends Scene2D{
 					for(int index = 0; index < attackUnitBtn.size(); index++)
 					{
 						if(attackUnitBtn.get(index).isClicked())
-						{System.out.println("one");
+						{
 							int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
+							attackerUnitsID.add(ID);
 							Hashtable<Integer, BattleCard> table = getUnitMap(player.getRace());
 						
 							BattleCard bCard = table.get(ID);	// which unit select
@@ -447,6 +452,7 @@ public class PreBattleScreen extends Scene2D{
 					{
 						if(defenderUnitBtn.get(index).isClicked()){System.out.println("two");
 							int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+							defenderUnitsID.add(ID);
 							Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent].getRace());
 							
 							BattleCard bCard = table.get(ID);
@@ -466,22 +472,9 @@ public class PreBattleScreen extends Scene2D{
 					}
 				}
 			}else if(bothFinish){
-				// disable all unit selection
-				for(int index = 0; index < attackUnitBtn.size(); index++)
-				{
-					int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
-					int row = ID / 4; int col = ID % 4;
-					attackUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
-				}
-				
-				for(int index = 0; index < defenderUnitBtn.size(); index++)
-				{
-					int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
-					int row = ID / 4; int col = ID % 4;
-					defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
-				}
-				
+				// then go to battle screen	
 				BattleScreen bScreen = new BattleScreen();
+				bScreen.Init(player, players[opponent]);
 				Stage.replaceScene(bScreen);
 				
 			}
@@ -489,8 +482,6 @@ public class PreBattleScreen extends Scene2D{
 		}
 		
 	}
-	
-	
 	
 	// check proper battle card for proper culture
 	private Hashtable<Integer, BattleCard> getUnitMap(GlobalDef.Races race)
@@ -523,13 +514,21 @@ public class PreBattleScreen extends Scene2D{
 	}
 	
 	// return units engage in war on attacker side
-	public ArrayList<BattleCard> getAttackerUnits() {
+	public static ArrayList<BattleCard> getAttackerUnits() {
 		return attackerUnits;
 	}
 	
 	// return units engage in war on defender side
-	public ArrayList<BattleCard> getDefenderUnits() {
+	public static ArrayList<BattleCard> getDefenderUnits() {
 		return defenderUnits;
+	}
+
+	public static ArrayList<Integer> getAttackerUnitsID() {
+		return attackerUnitsID;
+	}
+
+	public static ArrayList<Integer> getDefenderUnitsID() {
+		return defenderUnitsID;
 	}
 
 }
