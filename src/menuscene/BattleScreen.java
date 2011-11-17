@@ -21,7 +21,7 @@ public class BattleScreen extends Scene2D{
 	ArrayList<Integer> defenderUnits;	// actual defender units
 	CoreImage[] attackerBattleCardImg;
 	CoreImage[] defenderBattleCardImg;
-	
+	ImageSprite[] dices;
 	Group attackerGroup;
 	Group defenderGroup;
 	ArrayList<Button> attackerUnitBtn;
@@ -32,6 +32,8 @@ public class BattleScreen extends Scene2D{
 	Culture defender;
 	
 	boolean attackTurn;
+	boolean defenderTurn;
+	boolean battleRound;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -40,8 +42,11 @@ public class BattleScreen extends Scene2D{
 		attacker = att;
 		defender = def;
 		attackTurn = true;
+		defenderTurn = false;
+		battleRound = false;
 		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
+		dices = new ImageSprite[6];
 	}
 	
 	public void load()
@@ -78,7 +83,7 @@ public class BattleScreen extends Scene2D{
 		add(attackerGroup);
 		
 		// defender side
-		defenderGroup = new Group(575, 0, 325, Stage.getHeight());
+		defenderGroup = new Group(475, 0, 325, Stage.getHeight());
 		String defenderLoadImg = "/battlecard/" + getProperImg(defender.getRace());
 		defenderBattleCardImg = CoreImage.load(defenderLoadImg).split(12, 3);
 		defenderUnitBtn = new ArrayList<Button>();
@@ -100,11 +105,18 @@ public class BattleScreen extends Scene2D{
 		{
 			int row = index / 3; int col = index % 3;
 			Button btn = defenderUnitBtn.get(index);
-			btn.setLocation(col * 75, row * 125);
+			btn.setLocation(col * 75 + 100, row * 125);
 			defenderGroup.add(btn);
 		}
 		
 		add(defenderGroup);
+		
+		// load dice img
+		for(int i = 0; i < 6; i++){
+			String loadImg = "/dices/" + (i + 1) + ".png";
+			dices[i] = new ImageSprite(loadImg, (800 - 65) / 2, (600 - 65) /2);
+		}
+		add(dices[0]);
 	}
 	
 	@Override
@@ -115,7 +127,6 @@ public class BattleScreen extends Scene2D{
 			{
 				if(attackerUnitBtn.get(index).isClicked())
 				{
-					System.out.println(attackerBtnMapUnitID.get(attackerUnitBtn.get(index)));
 					int ID = attackerBtnMapUnitID.get(attackerUnitBtn.get(index));
 					// disable chosen button
 					int row = ID / 4; int col = ID % 4;
@@ -123,9 +134,26 @@ public class BattleScreen extends Scene2D{
 					// put select card to front desk
 					ImageSprite img = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
 					attackerGroup.add(img);
+					attackTurn = false;
+					defenderTurn = true;
+				}
+			}
+		}else if(defenderTurn){
+			for(int index = 0; index < defenderUnitBtn.size(); index++)
+			{
+				if(defenderUnitBtn.get(index).isClicked())
+				{
+					int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+					System.out.println(ID);
+					int row = ID / 4; int col = ID % 4;
+					defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
+					ImageSprite img = new ImageSprite(defenderBattleCardImg[row * 12 + col], 0, 225);
+					defenderGroup.add(img);
+					battleRound = true;
 				}
 			}
 		}
+		
 	}
 	
 	// check proper battle card for proper culture
