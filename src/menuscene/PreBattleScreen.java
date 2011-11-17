@@ -21,35 +21,57 @@ public class PreBattleScreen extends Scene2D{
 	Label message;
 	Label choosePlayer1;
 	Label choosePlayer2;
+	Label attackOK;
+	Label defenderOK;
 	CoreImage[] cityImg;
 	CoreImage[] productionImg;
 	CoreImage[] holdingImg;
 	Button cityButton;
 	Button productionButton;
 	Button holdingButton;
+	Label beginBattle;
 	int leftPlayerIndex;
 	int rightPlayerIndex;
 	int opponent;
-	
+	int attAddUnits;
+	int defAddUnits;
+	int maxUnits;
+
 	Culture player;
 	Culture[] players;
 	Group selectPlayerGroup;
 	boolean single; // whether only one player can select
 	boolean finish;
 	boolean showFirstLayer; // change attack player, attack area
-	
+	boolean attackSideChoice;
+	boolean defenderSideChoice;
+	boolean bothFinish;
 	CoreImage[] attackerBattleCardImg;
 	CoreImage[] defenderBattleCardImg;
 	ArrayList<Button> attackUnitBtn;
 	ArrayList<Button> defenderUnitBtn;
+	Hashtable<Button, Integer> attackerBtnMapUnitID;
+	Hashtable<Button, Integer> defenderBtnMapUnitID;
+	ArrayList<BattleCard> attackerUnits;	// actual battlecard selected by attacker
+	ArrayList<BattleCard> defenderUnits;	// actual battlecard selected by defender
 	
-	public void Init(Culture culture)
+	public void Init(Culture culture, int maxUnit)
 	{
 		player = culture;
+		attAddUnits = 0;
+		defAddUnits = 0;
+		maxUnits = maxUnit;
 		finish = false;
+		attackSideChoice = true;
+		defenderSideChoice = false;
+		bothFinish = false;
 		showFirstLayer = true;
 		attackUnitBtn = new ArrayList<Button>();
 		defenderUnitBtn = new ArrayList<Button>();
+		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
+		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
+		attackerUnits = new ArrayList<BattleCard>();
+		defenderUnits = new ArrayList<BattleCard>();
 		players = GameScreen.getPlayer();
 	}
 	
@@ -105,7 +127,7 @@ public class PreBattleScreen extends Scene2D{
 				single = false;
 			}
 			
-			if(finish)
+			if(finish && !bothFinish)
 			{
 				Label attackArea = new Label("Choose which area you would attack", 0, 0);
 				attackArea.setLocation( (350 - attackArea.width.get()) / 2, 75);
@@ -193,6 +215,7 @@ public class PreBattleScreen extends Scene2D{
 						attackerBattleCardImg[row * 12 + col + 8]};
 				Button btn = new Button(img, 0, 0);
 				btn.setSize(50, 75);
+				attackerBtnMapUnitID.put(btn, ID);
 				attackUnitBtn.add(btn);
 			}
 			
@@ -205,6 +228,9 @@ public class PreBattleScreen extends Scene2D{
 				attackGroup.add(btn);
 			}
 			
+			attackOK = new Label("OK", 0, 0);
+			attackOK.setLocation((150 - attackOK.width.get()) / 2, 350);
+			attackGroup.add(attackOK);
 			add(attackGroup);
 		 
 			// defender part
@@ -247,6 +273,7 @@ public class PreBattleScreen extends Scene2D{
 						defenderBattleCardImg[row * 12 + col + 8]};
 				Button btn = new Button(img, 0, 0);
 				btn.setSize(50, 75);
+				defenderBtnMapUnitID.put(btn, ID);
 				defenderUnitBtn.add(btn);
 			}
 			
@@ -259,16 +286,19 @@ public class PreBattleScreen extends Scene2D{
 				defenderGroup.add(btn);
 			}
 			
+			defenderOK = new Label("OK", 0, 0);
+			defenderOK.setLocation((150 - defenderOK.width.get()) / 2, 350);
+			defenderGroup.add(defenderOK);
 			add(defenderGroup);
+			
+			if(bothFinish){
+				System.out.println("finish");
+				beginBattle = new Label("Begin Battle", 0, 0);
+				Group beginForm = new Group( (350 - beginBattle.width.get())/2, 375);
+				beginForm.add(beginBattle);
+				add(beginForm);
+			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 	
@@ -320,6 +350,138 @@ public class PreBattleScreen extends Scene2D{
 				load();
 				
 			}
+		}
+		
+		// unit selection layer
+		if(!showFirstLayer)
+		{
+			if(attackOK.isMouseDown()){
+				defenderSideChoice = true;
+				attackSideChoice = false;
+			}
+			if(defenderOK.isMouseDown()){
+				defenderSideChoice = false;
+				bothFinish = true;
+			}
+			
+			// both player not finish unit selction
+			if(!bothFinish){
+				// update drawing part for attack side
+				if(defenderSideChoice)
+				{	
+					// attacker finish select battlecard, then disable all buttons
+					for(int index = 0; index < attackUnitBtn.size(); index++)
+					{
+						int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
+						int row = ID / 4; int col = ID % 4;
+						attackUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
+					}
+				}else{ // some type of units may be not available, then disable this button
+					for(int index = 0; index < attackUnitBtn.size(); index++)
+					{
+						int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
+						int row = ID / 4; int col = ID % 4;
+						Hashtable<Integer, BattleCard> table = getUnitMap(player.getRace());
+						BattleCard bCard = table.get(ID);
+						// whether this type of units available
+						if(player.getGameBoard().getHoldingUnits().get(bCard) == 0)
+							attackUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
+					}
+				}
+				// background operation of attacker side
+				if(attackSideChoice && attAddUnits < maxUnits)
+				{
+					for(int index = 0; index < attackUnitBtn.size(); index++)
+					{
+						if(attackUnitBtn.get(index).isClicked())
+						{
+							int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
+							Hashtable<Integer, BattleCard> table = getUnitMap(player.getRace());
+						
+							BattleCard bCard = table.get(ID);	// which unit select
+							Hashtable<BattleCard, Integer> unitTable = player.getGameBoard().getHoldingUnits();
+							int number = unitTable.get(bCard);
+							if(number > 0){
+								number--;
+								unitTable.put(bCard, number);
+								player.getGameBoard().setHoldingUnits(unitTable);
+								attackerUnits.add(table.get(ID));
+								attAddUnits++;
+							}
+						}
+					}
+					if(attAddUnits == maxUnits){
+						attackSideChoice = false;
+						defenderSideChoice = true;
+					}
+				}
+				
+				// update drawing part for defender side
+				if(bothFinish)
+				{	
+					// defender finish select battlecard, then disable all buttons
+					for(int index = 0; index < defenderUnitBtn.size(); index++)
+					{
+						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+						int row = ID / 4; int col = ID % 4;
+						defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
+					}
+				}else{ // some type of units may be not available, then disable this button
+					for(int index = 0; index < defenderUnitBtn.size(); index++)
+					{
+						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+						int row = ID / 4; int col = ID % 4;
+						Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent].getRace());
+						BattleCard bCard = table.get(ID);
+						// whether this type of units available
+						if(players[opponent].getGameBoard().getHoldingUnits().get(bCard) == 0)
+							defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
+					}
+				}
+			
+				// background operation of defender side
+				if(defenderSideChoice && defAddUnits < maxUnits)
+				{
+					for(int index = 0; index < defenderUnitBtn.size(); index++)
+					{
+						if(defenderUnitBtn.get(index).isClicked()){
+							int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+							Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent].getRace());
+							
+							BattleCard bCard = table.get(ID);
+							Hashtable<BattleCard, Integer> unitTable = players[opponent].getGameBoard().getHoldingUnits();
+							int number = unitTable.get(bCard);
+							if(number > 0){
+								number--;
+								unitTable.put(bCard, number);
+								players[opponent].getGameBoard().setHoldingUnits(unitTable);			
+								defAddUnits++;
+								defenderUnits.add(table.get(ID));
+							}
+						}
+					}
+					if(defAddUnits == maxUnits){
+						bothFinish = true;
+					}
+				}
+			}else if(bothFinish){
+				// disable all unit selection
+				for(int index = 0; index < attackUnitBtn.size(); index++)
+				{
+					int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
+					int row = ID / 4; int col = ID % 4;
+					attackUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
+				}
+				
+				for(int index = 0; index < defenderUnitBtn.size(); index++)
+				{
+					int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+					int row = ID / 4; int col = ID % 4;
+					defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
+				}
+				
+			}
+			
 		}
 		
 	}

@@ -29,7 +29,7 @@ public class AttackCard extends Card{
 	public void Action(Culture player)
 	{
 		PreBattleScreen pBattle = new PreBattleScreen();
-		pBattle.Init(player);
+		pBattle.Init(player, numOfUnits);
 		Stage.pushScene(pBattle);
 	}
 }

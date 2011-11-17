@@ -57,6 +57,11 @@ public class Board {
 	public Hashtable<BattleCard, Integer> getHoldingUnits() {
 		return holdingUnits;
 	}
+	
+	
+	public void setHoldingUnits(Hashtable<BattleCard, Integer> holdingUnits) {
+		this.holdingUnits = holdingUnits;
+	}
 
 	// constructor
 	public Board(GlobalDef.Races r, Culture c)
