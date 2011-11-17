@@ -291,13 +291,13 @@ public class PreBattleScreen extends Scene2D{
 			defenderGroup.add(defenderOK);
 			add(defenderGroup);
 			
-			if(bothFinish){
+			/*if(bothFinish){
 				System.out.println("finish");
 				beginBattle = new Label("Begin Battle", 0, 0);
 				Group beginForm = new Group( (350 - beginBattle.width.get())/2, 375);
 				beginForm.add(beginBattle);
 				add(beginForm);
-			}
+			}*/
 		}
 		
 	}

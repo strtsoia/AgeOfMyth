@@ -321,7 +321,8 @@ public class Board {
 	{
 		int num = unitsPool.get(unit);
 		unitsPool.put(unit, num - 1);
-		holdingUnits.put(unit, num + 1);
+		int hNum = holdingUnits.get(unit);
+		holdingUnits.put(unit, hNum + 1);
 	}
 	
 	public void RemoveBuilding(int row, int col)
