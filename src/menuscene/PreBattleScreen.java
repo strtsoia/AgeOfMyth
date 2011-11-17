@@ -394,7 +394,7 @@ public class PreBattleScreen extends Scene2D{
 					for(int index = 0; index < attackUnitBtn.size(); index++)
 					{
 						if(attackUnitBtn.get(index).isClicked())
-						{
+						{System.out.println("one");
 							int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
 							Hashtable<Integer, BattleCard> table = getUnitMap(player.getRace());
 						
@@ -444,7 +444,7 @@ public class PreBattleScreen extends Scene2D{
 				{
 					for(int index = 0; index < defenderUnitBtn.size(); index++)
 					{
-						if(defenderUnitBtn.get(index).isClicked()){
+						if(defenderUnitBtn.get(index).isClicked()){System.out.println("two");
 							int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
 							Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent].getRace());
 							
@@ -517,4 +517,15 @@ public class PreBattleScreen extends Scene2D{
 		
 		return strBattleCard;
 	}
+	
+	// return units engage in war on attacker side
+	public ArrayList<BattleCard> getAttackerUnits() {
+		return attackerUnits;
+	}
+	
+	// return units engage in war on defender side
+	public ArrayList<BattleCard> getDefenderUnits() {
+		return defenderUnits;
+	}
+
 }
