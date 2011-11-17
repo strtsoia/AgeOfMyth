@@ -7,11 +7,10 @@ import java.util.*;
 import battlecard.*;
 import component.Culture;
 
-import pulpcore.Input;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
-import pulpcore.scene.Scene2D;
 import pulpcore.sprite.ImageSprite;
+import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
 
@@ -27,8 +26,12 @@ public class BattleScreen extends Scene2D{
 	Group defenderGroup;
 	ArrayList<Button> attackerUnitBtn;
 	ArrayList<Button> defenderUnitBtn;
+	Hashtable<Button, Integer> attackerBtnMapUnitID;
+	Hashtable<Button, Integer> defenderBtnMapUnitID;
 	Culture attacker;
 	Culture defender;
+	
+	boolean attackTurn;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -36,6 +39,9 @@ public class BattleScreen extends Scene2D{
 		defenderUnits = PreBattleScreen.getDefenderUnitsID();
 		attacker = att;
 		defender = def;
+		attackTurn = true;
+		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
+		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
 	}
 	
 	public void load()
@@ -57,6 +63,7 @@ public class BattleScreen extends Scene2D{
 			Button btn = new Button(img, 0, 0);
 			btn.setSize(75, 125);
 			attackerUnitBtn.add(btn);
+			attackerBtnMapUnitID.put(btn, ID);
 		}
 		
 		// show the battle unit in screen
@@ -85,6 +92,7 @@ public class BattleScreen extends Scene2D{
 			Button btn = new Button(img, 0, 0);
 			btn.setSize(75, 125);
 			defenderUnitBtn.add(btn);
+			defenderBtnMapUnitID.put(btn, ID);
 		}
 		
 		// show the battle unit in screen
@@ -102,8 +110,22 @@ public class BattleScreen extends Scene2D{
 	@Override
     public void update(int elapsedTime) 
 	{
-		if(Input.isMouseDown())
-			Stage.popScene();
+		if(attackTurn){
+			for(int index = 0; index < attackerUnitBtn.size(); index++)
+			{
+				if(attackerUnitBtn.get(index).isClicked())
+				{
+					System.out.println(attackerBtnMapUnitID.get(attackerUnitBtn.get(index)));
+					int ID = attackerBtnMapUnitID.get(attackerUnitBtn.get(index));
+					// disable chosen button
+					int row = ID / 4; int col = ID % 4;
+					attackerUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
+					// put select card to front desk
+					ImageSprite img = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
+					attackerGroup.add(img);
+				}
+			}
+		}
 	}
 	
 	// check proper battle card for proper culture
