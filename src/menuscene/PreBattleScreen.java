@@ -358,6 +358,7 @@ public class PreBattleScreen extends Scene2D{
 			if(attackOK.isMouseDown()){
 				defenderSideChoice = true;
 				attackSideChoice = false;
+				
 			}
 			if(defenderOK.isMouseDown()){
 				defenderSideChoice = false;
@@ -479,6 +480,9 @@ public class PreBattleScreen extends Scene2D{
 					int row = ID / 4; int col = ID % 4;
 					defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
 				}
+				
+				BattleScreen bScreen = new BattleScreen();
+				Stage.replaceScene(bScreen);
 				
 			}
 			
