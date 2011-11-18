@@ -58,6 +58,7 @@ public class BattleScreen extends Scene2D{
 	Label attackSixLabel;
 	Label defenderSixLabel;
 	Label nextRound;
+	Label rollAgain;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -160,6 +161,16 @@ public class BattleScreen extends Scene2D{
 		attackSixLabel = new Label("", 0, 50);
 		defenderSixLabel = new Label("", 0, 450);
 		nextRound = new Label("", 0, 575);
+		rollAgain = new Label("", 0, 575);
+		
+		if(this.attackUnits.size() == 0 || this.defenderUnits.size() == 0)
+		{
+			for(int i = 0; i < this.attackUnits.size(); i++)
+				attacker.getGameBoard().PlaceUnit(this.getUnitMap(attacker.getRace()).get(this.attackUnits.get(i)));
+			for(int i = 0; i < this.defenderUnits.size(); i++)
+				defender.getGameBoard().PlaceUnit(this.getUnitMap(defender.getRace()).get(this.defenderUnits.get(i)));
+			Stage.popScene();
+		}
 	}
 	
 	@Override
@@ -312,7 +323,7 @@ public class BattleScreen extends Scene2D{
 				// remove units
 				for(int index = 0; index < defenderUnits.size(); index++){
 					if(currDefenderUnit == defenderUnits.get(index)){
-						defenderUnits.remove(index);
+						defenderUnits.remove(index); // update in screen
 						determinWinner = true;
 						break;
 					}
@@ -334,15 +345,35 @@ public class BattleScreen extends Scene2D{
 				nextRound.setText("Next Round");
 				nextRound.setLocation((150 - nextRound.width.get()) / 2, 575);
 				middleGroup.add(nextRound);
+			}else if(attNumOfSixs == defNumOfSixs && !determinWinner)
+			{
+				rollAgain.setText("Tie, Roll Again");
+				rollAgain.setLocation((150 - rollAgain.width.get()) / 2, 575);
+				middleGroup.add(rollAgain);
 			}
 			
 			if(!attackTurn && !defenderTurn){
-				 
+				
+				if(rollAgain.isMousePressed()){
+					middleGroup.remove(attackSixLabel);
+					middleGroup.remove(defenderSixLabel);
+					middleGroup.remove(rollAgain);
+					// initialize parameters for next round
+					attackTurn = true;
+					defenderTurn = false;
+					battleRound = true;
+					attackDiceTurn = true;
+					defenderDiceTurn = false;
+					finishRound = false;
+					rollDice = true;
+					determinWinner = false;
+				}
 				
 				if(nextRound.isMousePressed()){
 					attackerGroup.remove(attackFimg);
 					defenderGroup.remove(defenderFimg);
 					middleGroup.remove(nextRound);
+					middleGroup.remove(rollAgain);
 					middleGroup.remove(showDice);
 					middleGroup.remove(attackerDicesNum);
 					middleGroup.remove(defenderDiceNum);

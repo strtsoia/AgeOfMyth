@@ -56,7 +56,7 @@ public class PreBattleScreen extends Scene2D{
 	static ArrayList<BattleCard> defenderUnits;	// actual battlecard selected by defender
 	static ArrayList<Integer> attackerUnitsID;	// ID of units selected to engage battle
 	static ArrayList<Integer> defenderUnitsID;
-	
+
 	public void Init(Culture culture, int maxUnit)
 	{
 		player = culture;
@@ -77,6 +77,7 @@ public class PreBattleScreen extends Scene2D{
 		attackerUnitsID = new ArrayList<Integer>();
 		defenderUnitsID = new ArrayList<Integer>();
 		players = GameScreen.getPlayer();
+		
 	}
 	
 	public void load()
@@ -408,9 +409,7 @@ public class PreBattleScreen extends Scene2D{
 							Hashtable<BattleCard, Integer> unitTable = player.getGameBoard().getHoldingUnits();
 							int number = unitTable.get(bCard);
 							if(number > 0){
-								number--;
-								unitTable.put(bCard, number);
-								player.getGameBoard().setHoldingUnits(unitTable);
+								player.getGameBoard().RemoveUnits(ID);
 								attackerUnits.add(table.get(ID));
 								attAddUnits++;
 							}
@@ -459,9 +458,7 @@ public class PreBattleScreen extends Scene2D{
 							Hashtable<BattleCard, Integer> unitTable = players[opponent].getGameBoard().getHoldingUnits();
 							int number = unitTable.get(bCard);
 							if(number > 0){
-								number--;
-								unitTable.put(bCard, number);
-								players[opponent].getGameBoard().setHoldingUnits(unitTable);			
+								players[opponent].getGameBoard().RemoveUnits(ID);			
 								defAddUnits++;
 								defenderUnits.add(table.get(ID));
 							}

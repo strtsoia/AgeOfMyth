@@ -313,7 +313,8 @@ public class Board {
 	{
 		int num = unitsPool.get(getUnitMap().get(ID));
 		unitsPool.put(getUnitMap().get(ID), num + 1);
-		holdingUnits.put(getUnitMap().get(ID), num - 1);
+		int hNum = holdingUnits.get(getUnitMap().get(ID));
+		holdingUnits.put(getUnitMap().get(ID), hNum - 1);
 		
 	}
 	
