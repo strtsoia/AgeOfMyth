@@ -8,12 +8,12 @@ import battlecard.*;
 import component.Culture;
 
 import pulpcore.Stage;
+import pulpcore.image.CoreFont;
 import pulpcore.image.CoreImage;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
-import pulpcore.animation.Timeline;
 import pulpcore.sprite.Label;
 
 public class BattleScreen extends Scene2D{
@@ -24,9 +24,10 @@ public class BattleScreen extends Scene2D{
 	ArrayList<Integer> defenderUnits;	// actual defender units
 	CoreImage[] attackerBattleCardImg;
 	CoreImage[] defenderBattleCardImg;
-	ImageSprite[] dices;
+	CoreImage[] dices;
 	Group attackerGroup;
 	Group defenderGroup;
+	Group middleGroup;
 	ArrayList<Button> attackerUnitBtn;
 	ArrayList<Button> defenderUnitBtn;
 	Hashtable<Button, Integer> attackerBtnMapUnitID;
@@ -40,11 +41,19 @@ public class BattleScreen extends Scene2D{
 	boolean defenderDiceTurn; // roll dice turn
 	boolean battleRound;
 	boolean finishRound;	// whether one round terminate
-	
+	boolean rollDice;
 	int currAttackUnit;
 	int currDefenderUnit;
 	
-	Timeline timeline;
+	ImageSprite attackFimg;
+	ImageSprite defenderFimg;
+	ImageSprite nextRound;
+	CoreFont messageFont;
+	
+	Label attackerDicesNum;
+	Label defenderDiceNum;
+	Label attackSixLabel;
+	Label defenderSixLabel;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -58,15 +67,17 @@ public class BattleScreen extends Scene2D{
 		attackDiceTurn = false;
 		defenderDiceTurn = false;
 		finishRound = false;
+		rollDice = false;
 		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
-		dices = new ImageSprite[6];
 	}
 	
 	public void load()
 	{
 		background = new ImageSprite("battlebackground.jpg", 0, 0, Stage.getWidth(), Stage.getHeight());
 		add(background);
+		
+		messageFont = CoreFont.load("/battle/complex.font.png");
 		
 		// attacker side
 		attackerGroup = new Group(0, 0, 325, Stage.getHeight());
@@ -125,13 +136,23 @@ public class BattleScreen extends Scene2D{
 		
 		add(defenderGroup);
 		
+		
+		middleGroup = new Group(325, 0, 150, 600);
+		dices = new CoreImage[6];
 		// load dice img
 		for(int i = 0; i < 6; i++){
 			String loadImg = "/dices/" + (i + 1) + ".png";
-			dices[i] = new ImageSprite(loadImg, (800 - 65) / 2, (600 - 65) /2);
+			dices[i] = CoreImage.load(loadImg);
 		}
-		showDice = dices[0];
-		add(showDice);
+		
+		showDice = new ImageSprite(dices[0], (150 - 65) / 2, (600 - 65) / 2, 65, 65);
+		nextRound = new ImageSprite("/battle/nextround.jpg", 0, 575, 150, 25);
+		add(middleGroup);
+		
+		attackerDicesNum = new Label("", 0, 0);
+		defenderDiceNum = new Label("", 0, 400);
+		attackSixLabel = new Label("", 0, 50);
+		defenderSixLabel = new Label("", 0, 450);
 	}
 	
 	@Override
@@ -149,8 +170,8 @@ public class BattleScreen extends Scene2D{
 						int row = ID / 4; int col = ID % 4;
 						attackerUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
 						// put select card to front desk
-						ImageSprite img = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
-						attackerGroup.add(img);
+						attackFimg = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
+						attackerGroup.add(attackFimg);
 						attackTurn = false;
 						defenderTurn = true;
 					}
@@ -164,27 +185,26 @@ public class BattleScreen extends Scene2D{
 						currDefenderUnit = ID;
 						int row = ID / 4; int col = ID % 4;
 						defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
-						ImageSprite img = new ImageSprite(defenderBattleCardImg[row * 12 + col], 0, 225);
-						defenderGroup.add(img);
+						defenderFimg = new ImageSprite(defenderBattleCardImg[row * 12 + col], 0, 225);
+						defenderGroup.add(defenderFimg);
 						battleRound = true;
 						attackDiceTurn = true;
+						rollDice = true;
 					}
 				}
 			}
 		}
 		
-		
 		// animation roll dice
-		if(battleRound){
-			remove(showDice);
+		if(battleRound && rollDice){
 			Random r = new Random();
 			int number = r.nextInt(6);
-			showDice = dices[number];
-			add(showDice);
+			showDice.setImage(dices[number]);
+			middleGroup.add(showDice);
 		}
 		
 		// get rolls player
-		if(battleRound)
+		if(battleRound && rollDice)
 		{
 			// update remaining card pic
 			for(int index = 0; index < attackerUnitBtn.size(); index++)
@@ -210,40 +230,96 @@ public class BattleScreen extends Scene2D{
 			
 			attackbc.CheckBonus(defenderbc);
 			int attackRolls = attackbc.getRolls();
-			Label attackMessage = new Label("Attacker has " + attackRolls + "dices",100,400);
-			add(attackMessage);
+			attackerDicesNum.setText("Attacker rolls dices: " + attackRolls);
+			middleGroup.add(attackerDicesNum);
 			
 			defenderbc.CheckBonus(attackbc);
 			int defenderRolls = defenderbc.getRolls();
-			Label defenderMessage = new Label("Defender has " + defenderRolls + "dices",600,400);
-			add(defenderMessage);
-					
+			defenderDiceNum.setText("Defender rolls dices: " + defenderRolls);
+			middleGroup.add(defenderDiceNum);
+			
+			int attackNumOfSixs = 0;
+			boolean attackRes = false;
+			int defenderNumOfSixs = 0;
+			boolean defenderRes = false;
+			
 			// attacker roll dice
 			if(attackDiceTurn)
 			{
+				// attacker roll the number of dices based on attackRolls
 				if(showDice.isMousePressed())
 				{
+					Random r = new Random();
+					for(int time = 0; time < attackRolls; time++)
+					{
+						int number = r.nextInt(6);
+						if( number == 5){
+							attackNumOfSixs++;
+						}
+					}
+					
 					defenderDiceTurn = true;
 					attackDiceTurn = false;
+					attackRes  = true;
 				}
+				
+				if(attackRes){
+					attackSixLabel.setText("attacker rolls " + attackNumOfSixs + " sixs");
+					middleGroup.add(attackSixLabel);
+				}
+				
 			}else if(defenderDiceTurn)
 			{
 				if(showDice.isMousePressed())
 				{
+					Random r = new Random();
+					for(int time = 0; time < defenderRolls; time++)
+					{
+						int number = r.nextInt(6);
+						if( number == 5){
+							defenderNumOfSixs++;
+						}
+					}
+					
 					defenderDiceTurn = false;
 					attackDiceTurn = true;
-					battleRound = false;
 					attackTurn = false;
 					defenderTurn = false;
+					defenderRes = true;
+					rollDice = false;
+				}
+				
+				if(defenderRes){
+					defenderSixLabel.setText("defender rolls " + defenderNumOfSixs + " sixs");
+					middleGroup.add(defenderSixLabel);
 				}
 			}
 		}
 		
 		// cal which side win
-		if(!battleRound){
-			if(showDice.isMousePressed()){
-			//	attackTurn = true;
-			//	defenderTurn = false;
+		if(battleRound && !rollDice){
+			middleGroup.add(nextRound);
+			if(!attackTurn && !defenderTurn){
+				 
+				
+				if(nextRound.isMousePressed()){
+					attackerGroup.remove(attackFimg);
+					defenderGroup.remove(defenderFimg);
+					middleGroup.remove(nextRound);
+					middleGroup.remove(showDice);
+					middleGroup.remove(attackerDicesNum);
+					middleGroup.remove(defenderDiceNum);
+					middleGroup.remove(attackSixLabel);
+					middleGroup.remove(defenderSixLabel);
+					
+					attackTurn = true;
+					defenderTurn = false;
+					battleRound = false;
+					attackDiceTurn = false;
+					defenderDiceTurn = false;
+					finishRound = false;
+					rollDice = false;
+				}
 			}
 		}	
 	}
