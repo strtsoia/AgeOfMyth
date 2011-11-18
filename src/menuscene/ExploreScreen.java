@@ -54,7 +54,6 @@ public class ExploreScreen extends Scene2D{
 			
 		for(int index = 0; index < numOfDraw; index++){
 			randomTile.add(tileID[index]);
-			System.out.println(tileID[index]);
 		}
 			
 		for(int row = 0; row < 5; row++)

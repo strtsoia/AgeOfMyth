@@ -36,7 +36,8 @@ public class PreBattleScreen extends Scene2D{
 	int attAddUnits;
 	int defAddUnits;
 	int maxUnits;
-
+	static int attackArea;	// 0 fro production, 1 for city, 2 for holding
+	
 	Culture player;
 	Culture[] players;
 	Group selectPlayerGroup;
@@ -344,14 +345,17 @@ public class PreBattleScreen extends Scene2D{
 			if(cityButton.isClicked())
 			{
 				showFirstLayer = false;
+				attackArea = 1;
 				load();
 			}else if(holdingButton.isClicked())
 			{
 				showFirstLayer = false;
+				attackArea = 2;
 				load();
 			}else if(productionButton.isClicked())
 			{
 				showFirstLayer = false;
+				attackArea = 0;
 				load();
 				
 			}
@@ -526,6 +530,10 @@ public class PreBattleScreen extends Scene2D{
 
 	public static ArrayList<Integer> getDefenderUnitsID() {
 		return defenderUnitsID;
+	}
+
+	public static int getAttackArea() {
+		return attackArea;
 	}
 
 }

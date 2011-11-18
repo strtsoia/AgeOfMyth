@@ -34,6 +34,7 @@ public class BattleScreen extends Scene2D{
 	Hashtable<Button, Integer> defenderBtnMapUnitID;
 	Culture attacker;
 	Culture defender;
+	int attackArea;
 	
 	boolean attackTurn;	// choose battle card
 	boolean defenderTurn; // choose battle card
@@ -59,6 +60,7 @@ public class BattleScreen extends Scene2D{
 	Label defenderSixLabel;
 	Label nextRound;
 	Label rollAgain;
+	Label showWinner;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -78,6 +80,7 @@ public class BattleScreen extends Scene2D{
 		defNumOfSixs = 0;
 		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
+		attackArea = PreBattleScreen.getAttackArea();	// which area attack
 	}
 	
 	public void load()
@@ -162,14 +165,23 @@ public class BattleScreen extends Scene2D{
 		defenderSixLabel = new Label("", 0, 450);
 		nextRound = new Label("", 0, 575);
 		rollAgain = new Label("", 0, 575);
+		showWinner = new Label("", 0, 500);
 		
+		// battle is over, update background data and go to trophy choice if necessary
 		if(this.attackUnits.size() == 0 || this.defenderUnits.size() == 0)
 		{
 			for(int i = 0; i < this.attackUnits.size(); i++)
 				attacker.getGameBoard().PlaceUnit(this.getUnitMap(attacker.getRace()).get(this.attackUnits.get(i)));
 			for(int i = 0; i < this.defenderUnits.size(); i++)
 				defender.getGameBoard().PlaceUnit(this.getUnitMap(defender.getRace()).get(this.defenderUnits.get(i)));
-			Stage.popScene();
+			
+			// go to trophyScreen if attacker wins
+			if(this.attackUnits.size() > 0)
+			{
+				TrophyScreen tScreen = new TrophyScreen();
+				tScreen.Init(this.attackArea, attacker, defender);
+				Stage.replaceScene(tScreen);
+			}
 		}
 	}
 	
@@ -329,6 +341,9 @@ public class BattleScreen extends Scene2D{
 					}
 				}
 				
+				showWinner.setText("Attacer wins this round");
+				showWinner.setLocation((150 - showWinner.width.get()) / 2, 500);
+				middleGroup.add(showWinner);
 				nextRound.setText("Next Round");
 				nextRound.setLocation((150 - nextRound.width.get()) / 2, 575);
 				middleGroup.add(nextRound);
@@ -342,6 +357,9 @@ public class BattleScreen extends Scene2D{
 					}
 				}
 				
+				showWinner.setText("Attacer wins this round");
+				showWinner.setLocation((150 - showWinner.width.get()), 500);
+				middleGroup.add(showWinner);
 				nextRound.setText("Next Round");
 				nextRound.setLocation((150 - nextRound.width.get()) / 2, 575);
 				middleGroup.add(nextRound);
@@ -358,6 +376,7 @@ public class BattleScreen extends Scene2D{
 					middleGroup.remove(attackSixLabel);
 					middleGroup.remove(defenderSixLabel);
 					middleGroup.remove(rollAgain);
+					middleGroup.remove(showWinner);
 					// initialize parameters for next round
 					attackTurn = true;
 					defenderTurn = false;

@@ -326,10 +326,17 @@ public class Board {
 		holdingUnits.put(unit, hNum + 1);
 	}
 	
-	public void RemoveBuilding(int row, int col)
+	public void RemoveBuilding(int ID)
 	{
-		GlobalDef.getBuildingMap().get(cityOccupied[row][col]).UnBehavior(player);
-		cityOccupied[row][col] = -1;
+		GlobalDef.getBuildingMap().get(ID).UnBehavior(player);
+		for(int row = 0; row < 4; row++)
+			for(int col = 0; col < 4; col++)
+			{
+				if(cityOccupied[row][col] == ID)
+				{
+					cityOccupied[row][col] = -1;
+				}
+			}
 	}
 	
 	public void PlaceBuilding(Building build, int ID)
@@ -341,6 +348,47 @@ public class Board {
 				{
 					cityOccupied[row][col] = ID;
 					build.Behavior(player);
+					return;
+				}
+			}
+	}
+	
+	public void removeProductionTile(int ID)
+	{
+		for(int row = 0; row < 4; row++)
+			for(int col = 0; col < 4; col++)
+			{
+				if(productionOccupied[row][col] == ID)
+				{
+					productionOccupied[row][col] = -1;
+					// add this tile to bank
+					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					int number = table.get(GlobalDef.getTileMap().get(ID));
+					number++;
+					table.put(GlobalDef.getTileMap().get(ID), number);
+					Bank.getInstance().setProductionPool(table);
+					return;
+				}
+			}
+	}
+	
+	public void placeProductionTile(int ID)
+	{
+		ResProduceTile pTile = GlobalDef.getTileMap().get(ID);
+		GlobalDef.Terrain terrType = pTile.getTerrainType();
+		
+		for(int row = 0; row < 4; row++)
+			for(int col = 0; col < 4; col++)
+			{
+				if(productionOccupied[row][col] == -1 && terrainOnBoard[row][col] == terrType)
+				{
+					productionOccupied[row][col] = ID;
+					// delete this tile to bank
+					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					int number = table.get(GlobalDef.getTileMap().get(ID));
+					number--;
+					table.put(GlobalDef.getTileMap().get(ID), number);
+					Bank.getInstance().setProductionPool(table);
 					return;
 				}
 			}
