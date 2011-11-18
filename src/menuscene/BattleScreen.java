@@ -14,6 +14,7 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
 import pulpcore.animation.Timeline;
+import pulpcore.sprite.Label;
 
 public class BattleScreen extends Scene2D{
 
@@ -33,9 +34,15 @@ public class BattleScreen extends Scene2D{
 	Culture attacker;
 	Culture defender;
 	
-	boolean attackTurn;
-	boolean defenderTurn;
+	boolean attackTurn;	// choose battle card
+	boolean defenderTurn; // choose battle card
+	boolean attackDiceTurn; // roll dice turn
+	boolean defenderDiceTurn; // roll dice turn
 	boolean battleRound;
+	boolean finishRound;	// whether one round terminate
+	
+	int currAttackUnit;
+	int currDefenderUnit;
 	
 	Timeline timeline;
 	
@@ -48,6 +55,9 @@ public class BattleScreen extends Scene2D{
 		attackTurn = true;
 		defenderTurn = false;
 		battleRound = false;
+		attackDiceTurn = false;
+		defenderDiceTurn = false;
+		finishRound = false;
 		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
 		dices = new ImageSprite[6];
@@ -127,37 +137,42 @@ public class BattleScreen extends Scene2D{
 	@Override
     public void update(int elapsedTime) 
 	{
-		if(attackTurn){
-			for(int index = 0; index < attackerUnitBtn.size(); index++)
-			{
-				if(attackerUnitBtn.get(index).isClicked())
+		// select one unit for a round
+		if(!battleRound){
+			if(attackTurn){
+				for(int index = 0; index < attackerUnitBtn.size(); index++)
 				{
-					int ID = attackerBtnMapUnitID.get(attackerUnitBtn.get(index));
-					// disable chosen button
-					int row = ID / 4; int col = ID % 4;
-					attackerUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
-					// put select card to front desk
-					ImageSprite img = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
-					attackerGroup.add(img);
-					attackTurn = false;
-					defenderTurn = true;
+					if(attackerUnitBtn.get(index).isClicked())
+					{
+						int ID = attackerBtnMapUnitID.get(attackerUnitBtn.get(index));
+						currAttackUnit = ID;
+						int row = ID / 4; int col = ID % 4;
+						attackerUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col + 8]);
+						// put select card to front desk
+						ImageSprite img = new ImageSprite(attackerBattleCardImg[row * 12 + col], 225, 225);
+						attackerGroup.add(img);
+						attackTurn = false;
+						defenderTurn = true;
+					}
 				}
-			}
-		}else if(defenderTurn){
-			for(int index = 0; index < defenderUnitBtn.size(); index++)
-			{
-				if(defenderUnitBtn.get(index).isClicked())
+			}else if(defenderTurn){
+				for(int index = 0; index < defenderUnitBtn.size(); index++)
 				{
-					int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
-					System.out.println(ID);
-					int row = ID / 4; int col = ID % 4;
-					defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
-					ImageSprite img = new ImageSprite(defenderBattleCardImg[row * 12 + col], 0, 225);
-					defenderGroup.add(img);
-					battleRound = true;
+					if(defenderUnitBtn.get(index).isClicked())
+					{
+						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+						currDefenderUnit = ID;
+						int row = ID / 4; int col = ID % 4;
+						defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col + 8]);
+						ImageSprite img = new ImageSprite(defenderBattleCardImg[row * 12 + col], 0, 225);
+						defenderGroup.add(img);
+						battleRound = true;
+						attackDiceTurn = true;
+					}
 				}
 			}
 		}
+		
 		
 		// animation roll dice
 		if(battleRound){
@@ -167,8 +182,69 @@ public class BattleScreen extends Scene2D{
 			showDice = dices[number];
 			add(showDice);
 		}
-		if(showDice.isMouseDown()){
-			battleRound = false;
+		
+		// get rolls player
+		if(battleRound)
+		{
+			// update remaining card pic
+			for(int index = 0; index < attackerUnitBtn.size(); index++)
+			{
+				int ID = attackerBtnMapUnitID.get(attackerUnitBtn.get(index));
+				// disable chosen button
+				int row = ID / 4; int col = ID % 4;
+				attackerUnitBtn.get(index).setImage(attackerBattleCardImg[row * 12 + col]);
+			}
+			
+			// update remaining card pic
+			for(int index = 0; index < defenderUnitBtn.size(); index++)
+			{
+				int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+				// disable chosen button
+				int row = ID / 4; int col = ID % 4;
+				defenderUnitBtn.get(index).setImage(defenderBattleCardImg[row * 12 + col]);
+			}
+			
+			// show information
+			BattleCard attackbc = getUnitMap(attacker.getRace()).get(currAttackUnit);
+			BattleCard defenderbc = getUnitMap(defender.getRace()).get(currDefenderUnit);
+			
+			attackbc.CheckBonus(defenderbc);
+			int attackRolls = attackbc.getRolls();
+			Label attackMessage = new Label("Attacker has " + attackRolls + "dices",100,400);
+			add(attackMessage);
+			
+			defenderbc.CheckBonus(attackbc);
+			int defenderRolls = defenderbc.getRolls();
+			Label defenderMessage = new Label("Defender has " + defenderRolls + "dices",600,400);
+			add(defenderMessage);
+					
+			// attacker roll dice
+			if(attackDiceTurn)
+			{
+				if(showDice.isMousePressed())
+				{
+					defenderDiceTurn = true;
+					attackDiceTurn = false;
+				}
+			}else if(defenderDiceTurn)
+			{
+				if(showDice.isMousePressed())
+				{
+					defenderDiceTurn = false;
+					attackDiceTurn = true;
+					battleRound = false;
+					attackTurn = false;
+					defenderTurn = false;
+				}
+			}
+		}
+		
+		// cal which side win
+		if(!battleRound){
+			if(showDice.isMousePressed()){
+			//	attackTurn = true;
+			//	defenderTurn = false;
+			}
 		}	
 	}
 	
