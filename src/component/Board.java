@@ -328,15 +328,25 @@ public class Board {
 	
 	public void RemoveBuilding(int ID)
 	{
-		GlobalDef.getBuildingMap().get(ID).UnBehavior(player);
+		Building build = GlobalDef.getBuildingMap().get(ID);
+		build.UnBehavior(player);
+		System.out.println("there is: " + ID);
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
 			{
 				if(cityOccupied[row][col] == ID)
-				{
+				{System.out.println("find " + ID);
 					cityOccupied[row][col] = -1;
+					// add build to bank
+					Hashtable<Building, Integer> table = Bank.getInstance().getBuildingPool();
+					int num = table.get(build);
+					num++;
+					table.put(build, num);
+					Bank.getInstance().setBuildingPool(table);
+					return;
 				}
 			}
+		
 	}
 	
 	public void PlaceBuilding(Building build, int ID)
