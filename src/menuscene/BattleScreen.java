@@ -42,18 +42,22 @@ public class BattleScreen extends Scene2D{
 	boolean battleRound;
 	boolean finishRound;	// whether one round terminate
 	boolean rollDice;
+	boolean determinWinner;
+	
 	int currAttackUnit;
 	int currDefenderUnit;
+	int attNumOfSixs;
+	int defNumOfSixs;
 	
 	ImageSprite attackFimg;
 	ImageSprite defenderFimg;
-	ImageSprite nextRound;
 	CoreFont messageFont;
 	
 	Label attackerDicesNum;
 	Label defenderDiceNum;
 	Label attackSixLabel;
 	Label defenderSixLabel;
+	Label nextRound;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -68,6 +72,9 @@ public class BattleScreen extends Scene2D{
 		defenderDiceTurn = false;
 		finishRound = false;
 		rollDice = false;
+		determinWinner = false;
+		attNumOfSixs = 0;
+		defNumOfSixs = 0;
 		attackerBtnMapUnitID = new Hashtable<Button, Integer>();
 		defenderBtnMapUnitID = new Hashtable<Button, Integer>();
 	}
@@ -146,13 +153,13 @@ public class BattleScreen extends Scene2D{
 		}
 		
 		showDice = new ImageSprite(dices[0], (150 - 65) / 2, (600 - 65) / 2, 65, 65);
-		nextRound = new ImageSprite("/battle/nextround.jpg", 0, 575, 150, 25);
 		add(middleGroup);
 		
 		attackerDicesNum = new Label("", 0, 0);
 		defenderDiceNum = new Label("", 0, 400);
 		attackSixLabel = new Label("", 0, 50);
 		defenderSixLabel = new Label("", 0, 450);
+		nextRound = new Label("", 0, 575);
 	}
 	
 	@Override
@@ -261,6 +268,7 @@ public class BattleScreen extends Scene2D{
 					defenderDiceTurn = true;
 					attackDiceTurn = false;
 					attackRes  = true;
+					attNumOfSixs = attackNumOfSixs;
 				}
 				
 				if(attackRes){
@@ -287,6 +295,7 @@ public class BattleScreen extends Scene2D{
 					defenderTurn = false;
 					defenderRes = true;
 					rollDice = false;
+					defNumOfSixs = defenderNumOfSixs;
 				}
 				
 				if(defenderRes){
@@ -296,9 +305,37 @@ public class BattleScreen extends Scene2D{
 			}
 		}
 		
-		// cal which side win
+		/* decide which side wins this round */
 		if(battleRound && !rollDice){
-			middleGroup.add(nextRound);
+			// determine who wins
+			if(attNumOfSixs > defNumOfSixs && !determinWinner){
+				// remove units
+				for(int index = 0; index < defenderUnits.size(); index++){
+					if(currDefenderUnit == defenderUnits.get(index)){
+						defenderUnits.remove(index);
+						determinWinner = true;
+						break;
+					}
+				}
+				
+				nextRound.setText("Next Round");
+				nextRound.setLocation((150 - nextRound.width.get()) / 2, 575);
+				middleGroup.add(nextRound);
+			}else if(attNumOfSixs < defNumOfSixs && !determinWinner){
+				// remove units from lose side, only one
+				for(int index = 0; index < attackUnits.size(); index++){
+					if(currAttackUnit == attackUnits.get(index)){
+						attackUnits.remove(index);
+						determinWinner = true;
+						break;
+					}
+				}
+				
+				nextRound.setText("Next Round");
+				nextRound.setLocation((150 - nextRound.width.get()) / 2, 575);
+				middleGroup.add(nextRound);
+			}
+			
 			if(!attackTurn && !defenderTurn){
 				 
 				
@@ -312,6 +349,7 @@ public class BattleScreen extends Scene2D{
 					middleGroup.remove(attackSixLabel);
 					middleGroup.remove(defenderSixLabel);
 					
+					// initialize parameters for next round
 					attackTurn = true;
 					defenderTurn = false;
 					battleRound = false;
@@ -319,6 +357,8 @@ public class BattleScreen extends Scene2D{
 					defenderDiceTurn = false;
 					finishRound = false;
 					rollDice = false;
+					determinWinner = false;
+					load();
 				}
 			}
 		}	
