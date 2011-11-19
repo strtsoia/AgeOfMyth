@@ -10,14 +10,16 @@ public class GameSetting {
 	
 	private static GameSetting iniSetting;
 	private GlobalDef.Races[] playerCulture;
-	private Culture[] players;
+	private static Culture[] players;
 	private int numOfPlayer;
+	private static GlobalDef.Races[] playerRace;
 	
 	private GameSetting()
 	{
 		numOfPlayer = PlayerScreen.getNumber();
 		playerCulture = CultureScreen.getPlayerCulture();
 		players = new Culture[numOfPlayer];
+		
 		
 		// Initialize Bank
 		Bank.getInstance();
@@ -88,4 +90,18 @@ public class GameSetting {
 		
 		return iniSetting;
 	}
+
+	public GlobalDef.Races[] getPlayerCulture() {
+		return playerCulture;
+	}
+
+	public static Culture[] getPlayers() {
+		return players;
+	}
+
+	public static GlobalDef.Races[] getPlayerRace() {
+		return playerRace;
+	}
+	
+	
 }
