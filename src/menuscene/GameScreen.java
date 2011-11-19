@@ -15,7 +15,6 @@ import pulpcore.Input;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
-import pulpcore.sprite.Button;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
@@ -38,9 +37,13 @@ public class GameScreen extends Scene2D{
 	Label[] resourceLabel;
 	Label currentAgeLabel;
 	ArrayList<ImageSprite> holdUnitsImg;
-	ArrayList<BattleCard> avaUnits;
-	ArrayList<Integer> avaUnitsID;
+	ArrayList<Label> numOfUnitsLabel;
+	
+	CoreImage[] egyptUnitsImg;
+	CoreImage[] greekUnitsImg;
+	CoreImage[] norseUnitsImg;
 	CoreImage[] unitsImg;
+	
 	
 	// store img for city area dynamically
 	static ArrayList<ImageSprite> bList = new ArrayList<ImageSprite>();
@@ -112,9 +115,11 @@ public class GameScreen extends Scene2D{
 		
 		currentAgeLabel = new Label("  Current Age: %s", 0, 75);
 		
+		egyptUnitsImg = CoreImage.load("/battlecard/egyptBattlecard.jpg").split(12, 3);
+		greekUnitsImg = CoreImage.load("/battlecard/greekBattlecard.jpg").split(12, 3);
 		holdUnitsImg = new ArrayList<ImageSprite>();
-		avaUnits = new ArrayList<BattleCard>();
-		avaUnitsID = new ArrayList<Integer>();
+		numOfUnitsLabel = new ArrayList<Label>();
+		
 	}
 	
 	public void update(int elapsedTime)
@@ -147,6 +152,19 @@ public class GameScreen extends Scene2D{
 		sideGroup.add(currentAgeLabel);
 		
 		/* holding units showing */
+		// first remove
+		for(int i = 0; i < holdUnitsImg.size(); i++)
+			sideGroup.remove(holdUnitsImg.get(i));
+		for(int i = 0; i < this.numOfUnitsLabel.size(); i++)
+			sideGroup.remove(this.numOfUnitsLabel.get(i));
+		
+		if(player[index].getRace() == GlobalDef.Races.Egypt)
+			unitsImg = egyptUnitsImg;
+		else if(player[index].getRace() == GlobalDef.Races.Greek)
+			unitsImg = greekUnitsImg;
+		
+		int numOfUnits = -1;
+		Hashtable<BattleCard, Integer> mapTable = getUnitID(player[index].getRace());
 		Hashtable<BattleCard, Integer> table = player[index].getGameBoard().getHoldingUnits();
 		Set<BattleCard> kSet = table.keySet();
 		Iterator<BattleCard> iter = kSet.iterator();
@@ -154,38 +172,21 @@ public class GameScreen extends Scene2D{
 			BattleCard bc = iter.next();
 			int number = table.get(bc);
 			if(number > 0){
-				avaUnits.add(bc);
+				numOfUnits++;
+				int ID = mapTable.get(bc);
+				int row = ID / 4; int col = ID % 4;	// position of pic
+				int i = numOfUnits / 4; int j = numOfUnits % 4;
+				ImageSprite img = new ImageSprite(unitsImg[row * 12 + col + 4], 0, 0);
+				img.setSize(50, 50);
+				int xOrg = j * 50; int yOrg = 100 + i * 80;
+					img.setLocation(xOrg, yOrg);
+					holdUnitsImg.add(img);
+					sideGroup.add(img);
+					Label label = new Label("%d", xOrg + 15, yOrg + 60);
+					label.setFormatArg(number);
+					this.numOfUnitsLabel.add(label);
+					sideGroup.add(label);
 			}
-		}
-		
-		// now get ID for each unit
-		Hashtable<Integer, BattleCard> unitID = getUnitMap(player[index].getRace());
-		Set<Integer> idSet = unitID.keySet();
-		Iterator<Integer> idIter = idSet.iterator();
-		
-		// get all available unit ID, prepare for show
-		while(idIter.hasNext()){
-			int ID = idIter.next();
-			BattleCard unit = unitID.get(ID);
-			if(avaUnits.contains(unit)){
-				avaUnitsID.add(ID);
-			}
-		}
-		
-		// drawing part for attacker
-		String unitsLoadImg = "/battlecard/" + getProperImg(player[index].getRace());
-		unitsImg = CoreImage.load(unitsLoadImg).split(12, 3);
-		for(int index = 0; index < avaUnitsID.size(); index++)
-		{
-			int ID = avaUnitsID.get(index);
-			int row = ID / 4; int col = ID % 4;
-			ImageSprite img = new ImageSprite(unitsImg[row * 12 + col + 4], 0, 0);
-			img.setSize(50, 50);
-			img.setLocation(row * 50, 100 + col * 50);
-			sideGroup.add(img);
-			//btn.setSize(50, 75);
-			//attackerBtnMapUnitID.put(btn, ID);
-			//attackUnitBtn.add(btn);
 		}
 		
 		// update city area, first clear city area, just remove all building image from board
@@ -277,6 +278,19 @@ public class GameScreen extends Scene2D{
 		return player;
 	}
 	
+	private Hashtable<BattleCard, Integer> getUnitID(GlobalDef.Races race)
+	{
+		if(race == GlobalDef.Races.Egypt)
+		{
+			return GlobalDef.getEgyPtUnitsID();
+		}else if(race == GlobalDef.Races.Greek)
+		{
+			return GlobalDef.getGreekUnitsID();
+		}
+		
+		return GlobalDef.getNorseUnitsID();
+	}
+	
 	// check proper battle card for proper culture
 	private Hashtable<Integer, BattleCard> getUnitMap(GlobalDef.Races race)
 	{
@@ -307,17 +321,5 @@ public class GameScreen extends Scene2D{
 		return strBattleCard;
 	}
 	
-	private boolean isResourceAvailableForPlayer(int ID)
-	{
-		GlobalDef.Resources res = GlobalDef.getResourceMap().get(ID);
-		if(res != GlobalDef.Resources.VICTORY){
-			if(player[index].getGameBoard().getHoldResource().get(res) > 0)
-				return true;
-			else 
-				return false;
-		}
-		
-		return true;
-	}
 
 }

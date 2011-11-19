@@ -163,6 +163,30 @@ public class GlobalDef {
 		return egyptBattleCard;
 	}
 	
+	private static Hashtable<BattleCard, Integer> egyptUnitsID = new Hashtable<BattleCard, Integer>();
+	public static Hashtable<BattleCard, Integer> getEgyPtUnitsID()
+	{
+		if(egyptUnitsID.size() == 0)
+		{
+			egyptUnitsID.put(Anubite.getInstance(), 0);
+			egyptUnitsID.put(Chariot.getInstance(), 1);
+			egyptUnitsID.put(Elephant.getInstance(), 2);
+			egyptUnitsID.put(Mummy.getInstance(), 3);
+			egyptUnitsID.put(Pharaoh.getInstance(), 4);
+			egyptUnitsID.put(Phoenix.getInstance(), 5);
+			egyptUnitsID.put(Priest.getInstance(), 6);
+			egyptUnitsID.put(Scorpion.getInstance(), 7);
+			egyptUnitsID.put(Osiris.getInstance(), 8);
+			egyptUnitsID.put(Spearman.getInstance(), 9);
+			egyptUnitsID.put(Sphinx.getInstance(), 10);
+			egyptUnitsID.put(Wadjet.getInstance(), 11);
+			
+			return egyptUnitsID;
+		}
+		
+		return egyptUnitsID;
+	}
+	
 	private static Hashtable<Integer, BattleCard> greekBattleCard = new Hashtable<Integer, BattleCard>();
 	public static Hashtable<Integer, BattleCard> getGreekBattleCard()
 	{
@@ -187,6 +211,30 @@ public class GlobalDef {
 		return greekBattleCard;
 	}
 	
+	private static Hashtable<BattleCard, Integer> greekUnitsID = new Hashtable<BattleCard, Integer>();
+	public static Hashtable<BattleCard, Integer> getGreekUnitsID()
+	{
+		if(greekUnitsID.size() == 0)
+		{
+			greekUnitsID.put(Centaur.getInstance(), 0);
+			greekUnitsID.put(ClassicalGreekHero.getInstance(), 1);
+			greekUnitsID.put(Cyclops.getInstance(), 2);
+			greekUnitsID.put(HeroicGreekHero.getInstance(), 3);
+			greekUnitsID.put(Hippokon.getInstance(), 4);
+			greekUnitsID.put(Hoplite.getInstance(), 5);
+			greekUnitsID.put(Hydra.getInstance(), 6);
+			greekUnitsID.put(Manticore.getInstance(), 7);
+			greekUnitsID.put(Medusa.getInstance(), 8);
+			greekUnitsID.put(Minotaur.getInstance(), 9);
+			greekUnitsID.put(MythicGreekHero.getInstance(), 10);
+			greekUnitsID.put(Toxotes.getInstance(), 11);
+			
+			return greekUnitsID;
+		}
+		
+		return greekUnitsID;
+	}
+	
 	private static Hashtable<Integer, BattleCard> norsekBattleCard = new Hashtable<Integer, BattleCard>();
 	public static Hashtable<Integer, BattleCard> getNorseBattleCard()
 	{
@@ -196,6 +244,17 @@ public class GlobalDef {
 		}
 		
 		return norsekBattleCard;
+	}
+	
+	private static Hashtable<BattleCard, Integer> norseUnitsID = new Hashtable<BattleCard, Integer>();
+	public static Hashtable<BattleCard, Integer> getNorseUnitsID()
+	{
+		if(norseUnitsID.size() == 0)
+		{
+			return norseUnitsID;
+		}
+		
+		return norseUnitsID;
 	}
 	
 }
