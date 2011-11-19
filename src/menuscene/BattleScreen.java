@@ -61,6 +61,7 @@ public class BattleScreen extends Scene2D{
 	Label nextRound;
 	Label rollAgain;
 	Label showWinner;
+	Label failureMessage;
 	
 	public void Init(Culture att, Culture def)
 	{
@@ -166,6 +167,8 @@ public class BattleScreen extends Scene2D{
 		nextRound = new Label("", 0, 575);
 		rollAgain = new Label("", 0, 575);
 		showWinner = new Label("", 0, 500);
+		failureMessage = new Label("Attacker lost in battle", 0, 0);
+		failureMessage.setLocation((800 - failureMessage.width.get()) / 2, 400);
 		
 		// battle is over, update background data and go to trophy choice if necessary
 		if(this.attackUnits.size() == 0 || this.defenderUnits.size() == 0)
@@ -181,6 +184,8 @@ public class BattleScreen extends Scene2D{
 				TrophyScreen tScreen = new TrophyScreen();
 				tScreen.Init(this.attackArea, attacker, defender);
 				Stage.replaceScene(tScreen);
+			}else{
+				add(failureMessage);
 			}
 		}
 	}
@@ -188,6 +193,11 @@ public class BattleScreen extends Scene2D{
 	@Override
     public void update(int elapsedTime) 
 	{
+		if(failureMessage.isMousePressed())
+		{
+			Stage.popScene();
+		}
+		
 		// select one unit for a round
 		if(!battleRound){
 			if(attackTurn){
@@ -357,7 +367,7 @@ public class BattleScreen extends Scene2D{
 					}
 				}
 				
-				showWinner.setText("Attacer wins this round");
+				showWinner.setText("defender wins this round");
 				showWinner.setLocation((150 - showWinner.width.get()), 500);
 				middleGroup.add(showWinner);
 				nextRound.setText("Next Round");
