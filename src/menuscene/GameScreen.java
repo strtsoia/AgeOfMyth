@@ -291,35 +291,4 @@ public class GameScreen extends Scene2D{
 		return GlobalDef.getNorseUnitsID();
 	}
 	
-	// check proper battle card for proper culture
-	private Hashtable<Integer, BattleCard> getUnitMap(GlobalDef.Races race)
-	{
-		if(race == GlobalDef.Races.Egypt)
-		{
-			return GlobalDef.getEgyptBattleCard();
-		}else if(race == GlobalDef.Races.Greek)
-		{
-			return GlobalDef.getGreekBattleCard();
-		}
-		
-		return GlobalDef.getNorseBattleCard();
-	}
-	
-	private String getProperImg(GlobalDef.Races race)
-	{
-		String strBattleCard = null;
-		if(race == GlobalDef.Races.Egypt){
-			strBattleCard = "egyptBattlecard.jpg";
-		}
-		else if(race == GlobalDef.Races.Greek){
-			strBattleCard = "greekBattlecard.jpg";
-		}
-		else{
-			strBattleCard = "norseBattlecard.jpg";
-		}
-		
-		return strBattleCard;
-	}
-	
-
 }
