@@ -69,12 +69,12 @@ public class RecruitScreen extends Scene2D{
 			boundary = 10;
 		}
 		
-		background = new ImageSprite(strbackground, Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 225, 400, 500);
+		background = new ImageSprite(strbackground, 100, Stage.getHeight() / 2 - 225, 400, 500);
 		add(background);
 		
 		String loadImg = "/battlecard/" + strBattleCard;
 		battleCardImg = CoreImage.load(loadImg).split(12, 3);
-		battleCardForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 225, 400, 500);
+		battleCardForm = new Group(100, Stage.getHeight() / 2 - 225, 400, 500);
 		
 		for(int row = 0; row < 3; row++)
 			for(int col = 0; col < 4; col++)

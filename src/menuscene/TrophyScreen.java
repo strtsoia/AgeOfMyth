@@ -135,10 +135,6 @@ public class TrophyScreen extends Scene2D{
 		holdTileImg = CoreImage.load("/resource/resourceCubes.jpg").split(15, 1);
 		holdButton = new ArrayList<Button>();
 		if(attackArea == 2){
-			
-			this.resMessageOk.setLocation((400 - resMessageOk.width.get()) / 2, 200);
-			this.selGroup.add(resMessageOk);
-			
 			for(int index = 0; index < 4; index++)
 			{
 				CoreImage[] pImg = new CoreImage[]{holdTileImg[index], holdTileImg[index + 5], 
@@ -165,6 +161,9 @@ public class TrophyScreen extends Scene2D{
 		}
 		
 		add(selGroup);
+		
+		this.resMessageOk.setLocation((400 - resMessageOk.width.get()) / 2, 200);
+		this.selGroup.add(resMessageOk);
 		
 	}
 	
@@ -235,11 +234,11 @@ public class TrophyScreen extends Scene2D{
 				}
 			}
 			
-			if(resMessageOk.isMousePressed())
-			{
-				Stage.popScene();
-			}
-			
+		}
+		
+		if(resMessageOk.isMousePressed())
+		{
+			Stage.popScene();
 		}
 	}
 	

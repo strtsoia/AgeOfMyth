@@ -52,13 +52,13 @@ public class TradeScreen extends Scene2D{
 			strbackground = "greekpopback.jpg";
 		}
 		
-		background = new ImageSprite(strbackground, Stage.getWidth() / 2 - 250, Stage.getHeight() / 2 - 175, 500, 350);
+		background = new ImageSprite(strbackground, 50, Stage.getHeight() / 2 - 175, 500, 350);
 		add(background);
 		
 		cubesImg = CoreImage.load("/resource/resourceCubes.jpg").split(15, 1);
 		costBtn = new Button[4];
 		costLabel = new Label[4];
-		costForm = new Group(Stage.getWidth() / 2 - 250, Stage.getHeight() / 2 - 175, 500, 350);
+		costForm = new Group(50, Stage.getHeight() / 2 - 175, 500, 350);
 		
 		for(int index = 0; index < 4; index++)
 		{

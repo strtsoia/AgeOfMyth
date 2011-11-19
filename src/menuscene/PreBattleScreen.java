@@ -95,7 +95,7 @@ public class PreBattleScreen extends Scene2D{
 				strBackground = "norsepopback.jpg";
 			}
 			
-			background = new ImageSprite(strBackground, Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 250, 350, 500);
+			background = new ImageSprite(strBackground, 125, Stage.getHeight() / 2 - 250, 350, 500);
 			add(background);
 			
 			cityImg = CoreImage.load("cityArea.jpg").split(3, 1);
@@ -106,7 +106,7 @@ public class PreBattleScreen extends Scene2D{
 			holdingButton = new Button(holdingImg, 0, 0);
 			productionButton = new Button(productionImg, 0, 0);
 			
-			selectPlayerGroup = new Group(Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 250, 350, 500);
+			selectPlayerGroup = new Group(125, Stage.getHeight() / 2 - 250, 350, 500);
 			message = new Label("Select player you want to attack", 0, 0);
 			message.setLocation( (350 - message.width.get()) / 2, 10);
 			selectPlayerGroup.add(message);
@@ -165,10 +165,10 @@ public class PreBattleScreen extends Scene2D{
 		// show unit selection layer
 		if(!showFirstLayer)
 		{
-			background = new ImageSprite(strBackground, Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 250, 350, 500);
+			background = new ImageSprite(strBackground, 125, Stage.getHeight() / 2 - 250, 350, 500);
 			add(background);
 			
-			Group topGroup = new Group(Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 250, 350, 100);
+			Group topGroup = new Group(125, Stage.getHeight() / 2 - 250, 350, 100);
 			Label unitMessage = new Label("Select Unit to engage in battle", 0, 0);
 			unitMessage.setLocation((350 - unitMessage.width.get()) / 2, 20);
 			Label attackLabel = new Label("Attacker side", 0, 0);
@@ -209,7 +209,7 @@ public class PreBattleScreen extends Scene2D{
 				}
 			}
 			
-			Group attackGroup = new Group(Stage.getWidth() / 2 - 100, Stage.getHeight() / 2 - 150, 150, 450);
+			Group attackGroup = new Group(125, Stage.getHeight() / 2 - 150, 150, 450);
 			// drawing part for attacker
 			String attackLoadImg = "/battlecard/" + getProperImg(player.getRace());
 			attackerBattleCardImg = CoreImage.load(attackLoadImg).split(12, 3);
@@ -267,7 +267,7 @@ public class PreBattleScreen extends Scene2D{
 				}
 			}
 			
-			Group defenderGroup = new Group(Stage.getWidth() / 2 + 100, Stage.getHeight() / 2 - 150, 150, 450);
+			Group defenderGroup = new Group(325, Stage.getHeight() / 2 - 150, 150, 450);
 			// drawing part for attacker
 			String defenderLoadImg = "/battlecard/" + getProperImg(players[opponent].getRace());
 			defenderBattleCardImg = CoreImage.load(defenderLoadImg).split(12, 3);
@@ -297,13 +297,6 @@ public class PreBattleScreen extends Scene2D{
 			defenderGroup.add(defenderOK);
 			add(defenderGroup);
 			
-			/*if(bothFinish){
-				System.out.println("finish");
-				beginBattle = new Label("Begin Battle", 0, 0);
-				Group beginForm = new Group( (350 - beginBattle.width.get())/2, 375);
-				beginForm.add(beginBattle);
-				add(beginForm);
-			}*/
 		}
 		
 	}

@@ -21,7 +21,7 @@ public class NextAgeCard extends Card{
 	private Hashtable<GlobalDef.Resources, Integer> mythic =
 			new Hashtable<GlobalDef.Resources, Integer>();
 	
-	private boolean upgradeSucess;
+	private static boolean upgradeSucess;
 	
 	private NextAgeCard()
 	{
@@ -40,7 +40,7 @@ public class NextAgeCard extends Card{
 		mythic.put(GlobalDef.Resources.GOLD, 6);
 		mythic.put(GlobalDef.Resources.FAVOR, 6);
 		
-		this.upgradeSucess = false;
+		upgradeSucess = false;
 	}
 	
 	public static NextAgeCard GetInstance()
@@ -51,6 +51,7 @@ public class NextAgeCard extends Card{
 			return nextAgeCard;
 		}
 		
+		upgradeSucess = false;
 		return nextAgeCard;
 	}
 	
@@ -63,7 +64,7 @@ public class NextAgeCard extends Card{
 				ResourceHandler.Delete(player.getGameBoard().getHoldResource(), classic);
 				ResourceHandler.Add(Bank.getInstance().getResourcePool(), classic);
 				player.setCurrentAge(GlobalDef.Age.Classical);
-				this.upgradeSucess = true;
+				upgradeSucess = true;
 			}
 		}else if(player.getCurrentAge() == GlobalDef.Age.Classical)
 		{
@@ -72,7 +73,7 @@ public class NextAgeCard extends Card{
 				ResourceHandler.Delete(player.getGameBoard().getHoldResource(), heroic);
 				ResourceHandler.Add(Bank.getInstance().getResourcePool(), heroic);
 				player.setCurrentAge(GlobalDef.Age.Heroic);
-				this.upgradeSucess = true;
+				upgradeSucess = true;
 			}
 		}else if(player.getCurrentAge() == GlobalDef.Age.Heroic)
 		{
@@ -81,7 +82,7 @@ public class NextAgeCard extends Card{
 				ResourceHandler.Delete(player.getGameBoard().getHoldResource(), mythic);
 				ResourceHandler.Add(Bank.getInstance().getResourcePool(), mythic);
 				player.setCurrentAge(GlobalDef.Age.Mythic);
-				this.upgradeSucess = true;
+				upgradeSucess = true;
 			}
 		}
 		

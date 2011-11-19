@@ -38,10 +38,10 @@ public class BuildingScreen extends Scene2D{
 	
 	public void load()
 	{
-		background = new ImageSprite("/resource/buildpopback.jpg", Stage.getWidth() / 2 - 200,  Stage.getHeight() / 2 - 200, 400, 425);
+		background = new ImageSprite("/resource/buildpopback.jpg", 100,  Stage.getHeight() / 2 - 200, 400, 425);
 		
 		buildTileImg = CoreImage.load("/resource/buildTile.jpg").split(12, 4);
-		buildForm = new Group(Stage.getWidth() / 2 - 200, Stage.getHeight() / 2 - 200, 400, 450);
+		buildForm = new Group(100, Stage.getHeight() / 2 - 200, 400, 450);
 		
 		for(int row = 0; row < 4; row++)
 			for(int col = 0; col < 4; col++)
