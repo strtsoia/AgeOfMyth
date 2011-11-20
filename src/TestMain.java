@@ -7,6 +7,7 @@ import utility.*;
 import building.*;
 import actioncard.*;
 import component.*;
+import dice.*;
 
 import java.util.*;
 

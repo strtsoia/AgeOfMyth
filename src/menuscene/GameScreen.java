@@ -22,6 +22,8 @@ import pulpcore.sprite.Label;
 import settings.Bank;
 
 import java.util.*;
+
+import dice.Dice;
 public class GameScreen extends Scene2D{
 	
 	ImageSprite board;
@@ -59,6 +61,7 @@ public class GameScreen extends Scene2D{
 	String strBoardType;
 	String sideType;
 	GlobalDef.Races[] playerRace;
+	Dice dice = new Dice();
 	
 	// Initialize here
 	public void load()
@@ -268,7 +271,15 @@ public class GameScreen extends Scene2D{
 		{
 			AttackCard.GetInstance().Action(player[index]);
 		}
+		
+		if(Input.isPressed(Input.KEY_F2))
+		{
+			
+	        dice.start();
+			
+		}
 	}
+	
 
 	public static int getNumOfPlayers() {
 		return numOfPlayers;
