@@ -29,6 +29,6 @@ public class TestMain {
 			GlobalDef.Resources bc = iter.next();
 			System.out.println(bc + ":  " + h.get(bc));
 		}*/
-		// end of test bank initialization
+		// end of test bank initialization //Priya
 	}
 }
