@@ -12,65 +12,62 @@ import menuscene.PlayerScreen;
 public class Bank {
 
 	private static Bank bank;
-	
-	private Hashtable<GlobalDef.Resources, Integer> resourcePool = 
-			new Hashtable<GlobalDef.Resources, Integer>();
-	private Hashtable<Building, Integer> buildingPool =
-			new Hashtable<Building, Integer>();
-	private Hashtable<ResProduceTile, Integer> productionPool =
-			new Hashtable<ResProduceTile, Integer>();
-	
+
+	/**
+	 */
+	private Hashtable<GlobalDef.Resources, Integer> resourcePool = new Hashtable<GlobalDef.Resources, Integer>();
+	/**
+	 */
+	private Hashtable<Building, Integer> buildingPool = new Hashtable<Building, Integer>();
+	/**
+	 */
+	private Hashtable<ResProduceTile, Integer> productionPool = new Hashtable<ResProduceTile, Integer>();
+
 	// constructor
-	private Bank()
-	{
+	private Bank() {
 		// initial pool based on number of players
 		int numOfPlayer = PlayerScreen.getNumber();
-		switch(numOfPlayer)
-		{
-			case 2:
-				InitialResourcePool(20);
-				break;
-			case 3:
-				InitialResourcePool(25);
-				break;
-			case 4:
-				InitialResourcePool(30);
-				break;
-			default:// use for debug
-				InitialResourcePool(150);
-				break;
+		switch (numOfPlayer) {
+		case 2:
+			InitialResourcePool(20);
+			break;
+		case 3:
+			InitialResourcePool(25);
+			break;
+		case 4:
+			InitialResourcePool(30);
+			break;
+		default:// use for debug
+			InitialResourcePool(150);
+			break;
 		}
-		
+
 		InitialBuildingPool();
 		InitialProductionPool();
-		
+
 	}
-	
+
 	// singleton pattern
-	public static Bank getInstance()
-	{
-		if(bank == null){
+	public static Bank getInstance() {
+		if (bank == null) {
 			bank = new Bank();
 			return bank;
-		}
-		else
+		} else
 			return bank;
 	}
-	
+
 	// utility function
-	private void InitialResourcePool(int res)
-	{
+	private void InitialResourcePool(int res) {
 		resourcePool.put(GlobalDef.Resources.FOOD, res);
 		resourcePool.put(GlobalDef.Resources.WOOD, res);
 		resourcePool.put(GlobalDef.Resources.GOLD, res);
 		resourcePool.put(GlobalDef.Resources.FAVOR, res);
 		resourcePool.put(GlobalDef.Resources.VICTORY, 30);
-		
+
 	}
-	
+
 	// utility function
-	private void InitialBuildingPool()
-	{
+	private void InitialBuildingPool() {
 		buildingPool.put(Armory.GetInstance(), 1);
 		buildingPool.put(Garnary.GetInstance(), 4);
 		buildingPool.put(Wall.GetInstance(), 4);
@@ -85,11 +82,10 @@ public class Bank {
 		buildingPool.put(WoodWorkshop.GetInstance(), 4);
 		buildingPool.put(Tower.GetInstance(), 4);
 		buildingPool.put(House.GetInstance(), 40);
-		
+
 	}
-	
-	private void InitialProductionPool()
-	{
+
+	private void InitialProductionPool() {
 		productionPool.put(FertileA.GetInstance(), 12);
 		productionPool.put(FertileB.GetInstance(), 3);
 		productionPool.put(FertileC.GetInstance(), 3);
@@ -110,9 +106,9 @@ public class Bank {
 		productionPool.put(SwampA.GetInstance(), 4);
 		productionPool.put(SwampB.GetInstance(), 4);
 		productionPool.put(SwampC.GetInstance(), 4);
-		
+
 	}
-	
+
 	public void setResourcePool(Hashtable<GlobalDef.Resources, Integer> resPool) {
 		resourcePool = resPool;
 	}
@@ -120,8 +116,7 @@ public class Bank {
 	public Hashtable<GlobalDef.Resources, Integer> getResourcePool() {
 		return resourcePool;
 	}
-	
-	
+
 	public Hashtable<Building, Integer> getBuildingPool() {
 		return buildingPool;
 	}
@@ -134,9 +129,9 @@ public class Bank {
 		return productionPool;
 	}
 
-	public void setProductionPool(Hashtable<ResProduceTile, Integer> productionPool) {
+	public void setProductionPool(
+			Hashtable<ResProduceTile, Integer> productionPool) {
 		this.productionPool = productionPool;
 	}
-	
 
 }

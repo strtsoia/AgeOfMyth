@@ -4,22 +4,27 @@ import java.util.Hashtable;
 
 import global.GlobalDef;
 
-public final class Priest extends BattleCard{
+public final class Priest extends BattleCard {
 
 	private static Priest priest;
-	
-	private Priest()
-	{
-		 cost.put(GlobalDef.Resources.FOOD, 2);
-		 cost.put(GlobalDef.Resources.GOLD, 4);
-		 cost.put(GlobalDef.Resources.FAVOR, 0);
-		 cost.put(GlobalDef.Resources.WOOD, 0);
+
+	private Priest() {
+		cost.put(GlobalDef.Resources.FOOD, 2);
+		cost.put(GlobalDef.Resources.GOLD, 4);
+		cost.put(GlobalDef.Resources.FAVOR, 0);
+		cost.put(GlobalDef.Resources.WOOD, 0);
 	}
-	
+
+	/**
+	 */
 	private final int rolls = 4;
+	/**
+	 */
 	private int bonus = 0;
+	/**
+	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
-	
+
 	public int getRolls() {
 		return rolls + bonus;
 	}
@@ -28,22 +33,20 @@ public final class Priest extends BattleCard{
 		return cost;
 	}
 
-	public static Priest getInstance()
-	{
-		if(priest == null){
+	public static Priest getInstance() {
+		if (priest == null) {
 			priest = new Priest();
 			return priest;
 		}
-		
+
 		return priest;
 	}
-	
-	public void CheckBonus(BattleCard opponent)
-	{
+
+	public void CheckBonus(BattleCard opponent) {
 		if (Myth.contains(opponent))
-            bonus = 4;
-        else
-            bonus = 0;
+			bonus = 4;
+		else
+			bonus = 0;
 	}
-	
+
 }

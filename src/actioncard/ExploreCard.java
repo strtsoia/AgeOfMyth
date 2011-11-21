@@ -5,33 +5,31 @@ import component.Culture;
 import menuscene.ExploreScreen;
 import menuscene.GameScreen;
 
-public class ExploreCard extends Card{
+public class ExploreCard extends Card {
 
 	private static ExploreCard exploreCard;
-	
+
+	/**
+	 */
 	private int tilesNum;
-	
-	private ExploreCard()
-	{
+
+	private ExploreCard() {
 		tilesNum = GameScreen.getNumOfPlayers();
 	}
-	
-	public static ExploreCard GetInstance()
-	{
-		if(exploreCard == null)
-		{
+
+	public static ExploreCard GetInstance() {
+		if (exploreCard == null) {
 			exploreCard = new ExploreCard();
 			return exploreCard;
 		}
-		
+
 		return exploreCard;
 	}
-	
-	public void Action(Culture player)
-	{
+
+	public void Action(Culture player) {
 		ExploreScreen eScreen = new ExploreScreen();
 		eScreen.Init(tilesNum, player);
 		Stage.pushScene(eScreen);
 	}
-	
+
 }

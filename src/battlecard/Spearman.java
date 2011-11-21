@@ -4,22 +4,27 @@ import java.util.Hashtable;
 
 import global.GlobalDef;
 
-public final class Spearman extends BattleCard{
+public final class Spearman extends BattleCard {
 
 	private static Spearman spearman;
-	
-	private Spearman()
-	{
-		 cost.put(GlobalDef.Resources.FOOD, 1);
-		 cost.put(GlobalDef.Resources.WOOD, 1);
-		 cost.put(GlobalDef.Resources.GOLD, 0);
-		 cost.put(GlobalDef.Resources.FAVOR, 0);
+
+	private Spearman() {
+		cost.put(GlobalDef.Resources.FOOD, 1);
+		cost.put(GlobalDef.Resources.WOOD, 1);
+		cost.put(GlobalDef.Resources.GOLD, 0);
+		cost.put(GlobalDef.Resources.FAVOR, 0);
 	}
-	
+
+	/**
+	 */
 	private final int rolls = 3;
+	/**
+	 */
 	private int bonus = 0;
+	/**
+	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
-	
+
 	public int getRolls() {
 		return rolls + bonus;
 	}
@@ -28,24 +33,22 @@ public final class Spearman extends BattleCard{
 		return cost;
 	}
 
-	public static Spearman getInstance()
-	{
-		if(spearman == null){
+	public static Spearman getInstance() {
+		if (spearman == null) {
 			spearman = new Spearman();
 			return spearman;
 		}
-		
+
 		return spearman;
 	}
-	
-	public void CheckBonus(BattleCard opponent)
-	{
+
+	public void CheckBonus(BattleCard opponent) {
 		if (Cavalry.contains(opponent))
-            bonus = 3;
-		else if(Hero.contains(opponent))
+			bonus = 3;
+		else if (Hero.contains(opponent))
 			bonus = 4;
-        else
-            bonus = 0;
+		else
+			bonus = 0;
 	}
-	
+
 }

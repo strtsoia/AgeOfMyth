@@ -4,22 +4,27 @@ import java.util.Hashtable;
 
 import global.GlobalDef;
 
-public final class ClassicalNorseHero extends BattleCard{
+public final class ClassicalNorseHero extends BattleCard {
 
 	private static ClassicalNorseHero classicalNorseHero;
-	
-	private ClassicalNorseHero()
-	{
-		 cost.put(GlobalDef.Resources.FOOD, 3);
-		 cost.put(GlobalDef.Resources.GOLD, 3);
-		 cost.put(GlobalDef.Resources.FAVOR, 0);
-		 cost.put(GlobalDef.Resources.WOOD, 0);
+
+	private ClassicalNorseHero() {
+		cost.put(GlobalDef.Resources.FOOD, 3);
+		cost.put(GlobalDef.Resources.GOLD, 3);
+		cost.put(GlobalDef.Resources.FAVOR, 0);
+		cost.put(GlobalDef.Resources.WOOD, 0);
 	}
-	
+
+	/**
+	 */
 	private final int rolls = 5;
+	/**
+	 */
 	private int bonus = 0;
+	/**
+	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
-	
+
 	public int getRolls() {
 		return rolls + bonus;
 	}
@@ -28,22 +33,20 @@ public final class ClassicalNorseHero extends BattleCard{
 		return cost;
 	}
 
-	public static ClassicalNorseHero getInstance()
-	{
-		if(classicalNorseHero == null){
+	public static ClassicalNorseHero getInstance() {
+		if (classicalNorseHero == null) {
 			classicalNorseHero = new ClassicalNorseHero();
 			return classicalNorseHero;
 		}
-		
+
 		return classicalNorseHero;
 	}
-	
-	public void CheckBonus(BattleCard opponent)
-	{
+
+	public void CheckBonus(BattleCard opponent) {
 		if (Myth.contains(opponent))
-            bonus = 4;
-        else
-            bonus = 0;
+			bonus = 4;
+		else
+			bonus = 0;
 	}
-	
+
 }

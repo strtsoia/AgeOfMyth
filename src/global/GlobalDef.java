@@ -10,64 +10,106 @@ import battlecard.*;
  */
 public class GlobalDef {
 
-	public enum Resources
-	{
+	/**
+	 * @author strtsoia
+	 */
+	public enum Resources {
+		/**
+		 */
 		FOOD,
+		/**
+		 */
 		WOOD,
+		/**
+		 */
 		GOLD,
+		/**
+		 */
 		FAVOR,
+		/**
+		 */
 		VICTORY;
 	}
-	
-	public enum Races
-	{
+
+	/**
+	 * @author strtsoia
+	 */
+	public enum Races {
+		/**
+		 */
 		Egypt,
+		/**
+		 */
 		Greek,
+		/**
+		 */
 		Norse
 	}
-		
-	public enum Terrain
-	{
+
+	/**
+	 * @author strtsoia
+	 */
+	public enum Terrain {
+		/**
+		 */
 		Fertile,
+		/**
+		 */
 		Forest,
+		/**
+		 */
 		Hills,
+		/**
+		 */
 		Mountains,
+		/**
+		 */
 		Desert,
+		/**
+		 */
 		Swamp
-		
+
 	}
-	
-	public enum Age
-	{
+
+	/**
+	 * @author strtsoia
+	 */
+	public enum Age {
+		/**
+		 */
 		Ancient,
+		/**
+		 */
 		Classical,
+		/**
+		 */
 		Heroic,
+		/**
+		 */
 		Mythic
 	}
-	
+
 	private static Hashtable<Integer, Terrain> terrainMap = new Hashtable<Integer, Terrain>();
-	public static Hashtable<Integer, Terrain>getTerrainMap()
-	{
-		if(terrainMap.size() == 0)
-		{
+
+	public static Hashtable<Integer, Terrain> getTerrainMap() {
+		if (terrainMap.size() == 0) {
 			terrainMap.put(0, Terrain.Fertile);
 			terrainMap.put(1, Terrain.Forest);
 			terrainMap.put(2, Terrain.Hills);
 			terrainMap.put(3, Terrain.Mountains);
 			terrainMap.put(4, Terrain.Desert);
 			terrainMap.put(5, Terrain.Swamp);
-			
+
 			return terrainMap;
 		}
-		
+
 		return terrainMap;
 	}
-	
+
 	private static Hashtable<Integer, Building> buildMap = new Hashtable<Integer, Building>();
-	public static Hashtable<Integer, Building> getBuildingMap()
-	{
-		if(buildMap.size() == 0)
-		{
+
+	public static Hashtable<Integer, Building> getBuildingMap() {
+		if (buildMap.size() == 0) {
 			buildMap.put(0, House.GetInstance());
 			buildMap.put(1, Wall.GetInstance());
 			buildMap.put(2, Tower.GetInstance());
@@ -83,35 +125,33 @@ public class GlobalDef {
 			buildMap.put(12, Wonder.GetInstance());
 			buildMap.put(13, SiegeEngineWorkshop.GetInstance());
 			return buildMap;
-			
+
 		}
-		
+
 		return buildMap;
 	}
-	
+
 	private static Hashtable<Integer, Resources> resourceMap = new Hashtable<Integer, Resources>();
-	public static Hashtable<Integer, Resources> getResourceMap()
-	{
-		if(resourceMap.size() == 0 )
-		{
+
+	public static Hashtable<Integer, Resources> getResourceMap() {
+		if (resourceMap.size() == 0) {
 			resourceMap.put(0, Resources.FOOD);
 			resourceMap.put(1, Resources.FAVOR);
 			resourceMap.put(2, Resources.WOOD);
 			resourceMap.put(3, Resources.GOLD);
 			resourceMap.put(4, Resources.VICTORY);
-			
+
 			return resourceMap;
-			
+
 		}
-		
+
 		return resourceMap;
 	}
-	
+
 	private static Hashtable<Integer, ResProduceTile> tileMap = new Hashtable<Integer, ResProduceTile>();
-	public static Hashtable<Integer, ResProduceTile> getTileMap()
-	{
-		if(tileMap.size() == 0)
-		{
+
+	public static Hashtable<Integer, ResProduceTile> getTileMap() {
+		if (tileMap.size() == 0) {
 			tileMap.put(0, FertileA.GetInstance());
 			tileMap.put(1, FertileB.GetInstance());
 			tileMap.put(2, FertileC.GetInstance());
@@ -132,18 +172,17 @@ public class GlobalDef {
 			tileMap.put(17, SwampA.GetInstance());
 			tileMap.put(18, SwampB.GetInstance());
 			tileMap.put(19, SwampC.GetInstance());
-			
+
 			return tileMap;
 		}
-		
+
 		return tileMap;
 	}
 
 	private static Hashtable<Integer, BattleCard> egyptBattleCard = new Hashtable<Integer, BattleCard>();
-	public static Hashtable<Integer, BattleCard> getEgyptBattleCard()
-	{
-		if(egyptBattleCard.size() == 0)
-		{
+
+	public static Hashtable<Integer, BattleCard> getEgyptBattleCard() {
+		if (egyptBattleCard.size() == 0) {
 			egyptBattleCard.put(0, Anubite.getInstance());
 			egyptBattleCard.put(1, Chariot.getInstance());
 			egyptBattleCard.put(2, Elephant.getInstance());
@@ -156,18 +195,17 @@ public class GlobalDef {
 			egyptBattleCard.put(9, Spearman.getInstance());
 			egyptBattleCard.put(10, Sphinx.getInstance());
 			egyptBattleCard.put(11, Wadjet.getInstance());
-			
+
 			return egyptBattleCard;
 		}
-		
+
 		return egyptBattleCard;
 	}
-	
+
 	private static Hashtable<BattleCard, Integer> egyptUnitsID = new Hashtable<BattleCard, Integer>();
-	public static Hashtable<BattleCard, Integer> getEgyPtUnitsID()
-	{
-		if(egyptUnitsID.size() == 0)
-		{
+
+	public static Hashtable<BattleCard, Integer> getEgyPtUnitsID() {
+		if (egyptUnitsID.size() == 0) {
 			egyptUnitsID.put(Anubite.getInstance(), 0);
 			egyptUnitsID.put(Chariot.getInstance(), 1);
 			egyptUnitsID.put(Elephant.getInstance(), 2);
@@ -180,18 +218,17 @@ public class GlobalDef {
 			egyptUnitsID.put(Spearman.getInstance(), 9);
 			egyptUnitsID.put(Sphinx.getInstance(), 10);
 			egyptUnitsID.put(Wadjet.getInstance(), 11);
-			
+
 			return egyptUnitsID;
 		}
-		
+
 		return egyptUnitsID;
 	}
-	
+
 	private static Hashtable<Integer, BattleCard> greekBattleCard = new Hashtable<Integer, BattleCard>();
-	public static Hashtable<Integer, BattleCard> getGreekBattleCard()
-	{
-		if(greekBattleCard.size() == 0)
-		{
+
+	public static Hashtable<Integer, BattleCard> getGreekBattleCard() {
+		if (greekBattleCard.size() == 0) {
 			greekBattleCard.put(0, Centaur.getInstance());
 			greekBattleCard.put(1, ClassicalGreekHero.getInstance());
 			greekBattleCard.put(2, Cyclops.getInstance());
@@ -204,18 +241,17 @@ public class GlobalDef {
 			greekBattleCard.put(9, Minotaur.getInstance());
 			greekBattleCard.put(10, MythicGreekHero.getInstance());
 			greekBattleCard.put(11, Toxotes.getInstance());
-			
+
 			return greekBattleCard;
 		}
-		
+
 		return greekBattleCard;
 	}
-	
+
 	private static Hashtable<BattleCard, Integer> greekUnitsID = new Hashtable<BattleCard, Integer>();
-	public static Hashtable<BattleCard, Integer> getGreekUnitsID()
-	{
-		if(greekUnitsID.size() == 0)
-		{
+
+	public static Hashtable<BattleCard, Integer> getGreekUnitsID() {
+		if (greekUnitsID.size() == 0) {
 			greekUnitsID.put(Centaur.getInstance(), 0);
 			greekUnitsID.put(ClassicalGreekHero.getInstance(), 1);
 			greekUnitsID.put(Cyclops.getInstance(), 2);
@@ -228,33 +264,31 @@ public class GlobalDef {
 			greekUnitsID.put(Minotaur.getInstance(), 9);
 			greekUnitsID.put(MythicGreekHero.getInstance(), 10);
 			greekUnitsID.put(Toxotes.getInstance(), 11);
-			
+
 			return greekUnitsID;
 		}
-		
+
 		return greekUnitsID;
 	}
-	
+
 	private static Hashtable<Integer, BattleCard> norsekBattleCard = new Hashtable<Integer, BattleCard>();
-	public static Hashtable<Integer, BattleCard> getNorseBattleCard()
-	{
-		if(norsekBattleCard.size() == 0)
-		{
+
+	public static Hashtable<Integer, BattleCard> getNorseBattleCard() {
+		if (norsekBattleCard.size() == 0) {
 			return norsekBattleCard;
 		}
-		
+
 		return norsekBattleCard;
 	}
-	
+
 	private static Hashtable<BattleCard, Integer> norseUnitsID = new Hashtable<BattleCard, Integer>();
-	public static Hashtable<BattleCard, Integer> getNorseUnitsID()
-	{
-		if(norseUnitsID.size() == 0)
-		{
+
+	public static Hashtable<BattleCard, Integer> getNorseUnitsID() {
+		if (norseUnitsID.size() == 0) {
 			return norseUnitsID;
 		}
-		
+
 		return norseUnitsID;
 	}
-	
+
 }

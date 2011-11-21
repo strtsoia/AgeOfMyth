@@ -13,39 +13,67 @@ import utility.ResourceHandler;
 public class Board {
 
 	/* production area */
+	/**
+	 */
 	int[][] productionOccupied = new int[4][4];
-	// different culture has different board terrain,must be determined by subclass
+	// different culture has different board terrain,must be determined by
+	// subclass
+	/**
+	 */
 	GlobalDef.Terrain[][] terrainOnBoard = new GlobalDef.Terrain[4][4];
-	
-	/* city area */ 
+
+	/* city area */
 	// store the ID of building: -1 indicates nothing
+	/**
+	 */
 	int[][] cityOccupied = new int[4][4];
-	
+
 	/* holding area */
+	/**
+	 */
 	Hashtable<BattleCard, Integer> holdingUnits = new Hashtable<BattleCard, Integer>();
+	/**
+	 */
 	Hashtable<GlobalDef.Resources, Integer> holdResource = new Hashtable<GlobalDef.Resources, Integer>();
+	/**
+	 */
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
-	
+
+	/**
+	 */
 	private int numOfVillager;
+	/**
+	 */
 	private Culture player;
-	
+
+	/**
+	 * @return
+	 */
 	public int[][] getCityOccupied() {
 		return cityOccupied;
 	}
 
+	/**
+	 * @return
+	 */
 	public int[][] getProductionOccupied() {
 		return productionOccupied;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getNumOfVillager() {
 		return numOfVillager;
 	}
-	
-	public void setNumOfVillager(int number)
-	{
+
+	/**
+	 * @param number
+	 */
+	public void setNumOfVillager(int number) {
 		numOfVillager = number;
 	}
-	
+
 	public Hashtable<GlobalDef.Resources, Integer> getHoldResource() {
 		return holdResource;
 	}
@@ -53,95 +81,82 @@ public class Board {
 	public Hashtable<BattleCard, Integer> getUnitsPool() {
 		return unitsPool;
 	}
-		
+
 	public Hashtable<BattleCard, Integer> getHoldingUnits() {
 		return holdingUnits;
 	}
-	
-	
+
 	public void setHoldingUnits(Hashtable<BattleCard, Integer> holdingUnits) {
 		this.holdingUnits = holdingUnits;
 	}
 
 	// constructor
-	public Board(GlobalDef.Races r, Culture c)
-	{
+	public Board(GlobalDef.Races r, Culture c) {
 		InitialProductionBoard(r);
 		InitialCityBoard();
 		InitialHoldingArea(r);
 		numOfVillager = 0;
 		player = c;
 	}
-	
-	private void InitialHoldingArea(GlobalDef.Races race)
-	{
+
+	private void InitialHoldingArea(GlobalDef.Races race) {
 		// begin initial holding resource for player
 		holdResource.put(GlobalDef.Resources.FOOD, 0);
 		holdResource.put(GlobalDef.Resources.GOLD, 0);
 		holdResource.put(GlobalDef.Resources.WOOD, 0);
 		holdResource.put(GlobalDef.Resources.FAVOR, 0);
-		
+
 		// initial resource each player get
 		Hashtable<GlobalDef.Resources, Integer> iniRes = new Hashtable<GlobalDef.Resources, Integer>();
 		iniRes.put(GlobalDef.Resources.FAVOR, 14);
 		iniRes.put(GlobalDef.Resources.FOOD, 14);
 		iniRes.put(GlobalDef.Resources.GOLD, 14);
 		iniRes.put(GlobalDef.Resources.WOOD, 14);
-		
+
 		ResourceHandler.Add(holdResource, iniRes);
 		ResourceHandler.Delete(Bank.getInstance().getResourcePool(), iniRes);
 		// end of initial holding resource
-		
+
 		// begin initial units for player
-		if(race.equals(GlobalDef.Races.Egypt))
-		{
+		if (race.equals(GlobalDef.Races.Egypt)) {
 			InitalUnitsForEgypt();
-		}else if(race.equals(GlobalDef.Races.Greek))
-		{
+		} else if (race.equals(GlobalDef.Races.Greek)) {
 			InitialUnitsForGreek();
-		}else{
+		} else {
 			InitialUnitsForNorse();
 		}
-		// end of units initialization	
+		// end of units initialization
 	}
-	
-	private void InitialCityBoard()
-	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
+
+	private void InitialCityBoard() {
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
 				cityOccupied[row][col] = -1;
 			}
 	}
-	
+
 	// different culture has different board terrain
-	private void InitialProductionBoard(GlobalDef.Races race)
-	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
+	private void InitialProductionBoard(GlobalDef.Races race) {
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
 				productionOccupied[row][col] = -1;
 			}
-		
-		if(race.equals(GlobalDef.Races.Egypt))
-		{
+
+		if (race.equals(GlobalDef.Races.Egypt)) {
 			AssignEgyptBoard();
 			return;
-		}else if(race.equals(GlobalDef.Races.Greek))
-		{
+		} else if (race.equals(GlobalDef.Races.Greek)) {
 			AssignGreekBoard();
 			return;
-		}else
-		{
+		} else {
 			AssignNorseBoard();
 			return;
 		}
-		
+
 	}
-	
+
 	// production area of Egypt board
-	private void AssignEgyptBoard()
-	{
+	private void AssignEgyptBoard() {
 		terrainOnBoard[0][0] = GlobalDef.Terrain.Desert;
 		terrainOnBoard[0][1] = GlobalDef.Terrain.Desert;
 		terrainOnBoard[0][2] = GlobalDef.Terrain.Swamp;
@@ -158,12 +173,11 @@ public class Board {
 		terrainOnBoard[3][1] = GlobalDef.Terrain.Hills;
 		terrainOnBoard[3][2] = GlobalDef.Terrain.Fertile;
 		terrainOnBoard[3][3] = GlobalDef.Terrain.Hills;
-		
+
 	}
-	
+
 	// production area of Greek board
-	private void AssignGreekBoard()
-	{
+	private void AssignGreekBoard() {
 		terrainOnBoard[0][0] = GlobalDef.Terrain.Fertile;
 		terrainOnBoard[0][1] = GlobalDef.Terrain.Fertile;
 		terrainOnBoard[0][2] = GlobalDef.Terrain.Forest;
@@ -181,10 +195,9 @@ public class Board {
 		terrainOnBoard[3][2] = GlobalDef.Terrain.Hills;
 		terrainOnBoard[3][3] = GlobalDef.Terrain.Hills;
 	}
-	
+
 	// production area of Norse board
-	private void AssignNorseBoard()
-	{
+	private void AssignNorseBoard() {
 		terrainOnBoard[0][0] = GlobalDef.Terrain.Fertile;
 		terrainOnBoard[0][1] = GlobalDef.Terrain.Mountains;
 		terrainOnBoard[0][2] = GlobalDef.Terrain.Mountains;
@@ -202,9 +215,8 @@ public class Board {
 		terrainOnBoard[3][2] = GlobalDef.Terrain.Forest;
 		terrainOnBoard[3][3] = GlobalDef.Terrain.Fertile;
 	}
-	
-	private void InitalUnitsForEgypt()
-	{
+
+	private void InitalUnitsForEgypt() {
 		// initial units pool
 		unitsPool.put(Scorpion.getInstance(), 4);
 		unitsPool.put(Sphinx.getInstance(), 4);
@@ -218,7 +230,7 @@ public class Board {
 		unitsPool.put(Chariot.getInstance(), 4);
 		unitsPool.put(Spearman.getInstance(), 2);
 		unitsPool.put(Elephant.getInstance(), 2);
-		
+
 		// initial holding units
 		holdingUnits.put(Scorpion.getInstance(), 0);
 		holdingUnits.put(Sphinx.getInstance(), 0);
@@ -232,11 +244,10 @@ public class Board {
 		holdingUnits.put(Chariot.getInstance(), 0);
 		holdingUnits.put(Spearman.getInstance(), 2);
 		holdingUnits.put(Elephant.getInstance(), 2);
-		
+
 	}
-	
-	private void InitialUnitsForGreek()
-	{
+
+	private void InitialUnitsForGreek() {
 		// initial units pool
 		unitsPool.put(Cyclops.getInstance(), 4);
 		unitsPool.put(Medusa.getInstance(), 4);
@@ -250,7 +261,7 @@ public class Board {
 		unitsPool.put(Toxotes.getInstance(), 2);
 		unitsPool.put(Hoplite.getInstance(), 2);
 		unitsPool.put(Hippokon.getInstance(), 2);
-		
+
 		holdingUnits.put(Cyclops.getInstance(), 0);
 		holdingUnits.put(Medusa.getInstance(), 0);
 		holdingUnits.put(Minotaur.getInstance(), 0);
@@ -263,11 +274,10 @@ public class Board {
 		holdingUnits.put(Toxotes.getInstance(), 2);
 		holdingUnits.put(Hoplite.getInstance(), 2);
 		holdingUnits.put(Hippokon.getInstance(), 2);
-		
+
 	}
-	
-	private void InitialUnitsForNorse()
-	{
+
+	private void InitialUnitsForNorse() {
 		// initial units pool
 		unitsPool.put(Valkyric.getInstance(), 4);
 		unitsPool.put(Dwarf.getInstance(), 4);
@@ -280,7 +290,7 @@ public class Board {
 		unitsPool.put(HeroicNorseHero.getInstance(), 1);
 		unitsPool.put(MythicNorseHero.getInstance(), 1);
 		unitsPool.put(ForestGiant.getInstance(), 4);
-		
+
 		holdingUnits.put(Valkyric.getInstance(), 0);
 		holdingUnits.put(Dwarf.getInstance(), 0);
 		holdingUnits.put(Troll.getInstance(), 0);
@@ -292,53 +302,47 @@ public class Board {
 		holdingUnits.put(HeroicNorseHero.getInstance(), 0);
 		holdingUnits.put(MythicNorseHero.getInstance(), 0);
 		holdingUnits.put(ForestGiant.getInstance(), 0);
-		
+
 	}
-	
+
 	// check proper battle card for proper culture
-	private Hashtable<Integer, BattleCard> getUnitMap()
-	{
-		if(player.getRace() == GlobalDef.Races.Egypt)
-		{
+	private Hashtable<Integer, BattleCard> getUnitMap() {
+		if (player.getRace() == GlobalDef.Races.Egypt) {
 			return GlobalDef.getEgyptBattleCard();
-		}else if(player.getRace() == GlobalDef.Races.Greek)
-		{
+		} else if (player.getRace() == GlobalDef.Races.Greek) {
 			return GlobalDef.getGreekBattleCard();
 		}
-		
+
 		return GlobalDef.getNorseBattleCard();
 	}
-	
-	public void RemoveUnits(int ID)
-	{
+
+	public void RemoveUnits(int ID) {
 		int num = unitsPool.get(getUnitMap().get(ID));
 		unitsPool.put(getUnitMap().get(ID), num + 1);
 		int hNum = holdingUnits.get(getUnitMap().get(ID));
 		holdingUnits.put(getUnitMap().get(ID), hNum - 1);
-		
+
 	}
-	
-	public void PlaceUnit(BattleCard unit)
-	{
+
+	public void PlaceUnit(BattleCard unit) {
 		int num = unitsPool.get(unit);
 		unitsPool.put(unit, num - 1);
 		int hNum = holdingUnits.get(unit);
 		holdingUnits.put(unit, hNum + 1);
 	}
-	
-	public void RemoveBuilding(int ID)
-	{
+
+	public void RemoveBuilding(int ID) {
 		Building build = GlobalDef.getBuildingMap().get(ID);
 		build.UnBehavior(player);
 		System.out.println("there is: " + ID);
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(cityOccupied[row][col] == ID)
-				{System.out.println("find " + ID);
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
+				if (cityOccupied[row][col] == ID) {
+					System.out.println("find " + ID);
 					cityOccupied[row][col] = -1;
 					// add build to bank
-					Hashtable<Building, Integer> table = Bank.getInstance().getBuildingPool();
+					Hashtable<Building, Integer> table = Bank.getInstance()
+							.getBuildingPool();
 					int num = table.get(build);
 					num++;
 					table.put(build, num);
@@ -346,33 +350,28 @@ public class Board {
 					return;
 				}
 			}
-		
+
 	}
-	
-	public void PlaceBuilding(Building build, int ID)
-	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(cityOccupied[row][col] == -1)
-				{
+
+	public void PlaceBuilding(Building build, int ID) {
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
+				if (cityOccupied[row][col] == -1) {
 					cityOccupied[row][col] = ID;
 					build.Behavior(player);
 					return;
 				}
 			}
 	}
-	
-	public void removeProductionTile(int ID)
-	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(productionOccupied[row][col] == ID)
-				{
+
+	public void removeProductionTile(int ID) {
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
+				if (productionOccupied[row][col] == ID) {
 					productionOccupied[row][col] = -1;
 					// add this tile to bank
-					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					Hashtable<ResProduceTile, Integer> table = Bank
+							.getInstance().getProductionPool();
 					int number = table.get(GlobalDef.getTileMap().get(ID));
 					number++;
 					table.put(GlobalDef.getTileMap().get(ID), number);
@@ -381,20 +380,19 @@ public class Board {
 				}
 			}
 	}
-	
-	public void placeProductionTile(int ID)
-	{
+
+	public void placeProductionTile(int ID) {
 		ResProduceTile pTile = GlobalDef.getTileMap().get(ID);
 		GlobalDef.Terrain terrType = pTile.getTerrainType();
-		
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(productionOccupied[row][col] == -1 && terrainOnBoard[row][col] == terrType)
-				{
+
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
+				if (productionOccupied[row][col] == -1
+						&& terrainOnBoard[row][col] == terrType) {
 					productionOccupied[row][col] = ID;
 					// delete this tile to bank
-					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					Hashtable<ResProduceTile, Integer> table = Bank
+							.getInstance().getProductionPool();
 					int number = table.get(GlobalDef.getTileMap().get(ID));
 					number--;
 					table.put(GlobalDef.getTileMap().get(ID), number);
@@ -403,67 +401,60 @@ public class Board {
 				}
 			}
 	}
-	
-	public void Explore(ResProduceTile pTile, int ID)
-	{
-		for(int row = 0; row < 4; row++)
-			for(int col = 0; col < 4; col++)
-			{
-				if(pTile.getTerrainType()  == terrainOnBoard[row][col]
-						&& productionOccupied[row][col] == -1)
-				{
+
+	public void Explore(ResProduceTile pTile, int ID) {
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++) {
+				if (pTile.getTerrainType() == terrainOnBoard[row][col]
+						&& productionOccupied[row][col] == -1) {
 					productionOccupied[row][col] = ID;
 					// delete tile from bank
-					Hashtable<ResProduceTile, Integer> table = Bank.getInstance().getProductionPool();
+					Hashtable<ResProduceTile, Integer> table = Bank
+							.getInstance().getProductionPool();
 					int number = table.get(GlobalDef.getTileMap().get(ID));
 					number--;
 					table.put(GlobalDef.getTileMap().get(ID), number);
 					Bank.getInstance().setProductionPool(table);
 					return;
 				}
-					
-			}	
+
+			}
 	}
-	
+
 	// return value: actual amount removed from board
 	// rt: required resource for removing
-	public Hashtable<GlobalDef.Resources,Integer> RemoveResource(Hashtable<GlobalDef.Resources, Integer> rt)
-	{
+	public Hashtable<GlobalDef.Resources, Integer> RemoveResource(
+			Hashtable<GlobalDef.Resources, Integer> rt) {
 		return ResourceHandler.Delete(holdResource, rt);
 	}
-		
-	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> res)
-	{
+
+	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> res) {
 		ResourceHandler.Add(holdResource, res);
 	}
-	
+
 	// gatherType: 0 for gather by terrain. 1 for gather by resource type
-	public Hashtable<GlobalDef.Resources, Integer> Gather(boolean gatherType, GlobalDef.Resources resType,
-			GlobalDef.Terrain choosenType)
-	{
-		Hashtable<GlobalDef.Resources, Integer> gatheredRes =
-				new Hashtable<GlobalDef.Resources, Integer>();
+	public Hashtable<GlobalDef.Resources, Integer> Gather(boolean gatherType,
+			GlobalDef.Resources resType, GlobalDef.Terrain choosenType) {
+		Hashtable<GlobalDef.Resources, Integer> gatheredRes = new Hashtable<GlobalDef.Resources, Integer>();
 		gatheredRes.put(GlobalDef.Resources.FAVOR, 0);
 		gatheredRes.put(GlobalDef.Resources.FOOD, 0);
 		gatheredRes.put(GlobalDef.Resources.GOLD, 0);
 		gatheredRes.put(GlobalDef.Resources.WOOD, 0);
-		
+
 		// gather by terrain type
-		if(!gatherType)
-		{
-			for(int row = 0; row < 4; row++)
-				for(int col = 0; col < 4; col++)
-				{
-					if(productionOccupied[row][col] >= 0)
-					{
-						ResProduceTile tile = GlobalDef.getTileMap().get(productionOccupied[row][col]);
+		if (!gatherType) {
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					if (productionOccupied[row][col] >= 0) {
+						ResProduceTile tile = GlobalDef.getTileMap().get(
+								productionOccupied[row][col]);
 						GlobalDef.Terrain terrain = tile.getTerrainType();
-						
-						if(choosenType == terrain)
-						{
+
+						if (choosenType == terrain) {
 							// which type of resource
 							GlobalDef.Resources rType = tile.getResourceType();
-							int productivity = tile.getProductivity().get(rType);
+							int productivity = tile.getProductivity()
+									.get(rType);
 							productivity = productivity * numOfVillager;
 							int number = gatheredRes.get(rType);
 							number = number + productivity;
@@ -471,31 +462,29 @@ public class Board {
 						}
 					}
 				}
-			
+
 			return gatheredRes;
-		}
-		else // gathered by resource type
+		} else // gathered by resource type
 		{
 			int numRes = 0;
-			
-			for(int row = 0; row < 4; row++)
-				for(int col = 0; col < 4; col++)
-				{
-					if(productionOccupied[row][col] >= 0)
-					{
-						ResProduceTile tile = GlobalDef.getTileMap().get(productionOccupied[row][col]);
-						GlobalDef.Resources currResType = tile.getResourceType();
-						if(currResType == resType)
-						{
+
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					if (productionOccupied[row][col] >= 0) {
+						ResProduceTile tile = GlobalDef.getTileMap().get(
+								productionOccupied[row][col]);
+						GlobalDef.Resources currResType = tile
+								.getResourceType();
+						if (currResType == resType) {
 							numRes += tile.getProductivity().get(currResType);
 						}
-				}
 					}
-			
+				}
+
 			numRes = numRes * numOfVillager;
 			gatheredRes.put(resType, numRes);
 			return gatheredRes;
 		}
 	}
-	
+
 }
