@@ -12,12 +12,8 @@ public class BuildingCard extends Card {
 
 	private static BuildingCard buildingCard;
 
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 
-	/**
-	 */
 	private int maxBuildNumber;
 
 	private BuildingCard() {

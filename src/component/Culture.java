@@ -14,56 +14,32 @@ public class Culture {
 	/**
 	 */
 	private Board gameBoard;
-	/**
-	 */
+	
 	private Hashtable<Card, Integer> permanentcardPool = new Hashtable<Card, Integer>();
 
 	// keep track of whether building has been constructed
-	/**
-	 */
 	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
-	/**
-	 */
 	private GlobalDef.Age currentAge;
-	/**
-	 */
 	private GlobalDef.Races race;
 
-	/**
-	 */
 	private int playerID;
 
-	/**
-	 * @return
-	 */
 	public int getPlayerID() {
 		return playerID;
 	}
 
-	/**
-	 * @param playerID
-	 */
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
 	}
 
-	/**
-	 * @return
-	 */
 	public GlobalDef.Age getCurrentAge() {
 		return currentAge;
 	}
 
-	/**
-	 * @param currentAge
-	 */
 	public void setCurrentAge(GlobalDef.Age currentAge) {
 		this.currentAge = currentAge;
 	}
 
-	/**
-	 * @return
-	 */
 	public Board getGameBoard() {
 		return gameBoard;
 	}
@@ -100,9 +76,6 @@ public class Culture {
 		playerID = id;
 	}
 
-	/**
-	 * @return
-	 */
 	public GlobalDef.Races getRace() {
 		return race;
 	}

@@ -22,46 +22,24 @@ public class RecruitScreen extends Scene2D {
 	/**
 	 */
 	final int width = 100;
-	/**
-	 */
 	final int height = 150;
 
-	/**
-	 */
+
 	ImageSprite background;
-	/**
-	 */
 	CoreImage[] battleCardImg;
-	/**
-	 */
 	Button[][] battleCardBtn = new Button[3][4];
-	/**
-	 */
 	Label ok;
-	/**
-	 */
 	Group battleCardForm;
 
-	/**
-	 */
+	
 	Culture player;
-	/**
-	 */
 	int maxNumOfRecruit;
-	/**
-	 */
 	int RecruitedNum;
-	/**
-	 */
 	GlobalDef.Races race;
-	/**
-	 */
 	int boundary = 0;
-	/**
-	 */
+	
 	int[] heroID;
-	/**
-	 */
+
 	String strbackground;
 
 	public void Init(Culture culture, int max, GlobalDef.Races r) {
@@ -91,6 +69,10 @@ public class RecruitScreen extends Scene2D {
 		} else {
 			strBattleCard = "norseBattlecard.jpg";
 			boundary = 10;
+			heroID[0] = 1;
+			heroID[1] = 9;
+			heroID[2] = 6;
+			strbackground = "norsepopback.jpg";
 		}
 
 		background = new ImageSprite(strbackground, 100,

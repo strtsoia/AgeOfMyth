@@ -21,74 +21,38 @@ public class GatherScreen extends Scene2D {
 	 */
 	final int width = 50;
 
-	/**
-	 */
 	ImageSprite background;
-	/**
-	 */
 	String strbackground;
-	/**
-	 */
 	Label byRes;
-	/**
-	 */
 	Label byTerrain;
-	/**
-	 */
 	Label messageLb;
-	/**
-	 */
 	Label errorLb;
-	/**
-	 */
+	
 	Group group;
-	/**
-	 */
 	Group gatheredInfo;
-	/**
-	 */
 	Group message;
-	/**
-	 */
+	
 	CoreImage[] cubesImg;
-	/**
-	 */
 	CoreImage[] terrainImg;
 
-	/**
-	 */
+	
 	Button[] resBtn;
-	/**
-	 */
 	Button[] terrainBtn;
-	/**
-	 */
 	Button[] resGBtn;
 
-	/**
-	 */
 	int status; // 0: has not choose, 1, resource type, 2, terrain type
-	/**
-	 */
+	
 	int[] resGathered = new int[4]; // store gathered info
-	/**
-	 */
 	Label[] infoLabel = new Label[4];
-	/**
-	 */
+
 	boolean finish;
-	/**
-	 */
+
 	Culture player;
-	/**
-	 */
+
 	Label ok;
 
-	/**
-	 */
 	int totalresType;
-	/**
-	 */
+	
 	int totalTerrainType;
 
 	public void Init(Culture c) {
@@ -105,6 +69,8 @@ public class GatherScreen extends Scene2D {
 			strbackground = "egyptpopback.jpg";
 		} else if (player.getRace() == GlobalDef.Races.Greek) {
 			strbackground = "greekpopback.jpg";
+		}else if(player.getRace() == GlobalDef.Races.Norse){
+			strbackground = "norsepopback.jpg";
 		}
 
 		background = new ImageSprite(strbackground, Stage.getWidth() * 3 / 4

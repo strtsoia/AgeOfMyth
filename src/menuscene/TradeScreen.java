@@ -25,43 +25,20 @@ public class TradeScreen extends Scene2D {
 	/**
 	 */
 	Culture player;
-	/**
-	 */
+
 	boolean payOver;
-	/**
-	 */
 	String strbackground;
-
-	/**
-	 */
 	ImageSprite background;
-	/**
-	 */
+	
 	CoreImage[] cubesImg;
-	/**
-	 */
 	Button[] costBtn;
-	/**
-	 */
 	Group costForm;
-	/**
-	 */
 	Label[] costLabel;
-
-	/**
-	 */
 	Button okButton;
-	/**
-	 */
+	
 	Label[] userSideLabel;
-	/**
-	 */
 	Label[] bankSideLabel;
-	/**
-	 */
 	Slider[] userSlider;
-	/**
-	 */
 	Slider[] bankSlider;
 
 	public void Init(Culture c) {
@@ -74,6 +51,8 @@ public class TradeScreen extends Scene2D {
 			strbackground = "egyptpopback.jpg";
 		} else if (player.getRace() == GlobalDef.Races.Greek) {
 			strbackground = "greekpopback.jpg";
+		}else if(player.getRace() == GlobalDef.Races.Norse){
+			strbackground = "norsepopback.jpg";
 		}
 
 		background = new ImageSprite(strbackground, 50,

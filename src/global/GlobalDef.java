@@ -14,20 +14,10 @@ public class GlobalDef {
 	 * @author strtsoia
 	 */
 	public enum Resources {
-		/**
-		 */
 		FOOD,
-		/**
-		 */
 		WOOD,
-		/**
-		 */
 		GOLD,
-		/**
-		 */
 		FAVOR,
-		/**
-		 */
 		VICTORY;
 	}
 
@@ -35,14 +25,9 @@ public class GlobalDef {
 	 * @author strtsoia
 	 */
 	public enum Races {
-		/**
-		 */
+	
 		Egypt,
-		/**
-		 */
 		Greek,
-		/**
-		 */
 		Norse
 	}
 
@@ -50,23 +35,11 @@ public class GlobalDef {
 	 * @author strtsoia
 	 */
 	public enum Terrain {
-		/**
-		 */
 		Fertile,
-		/**
-		 */
 		Forest,
-		/**
-		 */
 		Hills,
-		/**
-		 */
 		Mountains,
-		/**
-		 */
 		Desert,
-		/**
-		 */
 		Swamp
 
 	}
@@ -75,17 +48,10 @@ public class GlobalDef {
 	 * @author strtsoia
 	 */
 	public enum Age {
-		/**
-		 */
+	
 		Ancient,
-		/**
-		 */
 		Classical,
-		/**
-		 */
 		Heroic,
-		/**
-		 */
 		Mythic
 	}
 
@@ -275,6 +241,17 @@ public class GlobalDef {
 
 	public static Hashtable<Integer, BattleCard> getNorseBattleCard() {
 		if (norsekBattleCard.size() == 0) {
+			norsekBattleCard.put(0, Troll.getInstance());
+			norsekBattleCard.put(1, ClassicalNorseHero.getInstance());
+			norsekBattleCard.put(2, Valkyric.getInstance());
+			norsekBattleCard.put(3, Nidhogg.getInstance());
+			norsekBattleCard.put(4, Dwarf.getInstance());
+			norsekBattleCard.put(5, Jarl.getInstance());
+			norsekBattleCard.put(6, MythicNorseHero.getInstance());
+			norsekBattleCard.put(7, Huskarl.getInstance());
+			norsekBattleCard.put(8, ForestGiant.getInstance());
+			norsekBattleCard.put(9, HeroicNorseHero.getInstance());
+			norsekBattleCard.put(10, Throwing.getInstance());
 			return norsekBattleCard;
 		}
 
@@ -285,6 +262,17 @@ public class GlobalDef {
 
 	public static Hashtable<BattleCard, Integer> getNorseUnitsID() {
 		if (norseUnitsID.size() == 0) {
+			norseUnitsID.put(Troll.getInstance(), 0);
+			norseUnitsID.put(ClassicalNorseHero.getInstance(), 1);
+			norseUnitsID.put(Valkyric.getInstance(), 2);
+			norseUnitsID.put(Nidhogg.getInstance(), 3);
+			norseUnitsID.put(Dwarf.getInstance(), 4);
+			norseUnitsID.put(Jarl.getInstance(), 5);
+			norseUnitsID.put(MythicNorseHero.getInstance(), 6);
+			norseUnitsID.put(Huskarl.getInstance(), 7);
+			norseUnitsID.put(ForestGiant.getInstance(), 8);
+			norseUnitsID.put(HeroicNorseHero.getInstance(), 9);
+			norseUnitsID.put(Throwing.getInstance(), 10);
 			return norseUnitsID;
 		}
 
