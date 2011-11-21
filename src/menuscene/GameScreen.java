@@ -249,29 +249,29 @@ public class GameScreen extends Scene2D {
 				}
 			}
 
-		if (Input.isAltDown()) {
+		if (Input.isPressed(Input.KEY_B)) {
 
 			BuildingCard.GetInstance().Action(player[index]);
 		}
 
-		if (Input.isControlDown()) {
+		if (Input.isPressed(Input.KEY_G)) {
 
 			GatherCard.GetInstance().Action(player[index]);
 		}
 
-		if (Input.isPressed(Input.KEY_SPACE)) {
+		if (Input.isPressed(Input.KEY_T)) {
 			TradeCard.GetInstance().Action(player[index]);
 		}
 
-		if (Input.isShiftDown()) {
+		if (Input.isPressed(Input.KEY_E)) {
 			ExploreCard.GetInstance().Action(player[index]);
 		}
 
-		if (Input.isPressed(Input.KEY_0)) {
+		if (Input.isPressed(Input.KEY_R)) {
 			RecruitCard.GetInstance().Action(player[index]);
 		}
 
-		if (Input.isPressed(Input.KEY_1)) {
+		if (Input.isPressed(Input.KEY_N)) {
 			NextAgeCard.GetInstance().Action(player[index]);
 		}
 
@@ -280,7 +280,7 @@ public class GameScreen extends Scene2D {
 			index = index % numOfPlayers;
 		}
 
-		if (Input.isPressed(Input.KEY_F1)) {
+		if (Input.isPressed(Input.KEY_A)) {
 			AttackCard.GetInstance().Action(player[index]);
 		}
 	}
