@@ -102,8 +102,8 @@ public class TradeScreen extends Scene2D {
 						10, width * i);
 				userSideLabel[i] = new Label("%d ", 0, width * i);
 				userSlider[i].setRange(0, number);
+				userSlider[i].scrollHome();
 				userSideLabel[i].setFormatArg(userSlider[i].value);
-
 				resInfoForm.add(userSideLabel[i]);
 				resInfoForm.add(userSlider[i]);
 			}

@@ -137,10 +137,8 @@ public class DrawCardScreen extends Scene2D{
 					}
 					
 				}
-				
 			}
-		
-		
+			
 		if(finishActSelLable.isMousePressed() && !selRandomCard)
 		{
 			selRandomCard = true;
