@@ -121,19 +121,14 @@ public class Culture {
 	
 	private void InitialHoldCard()
 	{
-		if(race == GlobalDef.Races.Egypt){
-			
-		}else if(race == GlobalDef.Races.Greek){
-			
-		}else if(race == GlobalDef.Races.Norse){
-			this.cardHold.put(AttackCard.GetInstance(), 0);
-			this.cardHold.put(BuildingCard.GetInstance(), 0);
-			this.cardHold.put(ExploreCard.GetInstance(), 0);
-			this.cardHold.put(GatherCard.GetInstance(), 0);
-			this.cardHold.put(NextAgeCard.GetInstance(), 0);
-			this.cardHold.put(RecruitCard.GetInstance(), 0);
-			this.cardHold.put(TradeCard.GetInstance(), 0);
-		}
+		this.cardHold.put(AttackCard.GetInstance(), 0);
+		this.cardHold.put(BuildingCard.GetInstance(), 0);
+		this.cardHold.put(ExploreCard.GetInstance(), 0);
+		this.cardHold.put(GatherCard.GetInstance(), 0);
+		this.cardHold.put(NextAgeCard.GetInstance(), 0);
+		this.cardHold.put(RecruitCard.GetInstance(), 0);
+		this.cardHold.put(TradeCard.GetInstance(), 0);
+		
 	}
 	
 	public void DrawCard(Card card) {

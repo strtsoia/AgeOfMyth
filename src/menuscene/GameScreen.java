@@ -71,7 +71,7 @@ public class GameScreen extends Scene2D {
 		// initialize bank
 		Bank.getInstance();
 
-		numOfPlayers = 2;
+		numOfPlayers = 3;
 		player = new Culture[numOfPlayers];
 		/*
 		 * playerRace = CultureScreen.getPlayerCulture(); // create each players
@@ -81,6 +81,7 @@ public class GameScreen extends Scene2D {
 
 		player[0] = new Culture(GlobalDef.Races.Egypt, 0);
 		player[1] = new Culture(GlobalDef.Races.Norse, 1);
+		player[2] = new Culture(GlobalDef.Races.Greek, 2);
 
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";

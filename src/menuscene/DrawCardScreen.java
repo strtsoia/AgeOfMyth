@@ -57,8 +57,10 @@ public class DrawCardScreen extends Scene2D{
 		String strCard = null;
 		if (race == GlobalDef.Races.Egypt) {
 			strBackground = "egyptpopback.jpg";
+			strCard = "egyptCard.jpg";
 		}else if(race == GlobalDef.Races.Greek){
 			strBackground = "greekpopback.jpg";
+			strCard = "greekCard.jpg";
 		}else if(race == GlobalDef.Races.Norse){
 			strBackground = "norsepopback.jpg";
 			strCard = "norseCard.jpg";
