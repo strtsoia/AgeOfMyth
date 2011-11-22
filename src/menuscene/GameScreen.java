@@ -210,7 +210,9 @@ public class GameScreen extends Scene2D {
 				sideGroup.add(label);
 			}
 		}
-
+		
+		// holding card showing
+		
 		// update city area, first clear city area, just remove all building
 		// image from board
 		Iterator<ImageSprite> bIter = bList.iterator();
