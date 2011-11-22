@@ -16,13 +16,35 @@ public class Culture {
 	private Board gameBoard;
 	
 	private Hashtable<Card, Integer> permanentcardPool = new Hashtable<Card, Integer>();
-
+	private Hashtable<Card, Integer> randomcardPool = new Hashtable<Card, Integer>();
+	private Hashtable<Card, Integer> cardHold = new Hashtable<Card, Integer>();
+	
 	// keep track of whether building has been constructed
 	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
 	private GlobalDef.Age currentAge;
 	private GlobalDef.Races race;
 
 	private int playerID;
+	
+	public Hashtable<Card, Integer> getCardHold() {
+		return cardHold;
+	}
+	
+	
+	public boolean isAI() {
+		return isAI;
+	}
+
+
+	public Hashtable<Card, Integer> getPermanentcardPool() {
+		return permanentcardPool;
+	}
+
+
+	public Hashtable<Card, Integer> getRandomcardPool() {
+		return randomcardPool;
+	}
+
 
 	public int getPlayerID() {
 		return playerID;
@@ -69,11 +91,13 @@ public class Culture {
 		b_build.put(WoodWorkshop.GetInstance(), false);
 
 		currentAge = GlobalDef.Age.Ancient;
-
-		InitialPermanentPool();
 		gameBoard = new Board(r, this);
 		race = r;
 		playerID = id;
+		
+		InitialPermanentPool();
+		InitialRandomPool();
+		InitialHoldCard();
 	}
 
 	public GlobalDef.Races getRace() {
@@ -89,9 +113,43 @@ public class Culture {
 		permanentcardPool.put(TradeCard.GetInstance(), 2);
 		permanentcardPool.put(RecruitCard.GetInstance(), 2);
 	}
-
-	public void DrawCard() {
-
+	
+	private void InitialRandomPool()
+	{
+		
+	}
+	
+	private void InitialHoldCard()
+	{
+		if(race == GlobalDef.Races.Egypt){
+			
+		}else if(race == GlobalDef.Races.Greek){
+			
+		}else if(race == GlobalDef.Races.Norse){
+			this.cardHold.put(AttackCard.GetInstance(), 0);
+			this.cardHold.put(BuildingCard.GetInstance(), 0);
+			this.cardHold.put(ExploreCard.GetInstance(), 0);
+			this.cardHold.put(GatherCard.GetInstance(), 0);
+			this.cardHold.put(NextAgeCard.GetInstance(), 0);
+			this.cardHold.put(RecruitCard.GetInstance(), 0);
+			this.cardHold.put(TradeCard.GetInstance(), 0);
+		}
+	}
+	
+	public void DrawCard(Card card) {
+		// update user side
+		int number = cardHold.get(card);
+		number++;
+		this.cardHold.put(card, number);
+		
+		// update pool side
+		int cardID = GlobalDef.getActionCardID().get(card);
+		if(cardID < 7)	// permanent card, draw from permanent pool
+		{
+			int pNumber = this.permanentcardPool.get(card);
+			pNumber--;
+			this.permanentcardPool.put(card, pNumber);
+		}
 	}
 
 	public void PlayCard() {

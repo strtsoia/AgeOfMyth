@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import building.*;
 import tile.*;
 import battlecard.*;
+import actioncard.*;
 
 /*
  * this class contains all global data
@@ -278,5 +279,42 @@ public class GlobalDef {
 
 		return norseUnitsID;
 	}
-
+	
+	/* card ID mapping */
+	private static Hashtable<Card, Integer> actionCardID = new Hashtable<Card, Integer>();
+	public static Hashtable<Card, Integer> getActionCardID()
+	{
+		if(actionCardID.size() == 0){
+			actionCardID.put(AttackCard.GetInstance(), 0);
+			actionCardID.put(BuildingCard.GetInstance(), 1);
+			actionCardID.put(ExploreCard.GetInstance(), 2);
+			actionCardID.put(GatherCard.GetInstance(), 3);
+			actionCardID.put(NextAgeCard.GetInstance(), 4);
+			actionCardID.put(RecruitCard.GetInstance(), 5);
+			actionCardID.put(TradeCard.GetInstance(), 6);
+			
+			return actionCardID;
+		}
+		
+		return actionCardID;
+	}
+	
+	private static Hashtable<Integer, Card> actionCard = new Hashtable<Integer, Card>();
+	public static Hashtable<Integer, Card> getActionCard()
+	{
+		if(actionCard.size() == 0){
+			actionCard.put(0, AttackCard.GetInstance());
+			actionCard.put(1, BuildingCard.GetInstance());
+			actionCard.put(2, ExploreCard.GetInstance());
+			actionCard.put(3, GatherCard.GetInstance());
+			actionCard.put(4, NextAgeCard.GetInstance());
+			actionCard.put(5, RecruitCard.GetInstance());
+			actionCard.put(6, TradeCard.GetInstance());
+			
+			return actionCard;
+		}
+		
+		return actionCard;
+	}
+	
 }

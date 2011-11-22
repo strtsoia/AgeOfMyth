@@ -283,6 +283,12 @@ public class GameScreen extends Scene2D {
 		if (Input.isPressed(Input.KEY_A)) {
 			AttackCard.GetInstance().Action(player[index]);
 		}
+		
+		if(Input.isPressed(Input.KEY_D)){
+			DrawCardScreen dScreen = new DrawCardScreen();
+			dScreen.Init(player[index], player[index].getRace());
+			Stage.pushScene(dScreen);
+		}
 	}
 
 	public static int getNumOfPlayers() {
