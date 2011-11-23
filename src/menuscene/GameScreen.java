@@ -292,6 +292,13 @@ public class GameScreen extends Scene2D {
 			dScreen.Init(player[index], player[index].getRace());
 			Stage.pushScene(dScreen);
 		}
+		
+		if(Input.isPressed(Input.KEY_0))
+		{
+			BankScreen bScreen = new BankScreen();
+			bScreen.Init(player[index]);
+			Stage.pushScene(bScreen);
+		}
 	}
 
 	public static int getNumOfPlayers() {

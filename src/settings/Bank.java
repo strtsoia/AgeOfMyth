@@ -13,15 +13,10 @@ public class Bank {
 
 	private static Bank bank;
 
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> resourcePool = new Hashtable<GlobalDef.Resources, Integer>();
-	/**
-	 */
 	private Hashtable<Building, Integer> buildingPool = new Hashtable<Building, Integer>();
-	/**
-	 */
 	private Hashtable<ResProduceTile, Integer> productionPool = new Hashtable<ResProduceTile, Integer>();
+	private Hashtable<Integer, Integer> vpcOnCards = new Hashtable<Integer, Integer>();
 
 	// constructor
 	private Bank() {
@@ -38,12 +33,13 @@ public class Bank {
 			InitialResourcePool(30);
 			break;
 		default:// use for debug
-			InitialResourcePool(150);
+			InitialResourcePool(80);
 			break;
 		}
 
 		InitialBuildingPool();
 		InitialProductionPool();
+		InitialVPCOnCard();
 
 	}
 
@@ -108,7 +104,15 @@ public class Bank {
 		productionPool.put(SwampC.GetInstance(), 4);
 
 	}
-
+	
+	private void InitialVPCOnCard()
+	{
+		vpcOnCards.put(0, 0);
+		vpcOnCards.put(1, 0);
+		vpcOnCards.put(2, 0);
+		vpcOnCards.put(3, 0);
+	}
+	
 	public void setResourcePool(Hashtable<GlobalDef.Resources, Integer> resPool) {
 		resourcePool = resPool;
 	}
@@ -133,5 +137,15 @@ public class Bank {
 			Hashtable<ResProduceTile, Integer> productionPool) {
 		this.productionPool = productionPool;
 	}
+
+	public Hashtable<Integer, Integer> getVpcOnCards() {
+		return vpcOnCards;
+	}
+
+	public void setVpcOnCards(Hashtable<Integer, Integer> vpcOnCards) {
+		this.vpcOnCards = vpcOnCards;
+	}
+	
+	
 
 }
