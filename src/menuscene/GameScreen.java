@@ -22,6 +22,7 @@ import pulpcore.sprite.Label;
 import settings.Bank;
 
 import java.util.*;
+import pulpcore.sprite.Button;
 
 public class GameScreen extends Scene2D {
 
@@ -36,7 +37,7 @@ public class GameScreen extends Scene2D {
 	ImageSprite[] productionSprite;
 	CoreImage[] resourceImg;
 	ImageSprite[] resourceSprite;
-
+	
 
 	Label[] resourceLabel;
 	Label currentAgeLabel;
@@ -48,7 +49,11 @@ public class GameScreen extends Scene2D {
 	CoreImage[] greekUnitsImg;
 	CoreImage[] norseUnitsImg;
 	CoreImage[] unitsImg;
-
+	
+	// bank button
+	Button bankBtn;
+	
+	
 	// store img for city area dynamically
 	static ArrayList<ImageSprite> bList = new ArrayList<ImageSprite>();
 	// store img for production area dynamically
@@ -132,6 +137,11 @@ public class GameScreen extends Scene2D {
 		norseUnitsImg = CoreImage.load("/battlecard/norseBattlecard.jpg").split(12, 3);
 		holdUnitsImg = new ArrayList<ImageSprite>();
 		numOfUnitsLabel = new ArrayList<Label>();
+		
+		/* load bank button */
+		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
+		bankBtn = new Button(bankImg, 0, 550);
+		this.sideGroup.add(bankBtn);
 
 	}
 
@@ -251,7 +261,14 @@ public class GameScreen extends Scene2D {
 					add(img);
 				}
 			}
-
+		
+		// if bank button is pressed
+		if(bankBtn.isClicked()){
+			BankScreen bScreen = new BankScreen();
+			bScreen.Init(player[index], true);
+			Stage.pushScene(bScreen);
+		}
+		
 		if (Input.isPressed(Input.KEY_B)) {
 
 			BuildingCard.GetInstance().Action(player[index]);
@@ -295,9 +312,7 @@ public class GameScreen extends Scene2D {
 		
 		if(Input.isPressed(Input.KEY_0))
 		{
-			BankScreen bScreen = new BankScreen();
-			bScreen.Init(player[index]);
-			Stage.pushScene(bScreen);
+			
 		}
 	}
 
