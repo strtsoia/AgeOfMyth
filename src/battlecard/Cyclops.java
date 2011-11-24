@@ -64,15 +64,13 @@ public final class Cyclops extends BattleCard {
 	
 	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		// make sure the opponet unit is not giant
-		if(win){
-			if(!Giant.contains(BattleRoundScreen.getDefBattleCard())){
-				CyclopsThrowScreen ctScreen = new CyclopsThrowScreen();
-				Stage.pushScene(ctScreen);
-			}
+		// make sure the opponent unit is not giant	
+		if(win &&!Giant.contains(BattleRoundScreen.getDefBattleCard()) ||
+				!win && !Giant.contains(BattleRoundScreen.getAttBattleCard())){
+			CyclopsThrowScreen ctScreen = new CyclopsThrowScreen();
+			ctScreen.Init(win);
+			Stage.pushScene(ctScreen);
 		}
-		
-		
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

@@ -59,6 +59,8 @@ public class BattleRoundScreen extends Scene2D{
 	Label msg;
 	Label ok;
 	
+	static boolean cyclopsThrowing;
+	
 	public void Init(Culture attacker, Culture defender, BattleCard attackerUnit, BattleCard defenderUnit, int attID, int defID,
 			ImageSprite attImg, ImageSprite defImg)
 	{
@@ -66,6 +68,7 @@ public class BattleRoundScreen extends Scene2D{
 		rolling = true;
 		finishRound = false;
 		determine = false;
+		cyclopsThrowing = false;
 		attSixers = 0;
 		defSixers = 0;
 		this.attacker = attacker;
@@ -89,13 +92,13 @@ public class BattleRoundScreen extends Scene2D{
 		defenderRolls = defenderUnit.getRolls();
 		
 		// use god power if necessary
-				if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
-				{
-					attBattleCard.GodPower(attacker, defender, true);
-				}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
-				{
-					defBattleCard.GodPower(defender, attacker, false);
-				}
+		if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
+		{
+			attBattleCard.GodPower(attacker, defender, true);
+		}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
+		{
+			defBattleCard.GodPower(defender, attacker, false);
+		}
 				
 		// check building bonus
 		if(PreBattleScreen.getAttackArea() == 0){// production area
@@ -109,6 +112,8 @@ public class BattleRoundScreen extends Scene2D{
 					defenderRolls -= 2;
 				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse)
 					defenderRolls -= 2;
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek)
+					defenderRolls -= 2;
 			}
 		}else if(PreBattleScreen.getAttackArea() == 1){ //city area
 			if(defender.getB_build().get(Wall.GetInstance()) && 
@@ -120,6 +125,8 @@ public class BattleRoundScreen extends Scene2D{
 				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Egypt)
 					defenderRolls -= 2;
 				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse)
+					defenderRolls -= 2;
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek)
 					defenderRolls -= 2;
 			}
 		}
@@ -209,7 +216,7 @@ public class BattleRoundScreen extends Scene2D{
 			
 			// generate how many sixers for attacker
 			if(dice.isMousePressed()){
-				for (int time = 0; time < this.attackerRolls; time++) {
+				for (int time = 0; time < attackerRolls; time++) {
 					Random r = new Random();
 					int number = r.nextInt(6);
 					if (number == 5) {
@@ -226,7 +233,7 @@ public class BattleRoundScreen extends Scene2D{
 			
 			// generate how many sixers for attacker
 			if(dice.isMousePressed()){
-				for (int time = 0; time < this.defenderRolls; time++) {
+				for (int time = 0; time < defenderRolls; time++) {
 					Random r = new Random();
 					int number = r.nextInt(6);
 					if (number == 5) {
@@ -245,8 +252,15 @@ public class BattleRoundScreen extends Scene2D{
 		if(finishRound && !determine){
 			// attacker wins
 			if (this.attSixers > this.defSixers) {
+				
 				// remove units
 				BattleScreen.removeFromDefenderGroup(defenderID);
+				
+				// if throwing by cyclops, add throwing unit
+				if(cyclopsThrowing){
+					if(attBattleCard == Cyclops.getInstance())
+						defender.getGameBoard().PlaceUnit(defBattleCard);
+				}
 				
 				determine = true;
 				msg.setText("Attacker wins");
@@ -270,6 +284,11 @@ public class BattleRoundScreen extends Scene2D{
 			if(attSixers < this.defSixers){
 				// remove units
 				BattleScreen.removeFromAttackerGroup(attackerID);
+				
+				if(cyclopsThrowing){
+					if(defBattleCard == Cyclops.getInstance())
+						attacker.getGameBoard().PlaceUnit(attBattleCard);
+				}
 				
 				determine = true;
 				msg.setText("Defender wins");
@@ -426,6 +445,14 @@ public class BattleRoundScreen extends Scene2D{
 
 	public static void setDetermine(boolean determine) {
 		BattleRoundScreen.determine = determine;
+	}
+
+	public static boolean isCyclopsThrowing() {
+		return cyclopsThrowing;
+	}
+
+	public static void setCyclopsThrowing(boolean cyclopsThrowing) {
+		BattleRoundScreen.cyclopsThrowing = cyclopsThrowing;
 	}
 	
 	
