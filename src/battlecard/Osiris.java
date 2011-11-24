@@ -2,6 +2,9 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import menuscene.ResurrectScreen;
+import pulpcore.Stage;
+
 import component.Culture;
 
 import global.GlobalDef;
@@ -58,9 +61,18 @@ public final class Osiris extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		if(!win){
+			// if Priest in the army
+			if(player.getUnitIDInBattle().contains(new Integer(6))){
+				if(player.getGameBoard().getHoldResource().get(GlobalDef.Resources.FAVOR) > 4){
+					ResurrectScreen rScreen = new ResurrectScreen();
+					rScreen.Init(player, 4);
+					Stage.pushScene(rScreen);
+				}
+			}
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

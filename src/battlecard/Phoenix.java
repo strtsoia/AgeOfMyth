@@ -67,7 +67,7 @@ public final class Phoenix extends BattleCard {
 			if(player.getUnitIDInBattle().contains(new Integer(6))){
 				if(player.getGameBoard().getHoldResource().get(GlobalDef.Resources.FAVOR) > 2){
 					ResurrectScreen rScreen = new ResurrectScreen();
-					rScreen.Init(player);
+					rScreen.Init(player, 2);
 					Stage.pushScene(rScreen);
 				}
 			}
