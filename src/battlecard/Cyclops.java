@@ -2,9 +2,13 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import pulpcore.Stage;
+
 import component.Culture;
 
 import global.GlobalDef;
+import menuscene.BattleRoundScreen;
+import menuscene.CyclopsThrowScreen;
 
 public final class Cyclops extends BattleCard {
 
@@ -58,8 +62,16 @@ public final class Cyclops extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
+		// make sure the opponet unit is not giant
+		if(win){
+			if(!Giant.contains(BattleRoundScreen.getDefBattleCard())){
+				CyclopsThrowScreen ctScreen = new CyclopsThrowScreen();
+				Stage.pushScene(ctScreen);
+			}
+		}
+		
 		
 	}
 	
