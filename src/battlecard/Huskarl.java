@@ -3,8 +3,13 @@ package battlecard;
 import java.util.Hashtable;
 
 import component.Culture;
+import java.util.*;
 
+import pulpcore.Stage;
+
+import menuscene.BattleRoundScreen;
 import global.GlobalDef;
+import menuscene.BerserkScreen;
 
 public final class Huskarl extends BattleCard {
 
@@ -59,13 +64,31 @@ public final class Huskarl extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
+		boolean berserk;
+		Random r = new Random();
+		berserk = r.nextBoolean();
 		
+		if(berserk){
+			BattleRoundScreen.setBerserk(true);
+			// add two dice
+			if(win){// attacker
+				int number = BattleRoundScreen.getAttackerRolls();
+				number += 2;
+				BattleRoundScreen.setAttackerRolls(number);
+			}else{
+				int number = BattleRoundScreen.getDefenderRolls();
+				number += 2;
+				BattleRoundScreen.setDefenderRolls(number);
+			}
+			BerserkScreen bScreen = new BerserkScreen();
+			Stage.pushScene(bScreen);
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()
 	{
-		return GlobalDef.GodPowerTime.Before;
+		return GlobalDef.GodPowerTime.During;
 	}
 }

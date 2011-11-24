@@ -2,6 +2,9 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import settings.Bank;
+import utility.ResourceHandler;
+
 import component.Culture;
 
 import global.GlobalDef;
@@ -58,9 +61,18 @@ public final class Valkyric extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		if(win){
+			Hashtable<GlobalDef.Resources, Integer> table = new Hashtable<GlobalDef.Resources, Integer>();
+			table.put(GlobalDef.Resources.FAVOR, 2);
+			table.put(GlobalDef.Resources.FOOD, 0);
+			table.put(GlobalDef.Resources.GOLD, 0);
+			table.put(GlobalDef.Resources.WOOD, 0);
+			
+			Hashtable<GlobalDef.Resources, Integer> rt = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), table);
+			ResourceHandler.Add(player.getGameBoard().getHoldResource(), rt);
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

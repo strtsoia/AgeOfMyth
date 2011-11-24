@@ -60,6 +60,7 @@ public class BattleRoundScreen extends Scene2D{
 	Label ok;
 	
 	static boolean cyclopsThrowing;
+	static boolean berserk;
 	
 	public void Init(Culture attacker, Culture defender, BattleCard attackerUnit, BattleCard defenderUnit, int attID, int defID,
 			ImageSprite attImg, ImageSprite defImg)
@@ -69,6 +70,7 @@ public class BattleRoundScreen extends Scene2D{
 		finishRound = false;
 		determine = false;
 		cyclopsThrowing = false;
+		berserk = false;
 		attSixers = 0;
 		defSixers = 0;
 		this.attacker = attacker;
@@ -322,6 +324,27 @@ public class BattleRoundScreen extends Scene2D{
 				msg.setLocation((600 - msg.width.get()) / 2, 175);
 				group.add(msg);
 				
+				if(berserk){
+					if(attBattleCard == Huskarl.getInstance() || attBattleCard == HeroicNorseHero.getInstance()){
+						determine = true;
+						msg.setText("Defender wins");
+						msg.setLocation((600 - msg.width.get()) / 2, 175);
+						group.add(msg);
+						rolling = false;
+						
+						BattleScreen.removeFromAttackerGroup(attackerID);
+					}else{
+						if(defBattleCard == Huskarl.getInstance() || defBattleCard == HeroicNorseHero.getInstance()){
+							determine = true;
+							msg.setText("Defender wins");
+							msg.setLocation((600 - msg.width.get()) / 2, 175);
+							group.add(msg);
+							rolling = false;
+							
+							BattleScreen.removeFromDefenderGroup(attackerID);
+						}
+					}
+				}
 				
 			}
 		}
@@ -453,6 +476,14 @@ public class BattleRoundScreen extends Scene2D{
 
 	public static void setCyclopsThrowing(boolean cyclopsThrowing) {
 		BattleRoundScreen.cyclopsThrowing = cyclopsThrowing;
+	}
+
+	public static boolean isBerserk() {
+		return berserk;
+	}
+
+	public static void setBerserk(boolean berserk) {
+		BattleRoundScreen.berserk = berserk;
 	}
 	
 	

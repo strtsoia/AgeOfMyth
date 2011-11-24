@@ -64,6 +64,6 @@ public final class HeroicNorseHero extends BattleCard {
 
 	public GlobalDef.GodPowerTime getGodPowerTime()
 	{
-		return GlobalDef.GodPowerTime.Before;
+		return GlobalDef.GodPowerTime.During;
 	}
 }
