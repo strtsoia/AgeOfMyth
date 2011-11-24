@@ -2,9 +2,14 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import pulpcore.Stage;
+
 import component.Culture;
 
 import global.GlobalDef;
+import menuscene.BattleRoundScreen;
+import menuscene.BattleScreen;
+import menuscene.TiesDecisionScreen;
 
 public final class Medusa extends BattleCard {
 
@@ -60,11 +65,23 @@ public final class Medusa extends BattleCard {
 	
 	public void GodPower(Culture attacker, Culture Defender, boolean win)
 	{
+		if(win){// means attacker
+			BattleScreen.removeFromDefenderGroup(BattleRoundScreen.getDefenderID());
+		}else{
+			BattleScreen.removeFromAttackerGroup(BattleRoundScreen.getAttackerID());
+		}
 		
+		TiesDecisionScreen tdScreen = new TiesDecisionScreen();
+		Stage.replaceScene(tdScreen);
+		
+		BattleRoundScreen.setRolling(false);
+		BattleRoundScreen.setFinishRound(true);
+		BattleScreen.setFinish(false);
+		BattleScreen.setAttackRound(true);
 	}
 
 	public GlobalDef.GodPowerTime getGodPowerTime()
 	{
-		return GlobalDef.GodPowerTime.Before;
+		return GlobalDef.GodPowerTime.Decidion;
 	}
 }

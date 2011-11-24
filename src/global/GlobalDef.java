@@ -61,6 +61,7 @@ public class GlobalDef {
 		None,
 		Before,
 		During,
+		Decidion,
 		After,
 		Finish,
 	}

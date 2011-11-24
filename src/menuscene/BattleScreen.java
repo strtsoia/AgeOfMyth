@@ -169,6 +169,12 @@ public class BattleScreen extends Scene2D {
 			middleGroup.add(battleOver);
 			
 			if(battleOver.isMousePressed()){
+				// add remainning units back to holding area
+				for(int index = 0; index < defenderUnits.size(); index++)
+				{
+					BattleCard bc = getUnitMap(defender.getRace()).get(defenderUnits.get(index));
+					defender.getGameBoard().PlaceUnit(bc);
+				}
 				Stage.popScene();
 			}
 		}

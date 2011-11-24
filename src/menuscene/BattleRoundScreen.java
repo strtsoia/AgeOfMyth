@@ -36,10 +36,10 @@ public class BattleRoundScreen extends Scene2D{
 	Culture attacker;
 	Culture defender;
 	
-	boolean attackRound;
-	boolean rolling;
-	boolean finishRound;
-	boolean determine;
+	static boolean attackRound;
+	static boolean rolling;
+	static boolean finishRound;
+	static boolean determine;
 	
 	CoreImage[] dices;
 	ImageSprite dice;
@@ -70,8 +70,8 @@ public class BattleRoundScreen extends Scene2D{
 		defSixers = 0;
 		this.attacker = attacker;
 		this.defender = defender;
-		this.attackerID = attID;
-		this.defenderID = defID;
+		attackerID = attID;
+		defenderID = defID;
 		attacker.setUnitIDInBattle(BattleScreen.getAttackUnits());
 		defender.setUnitIDInBattle(BattleScreen.getDefenderUnits());
 		
@@ -143,10 +143,10 @@ public class BattleRoundScreen extends Scene2D{
 		group.add(defendUnitImg);
 		
 		attDiceLabel = new Label(bgFont, "Attacker rolls: %d", 10, 25);
-		attDiceLabel.setFormatArg(this.attackerRolls);
+		attDiceLabel.setFormatArg(attackerRolls);
 		group.add(attDiceLabel);
 		defDiceLabel = new Label(bgFont, "Defender rolls: %d", 470, 25);
-		defDiceLabel.setFormatArg(this.defenderRolls);
+		defDiceLabel.setFormatArg(defenderRolls);
 		group.add(defDiceLabel);
 		
 		this.attSixersLabel = new Label(bgFont, "Attacker gets %d sixers", 10, 175);
@@ -236,7 +236,7 @@ public class BattleRoundScreen extends Scene2D{
 			// attacker wins
 			if (this.attSixers > this.defSixers) {
 				// remove units
-				BattleScreen.removeFromDefenderGroup(this.defenderID);
+				BattleScreen.removeFromDefenderGroup(defenderID);
 				
 				determine = true;
 				msg.setText("Attacker wins");
@@ -255,10 +255,11 @@ public class BattleRoundScreen extends Scene2D{
 				
 			}
 			
+			
 			// defender wins
-			if(this.attSixers < this.defSixers){
+			if(attSixers < this.defSixers){
 				// remove units
-				BattleScreen.removeFromAttackerGroup(this.attackerID);
+				BattleScreen.removeFromAttackerGroup(attackerID);
 				
 				determine = true;
 				msg.setText("Defender wins");
@@ -267,21 +268,32 @@ public class BattleRoundScreen extends Scene2D{
 				rolling = false;
 				
 				// use god power if necessary
-				if(this.attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
+				if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
 				{
 					attBattleCard.GodPower(attacker, defender, false);
-				}else if(this.defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
+				}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
 				{
 					defBattleCard.GodPower(defender, attacker, true);
 				}
 				
 			}else if(this.attSixers == this.defSixers){ // tie
+				// God power
+				if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Decidion)
+				{
+					attBattleCard.GodPower(attacker, defender, true);
+				}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Decidion)
+				{
+					defBattleCard.GodPower(defender, attacker, false);
+				}
+				
 				rolling = true;
 				finishRound = false;
 				attackRound = true;
 				msg.setText("tie, reroll");
 				msg.setLocation((600 - msg.width.get()) / 2, 175);
 				group.add(msg);
+				
+				
 			}
 		}
 	}
@@ -372,6 +384,38 @@ public class BattleRoundScreen extends Scene2D{
 
 	public static void setDefenderID(int defenderID) {
 		BattleRoundScreen.defenderID = defenderID;
+	}
+
+	public static boolean isAttackRound() {
+		return attackRound;
+	}
+
+	public static void setAttackRound(boolean attackRound) {
+		BattleRoundScreen.attackRound = attackRound;
+	}
+
+	public static boolean isRolling() {
+		return rolling;
+	}
+
+	public static void setRolling(boolean rolling) {
+		BattleRoundScreen.rolling = rolling;
+	}
+
+	public static boolean isFinishRound() {
+		return finishRound;
+	}
+
+	public static void setFinishRound(boolean finishRound) {
+		BattleRoundScreen.finishRound = finishRound;
+	}
+
+	public static boolean isDetermine() {
+		return determine;
+	}
+
+	public static void setDetermine(boolean determine) {
+		BattleRoundScreen.determine = determine;
 	}
 	
 	
