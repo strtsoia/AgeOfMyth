@@ -22,8 +22,8 @@ public class BattleScreen extends Scene2D {
 	ImageSprite defImg;
 	static ArrayList<Integer> attackUnits; // actual attacker units
 	static ArrayList<Integer> defenderUnits; // actual defender units
-	CoreImage[] attackerBattleCardImg;
-	CoreImage[] defenderBattleCardImg;
+	static CoreImage[] attackerBattleCardImg;
+	static CoreImage[] defenderBattleCardImg;
 	CoreImage[] dices;
 	static Group attackerGroup;
 	static Group defenderGroup;
@@ -333,6 +333,48 @@ public class BattleScreen extends Scene2D {
 				attackerUnitBtn.remove(index);
 				break;
 			}
+		}
+	}
+	
+	// called by mythical power
+	public static void addUnitsToAttackerGroup(int ID)
+	{
+		attackUnits.add(new Integer(ID));
+		int row = ID / 4; int col = ID % 4;
+		CoreImage[] img = new CoreImage[]{attackerBattleCardImg[row * 12 + col], attackerBattleCardImg[row * 12 + col + 4],
+				attackerBattleCardImg[row * 12 + col + 8]};
+		Button btn = new Button(img, 0, 0);
+		btn.setSize(75, 125);
+		attackerUnitBtn.add(btn);
+		attackerBtnMapUnitID.put(btn, ID);
+		
+		attackerGroup.removeAll();
+		for(int index = 0; index < attackerUnitBtn.size(); index++){
+			int r = index / 3; int c = index % 3;
+			Button b = attackerUnitBtn.get(index);
+			b.setLocation(75 * c, 125 * r);
+			attackerGroup.add(b);
+		}
+	}
+	
+	// called by mythical power
+	public static void addUnitsToDefendGroup(int ID)
+	{
+		defenderUnits.add(new Integer(ID));
+		int row = ID / 4; int col = ID % 4;
+		CoreImage[] img = new CoreImage[]{defenderBattleCardImg[row * 12 + col], defenderBattleCardImg[row * 12 + col + 4],
+				defenderBattleCardImg[row * 12 + col + 8]};
+		Button btn = new Button(img, 0, 0);
+		btn.setSize(75, 125);
+		defenderUnitBtn.add(btn);
+		defenderBtnMapUnitID.put(btn, ID);
+		
+		defenderGroup.removeAll();
+		for(int index = 0; index < defenderUnitBtn.size(); index++){
+			int r = index / 3; int c = index % 3;
+			Button b = defenderUnitBtn.get(index);
+			b.setLocation(75 * c, 125 * r);
+			defenderGroup.add(b);
 		}
 	}
 	

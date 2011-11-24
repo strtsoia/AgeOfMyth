@@ -2,9 +2,14 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import pulpcore.Stage;
+
 import component.Culture;
 
 import global.GlobalDef;
+import menuscene.BattleRoundScreen;
+import menuscene.BattleScreen;
+import menuscene.MythicNHScreen;
 
 public final class MythicNorseHero extends BattleCard {
 
@@ -58,9 +63,18 @@ public final class MythicNorseHero extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		if(win){
+			MythicNHScreen mScreen = new MythicNHScreen();
+			mScreen.Init(player);
+			Stage.replaceScene(mScreen);
+			// setting UI controller
+			BattleRoundScreen.setRolling(false);
+			BattleRoundScreen.setFinishRound(true);
+			BattleScreen.setFinish(false);
+			BattleScreen.setAttackRound(true);
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

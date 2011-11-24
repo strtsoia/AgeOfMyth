@@ -439,8 +439,7 @@ public class PreBattleScreen extends Scene2D {
 
 							BattleCard bCard = table.get(ID); // which unit
 																// select
-							Hashtable<BattleCard, Integer> unitTable = player
-									.getGameBoard().getHoldingUnits();
+							Hashtable<BattleCard, Integer> unitTable = player.getGameBoard().getHoldingUnits();
 							int number = unitTable.get(bCard);
 							if (number > 0) {
 								player.getGameBoard().RemoveUnits(ID);
