@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 
 import global.GlobalDef;
+import component.Culture;
 
 public abstract class BattleCard {
 
@@ -47,6 +48,10 @@ public abstract class BattleCard {
 	protected static final List<BattleCard> Myth = Arrays.asList(MythArray);
 	
 	public abstract int getRolls();
+	public abstract void setBonus(int b);
+	public abstract int getBonus();
 	public abstract void CheckBonus(BattleCard card);
 	public abstract Hashtable<GlobalDef.Resources, Integer> getCost();
+	public abstract void GodPower(Culture a, Culture d);
+	public abstract GlobalDef.GodPowerTime getGodPowerTime();
 }

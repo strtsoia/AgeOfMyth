@@ -312,7 +312,9 @@ public class GameScreen extends Scene2D {
 		
 		if(Input.isPressed(Input.KEY_0))
 		{
-			
+			BankScreen bScreen = new BankScreen();
+			bScreen.Init(player[index], false);
+			Stage.pushScene(bScreen);
 		}
 	}
 

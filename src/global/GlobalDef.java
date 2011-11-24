@@ -55,7 +55,16 @@ public class GlobalDef {
 		Heroic,
 		Mythic
 	}
-
+	
+	public enum GodPowerTime
+	{
+		None,
+		Before,
+		During,
+		After,
+		Finish,
+	}
+	
 	private static Hashtable<Integer, Terrain> terrainMap = new Hashtable<Integer, Terrain>();
 
 	public static Hashtable<Integer, Terrain> getTerrainMap() {

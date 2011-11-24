@@ -2,6 +2,8 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import component.Culture;
+
 import global.GlobalDef;
 
 public final class Priest extends BattleCard {
@@ -15,14 +17,11 @@ public final class Priest extends BattleCard {
 		cost.put(GlobalDef.Resources.WOOD, 0);
 	}
 
-	/**
-	 */
+ 
 	private final int rolls = 4;
-	/**
-	 */
+ 
 	private int bonus = 0;
-	/**
-	 */
+	 
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 
 	public int getRolls() {
@@ -32,7 +31,17 @@ public final class Priest extends BattleCard {
 	public Hashtable<GlobalDef.Resources, Integer> getCost() {
 		return cost;
 	}
-
+	
+	public void setBonus(int b)
+	{
+		bonus = b;
+	}
+	
+	public int getBonus()
+	{
+		return bonus;
+	}
+	
 	public static Priest getInstance() {
 		if (priest == null) {
 			priest = new Priest();
@@ -48,5 +57,16 @@ public final class Priest extends BattleCard {
 		else
 			bonus = 0;
 	}
+	
+	public void GodPower(Culture attacker, Culture Defender)
+	{
+		
+	}
+	
+	public GlobalDef.GodPowerTime getGodPowerTime()
+	{
+		return GlobalDef.GodPowerTime.None;
+	}
+
 
 }

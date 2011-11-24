@@ -16,113 +16,59 @@ import pulpcore.sprite.Button;
 
 public class PreBattleScreen extends Scene2D {
 
-	/**
-	 */
+	
 	ImageSprite background;
-	/**
-	 */
-	String strBackground;
-	/**
-	 */
-	Label message;
-	/**
-	 */
-	Label choosePlayer1;
-	/**
-	 */
-	Label choosePlayer2;
-	/**
-	 */
-	Label attackOK;
-	/**
-	 */
-	Label defenderOK;
-	/**
-	 */
-	CoreImage[] cityImg;
-	/**
-	 */
-	CoreImage[] productionImg;
-	/**
-	 */
-	CoreImage[] holdingImg;
-	/**
-	 */
-	Button cityButton;
-	/**
-	 */
-	Button productionButton;
-	/**
-	 */
-	Button holdingButton;
-	/**
-	 */
-	Label beginBattle;
-	/**
-	 */
-	int leftPlayerIndex;
-	/**
-	 */
-	int rightPlayerIndex;
-	/**
-	 */
-	int opponent;
-	/**
-	 */
-	int attAddUnits;
-	/**
-	 */
-	int defAddUnits;
-	/**
-	 */
-	int maxUnits;
-	static int attackArea; // 0 fro production, 1 for city, 2 for holding
 
-	/**
-	 */
+	String strBackground;
+	
+	Label message;
+	Label choosePlayer1;
+	Label choosePlayer2;
+	Label attackOK;
+	Label defenderOK;
+	
+	CoreImage[] cityImg;
+	CoreImage[] productionImg;
+	CoreImage[] holdingImg;
+	
+	Button cityButton;
+	Button productionButton;
+	Button holdingButton;
+	
+	Label beginBattle;
+	
+	int leftPlayerIndex;
+	int rightPlayerIndex;
+	int opponent;
+	int attAddUnits;
+	int defAddUnits;
+	int maxUnits;
+	static int attackArea; // 0 for production, 1 for city, 2 for holding
+
 	Culture player;
-	/**
-	 */
+	
 	Culture[] players;
 	/**
 	 */
 	Group selectPlayerGroup;
-	/**
-	 */
+	
 	boolean single; // whether only one player can select
-	/**
-	 */
 	boolean finish;
-	/**
-	 */
 	boolean showFirstLayer; // change attack player, attack area
-	/**
-	 */
 	boolean attackSideChoice;
-	/**
-	 */
+	
 	boolean defenderSideChoice;
-	/**
-	 */
 	boolean bothFinish;
-	/**
-	 */
+	
 	CoreImage[] attackerBattleCardImg;
-	/**
-	 */
 	CoreImage[] defenderBattleCardImg;
-	/**
-	 */
+	
 	ArrayList<Button> attackUnitBtn;
-	/**
-	 */
 	ArrayList<Button> defenderUnitBtn;
-	/**
-	 */
+
 	Hashtable<Button, Integer> attackerBtnMapUnitID;
-	/**
-	 */
 	Hashtable<Button, Integer> defenderBtnMapUnitID;
+	
 	static ArrayList<BattleCard> attackerUnits; // actual battlecard selected by
 												// attacker
 	static ArrayList<BattleCard> defenderUnits; // actual battlecard selected by
@@ -486,8 +432,7 @@ public class PreBattleScreen extends Scene2D {
 				if (attackSideChoice && attAddUnits < maxUnits) {
 					for (int index = 0; index < attackUnitBtn.size(); index++) {
 						if (attackUnitBtn.get(index).isClicked()) {
-							int ID = attackerBtnMapUnitID.get(attackUnitBtn
-									.get(index));
+							int ID = attackerBtnMapUnitID.get(attackUnitBtn.get(index));
 							attackerUnitsID.add(ID);
 							Hashtable<Integer, BattleCard> table = getUnitMap(player
 									.getRace());

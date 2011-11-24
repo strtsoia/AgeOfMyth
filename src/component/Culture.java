@@ -4,6 +4,7 @@ import building.*;
 import global.GlobalDef;
 
 import java.util.Hashtable;
+import java.util.ArrayList;
 
 import actioncard.AttackCard;
 import actioncard.*;
@@ -11,13 +12,14 @@ import actioncard.*;
 public class Culture {
 	
 	boolean isAI;
-	/**
-	 */
+	int status; // 0 for nothing, 1 for attack, 2 for defend
 	private Board gameBoard;
 	
 	private Hashtable<Card, Integer> permanentcardPool = new Hashtable<Card, Integer>();
 	private Hashtable<Card, Integer> randomcardPool = new Hashtable<Card, Integer>();
 	private Hashtable<Card, Integer> cardHold = new Hashtable<Card, Integer>();
+	
+	private ArrayList<Integer> unitIDInBattle = new ArrayList<Integer>();
 	
 	// keep track of whether building has been constructed
 	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
@@ -33,6 +35,16 @@ public class Culture {
 	
 	public boolean isAI() {
 		return isAI;
+	}
+
+	
+	public ArrayList<Integer> getUnitIDInBattle() {
+		return unitIDInBattle;
+	}
+
+
+	public void setUnitIDInBattle(ArrayList<Integer> unitIDInBattle) {
+		this.unitIDInBattle = unitIDInBattle;
 	}
 
 
@@ -73,6 +85,17 @@ public class Culture {
 	public void setB_build(Hashtable<Building, Boolean> b_build) {
 		this.b_build = b_build;
 	}
+	
+	
+	public int getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 
 	public Culture(GlobalDef.Races r, int id) {
 		b_build.put(Armory.GetInstance(), false);
@@ -94,6 +117,7 @@ public class Culture {
 		gameBoard = new Board(r, this);
 		race = r;
 		playerID = id;
+		status = 0;
 		
 		InitialPermanentPool();
 		InitialRandomPool();
