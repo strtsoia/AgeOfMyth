@@ -270,6 +270,15 @@ public class BattleScreen extends Scene2D {
 	public static void setAttackRound(boolean attackRound) {
 		BattleScreen.attackRound = attackRound;
 	}
+	
+	
+	public static ArrayList<Integer> getAttackUnits() {
+		return attackUnits;
+	}
+
+	public static ArrayList<Integer> getDefenderUnits() {
+		return defenderUnits;
+	}
 
 	public static void removeFromDefenderGroup(int ID)
 	{

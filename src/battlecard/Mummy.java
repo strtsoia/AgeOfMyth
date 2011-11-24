@@ -55,9 +55,12 @@ public final class Mummy extends BattleCard {
 		bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender)
+	public void GodPower(Culture attacker, Culture Defender, boolean win)
 	{
-		
+		// get new mummy
+		if(win){
+			attacker.getGameBoard().PlaceUnit(Mummy.getInstance());
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

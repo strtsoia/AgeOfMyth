@@ -52,6 +52,6 @@ public abstract class BattleCard {
 	public abstract int getBonus();
 	public abstract void CheckBonus(BattleCard card);
 	public abstract Hashtable<GlobalDef.Resources, Integer> getCost();
-	public abstract void GodPower(Culture a, Culture d);
+	public abstract void GodPower(Culture a, Culture d, boolean b);
 	public abstract GlobalDef.GodPowerTime getGodPowerTime();
 }

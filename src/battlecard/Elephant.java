@@ -58,7 +58,7 @@ public final class Elephant extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture player, Culture opponent)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
 		
 	}

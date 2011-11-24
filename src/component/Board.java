@@ -108,10 +108,10 @@ public class Board {
 
 		// initial resource each player get
 		Hashtable<GlobalDef.Resources, Integer> iniRes = new Hashtable<GlobalDef.Resources, Integer>();
-		iniRes.put(GlobalDef.Resources.FAVOR, 14);
-		iniRes.put(GlobalDef.Resources.FOOD, 14);
-		iniRes.put(GlobalDef.Resources.GOLD, 14);
-		iniRes.put(GlobalDef.Resources.WOOD, 14);
+		iniRes.put(GlobalDef.Resources.FAVOR, 24);
+		iniRes.put(GlobalDef.Resources.FOOD, 24);
+		iniRes.put(GlobalDef.Resources.GOLD, 24);
+		iniRes.put(GlobalDef.Resources.WOOD, 24);
 
 		ResourceHandler.Add(holdResource, iniRes);
 		ResourceHandler.Delete(Bank.getInstance().getResourcePool(), iniRes);

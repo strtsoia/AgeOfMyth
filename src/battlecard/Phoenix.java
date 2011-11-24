@@ -2,8 +2,10 @@ package battlecard;
 
 import java.util.Hashtable;
 
-import component.Culture;
+import pulpcore.Stage;
 
+import component.Culture;
+import menuscene.ResurrectScreen;
 import global.GlobalDef;
 
 public final class Phoenix extends BattleCard {
@@ -58,9 +60,18 @@ public final class Phoenix extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		if(!win){
+			// if Priest in the army
+			if(player.getUnitIDInBattle().contains(new Integer(6))){
+				if(player.getGameBoard().getHoldResource().get(GlobalDef.Resources.FAVOR) > 2){
+					ResurrectScreen rScreen = new ResurrectScreen();
+					rScreen.Init(player);
+					Stage.pushScene(rScreen);
+				}
+			}
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

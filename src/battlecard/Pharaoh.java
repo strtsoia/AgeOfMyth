@@ -58,7 +58,7 @@ public final class Pharaoh extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender)
+	public void GodPower(Culture attacker, Culture Defender, boolean win)
 	{
 		
 	}
