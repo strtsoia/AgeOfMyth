@@ -37,6 +37,8 @@ public class BattleScreen extends Scene2D {
 	int attRoundID;
 	int defRoundID;
 	
+	static int hydraSp;
+	
 	Culture attacker;	
 	Culture defender;
 	
@@ -61,6 +63,8 @@ public class BattleScreen extends Scene2D {
 		
 		attackRound = true;
 		finish = false;
+		
+		hydraSp = 0;
 		
 	}
 
@@ -284,6 +288,15 @@ public class BattleScreen extends Scene2D {
 
 	public static ArrayList<Integer> getDefenderUnits() {
 		return defenderUnits;
+	}
+	
+	
+	public static int getHydraSp() {
+		return hydraSp;
+	}
+
+	public static void setHydraSp(int hydraSp) {
+		BattleScreen.hydraSp = hydraSp;
 	}
 
 	public static void removeFromDefenderGroup(int ID)

@@ -2,6 +2,8 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import menuscene.BattleScreen;
+
 import component.Culture;
 
 import global.GlobalDef;
@@ -25,7 +27,7 @@ public final class Hydra extends BattleCard {
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 
 	public int getRolls() {
-		return rolls + bonus;
+		return rolls + bonus + BattleScreen.getHydraSp();
 	}
 	
 	public void setBonus(int b)
@@ -58,9 +60,13 @@ public final class Hydra extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		if(win){
+			int number = BattleScreen.getHydraSp();
+			number++;
+			BattleScreen.setHydraSp(number);
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()
