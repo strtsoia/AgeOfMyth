@@ -214,7 +214,7 @@ public class BattleScreen extends Scene2D {
 								attackerBattleCardImg[row * 12 + col + 8]);
 						// put select card to front desk
 						attImg = new ImageSprite(attackerBattleCardImg[row
-								* 12 + col], 225, 225);
+								* 12 + col + 4], 225, 225);
 						attackerGroup.add(attImg);
 						attackRound = false;
 					}
@@ -228,7 +228,7 @@ public class BattleScreen extends Scene2D {
 						defenderUnitBtn.get(index).setImage(
 								defenderBattleCardImg[row * 12 + col + 8]);
 						defImg = new ImageSprite(
-								defenderBattleCardImg[row * 12 + col], 0, 225);
+								defenderBattleCardImg[row * 12 + col + 4], 0, 225);
 						defenderGroup.add(defImg);
 						finish = true;
 					}

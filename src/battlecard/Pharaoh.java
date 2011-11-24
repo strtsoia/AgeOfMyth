@@ -2,8 +2,10 @@ package battlecard;
 
 import java.util.Hashtable;
 
-import component.Culture;
+import pulpcore.Stage;
 
+import component.Culture;
+import menuscene.PharaohWadjetScreen;
 import global.GlobalDef;
 
 public final class Pharaoh extends BattleCard {
@@ -58,9 +60,20 @@ public final class Pharaoh extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		// if has wadjet in army
+		if(player.getUnitIDInBattle().contains(new Integer(11))){
+			PharaohWadjetScreen pwScreen = new PharaohWadjetScreen(); 
+			if(win)
+			{
+				pwScreen.Init(player, true);
+			}else if(!win){
+				pwScreen.Init(player, false);
+			}
+			
+			Stage.pushScene(pwScreen);
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

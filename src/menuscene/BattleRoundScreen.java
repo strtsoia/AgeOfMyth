@@ -23,16 +23,16 @@ import global.GlobalDef;
 public class BattleRoundScreen extends Scene2D{
 
 	ImageSprite background;
-	int attackerRolls;
-	int defenderRolls;
-	int attackerID;
-	int defenderID;
+	static int attackerRolls;
+	static int defenderRolls;
+	static int attackerID;
+	static int defenderID;
 	int attSixers;
 	int defSixers;
 	ArrayList<Integer> attackUnits;
 	ArrayList<Integer> defendUnits;
-	BattleCard attBattleCard;
-	BattleCard defBattleCard;
+	static BattleCard attBattleCard;
+	static BattleCard defBattleCard;
 	Culture attacker;
 	Culture defender;
 	
@@ -44,15 +44,15 @@ public class BattleRoundScreen extends Scene2D{
 	CoreImage[] dices;
 	ImageSprite dice;
 	
-	ImageSprite attackUnitImg;
-	ImageSprite defendUnitImg;
-	Group group;
+	static ImageSprite attackUnitImg;
+	static ImageSprite defendUnitImg;
+	static Group group;
 	CoreFont bgFont;
 	Group attackGroup;
 	Group defenderGroup;
 	
-	Label attDiceLabel;
-	Label defDiceLabel;
+	static Label attDiceLabel;
+	static Label defDiceLabel;
 	Label attSixersLabel;
 	Label defSixersLabel;
 	Label rollingMsg;
@@ -75,8 +75,8 @@ public class BattleRoundScreen extends Scene2D{
 		attacker.setUnitIDInBattle(BattleScreen.getAttackUnits());
 		defender.setUnitIDInBattle(BattleScreen.getDefenderUnits());
 		
-		this.attBattleCard = attackerUnit;
-		this.defBattleCard = defenderUnit;
+		attBattleCard = attackerUnit;
+		defBattleCard = defenderUnit;
 		// image
 		attackUnitImg = attImg;
 		defendUnitImg = defImg;
@@ -115,15 +115,20 @@ public class BattleRoundScreen extends Scene2D{
 		}
 		
 		
-		
-		
-		
 		System.out.println("attack roll is: " + attackerRolls);
 		System.out.println("defender roll is: " + defenderRolls);
 	}
 	
 	public void load()
 	{
+		if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.During)
+		{
+			attBattleCard.GodPower(attacker, defender, true);	// true means attacker
+		}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.During)
+		{
+			defBattleCard.GodPower(defender, attacker, false);
+		}
+		
 		background = new ImageSprite("battlebackground.jpg", 100, 200,
 				600, 200);
 		add(background);
@@ -137,11 +142,11 @@ public class BattleRoundScreen extends Scene2D{
 		defendUnitImg.setLocation(360, 25);
 		group.add(defendUnitImg);
 		
-		this.attDiceLabel = new Label(bgFont, "Attacker rolls: %d", 10, 25);
-		this.attDiceLabel.setFormatArg(this.attackerRolls);
+		attDiceLabel = new Label(bgFont, "Attacker rolls: %d", 10, 25);
+		attDiceLabel.setFormatArg(this.attackerRolls);
 		group.add(attDiceLabel);
-		this.defDiceLabel = new Label(bgFont, "Defender rolls: %d", 470, 25);
-		this.defDiceLabel.setFormatArg(this.defenderRolls);
+		defDiceLabel = new Label(bgFont, "Defender rolls: %d", 470, 25);
+		defDiceLabel.setFormatArg(this.defenderRolls);
 		group.add(defDiceLabel);
 		
 		this.attSixersLabel = new Label(bgFont, "Attacker gets %d sixers", 10, 175);
@@ -161,6 +166,7 @@ public class BattleRoundScreen extends Scene2D{
 		
 
 		add(group);
+		
 	}
 	
 	
@@ -239,10 +245,10 @@ public class BattleRoundScreen extends Scene2D{
 				rolling = false;
 				
 				// use god power if necessary
-				if(this.attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
+				if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
 				{
 					attBattleCard.GodPower(attacker, defender, true);
-				}else if(this.defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
+				}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.After)
 				{
 					defBattleCard.GodPower(defender, attacker, false);
 				}
@@ -279,5 +285,96 @@ public class BattleRoundScreen extends Scene2D{
 			}
 		}
 	}
+
+	public static ImageSprite getAttackUnitImg() {
+		return attackUnitImg;
+	}
+
+	public static void setAttackUnitImg(ImageSprite attackUnitImg) {
+		BattleRoundScreen.attackUnitImg = attackUnitImg;
+	}
+
+	public static ImageSprite getDefendUnitImg() {
+		return defendUnitImg;
+	}
+
+	public static void setDefendUnitImg(ImageSprite defendUnitImg) {
+		BattleRoundScreen.defendUnitImg = defendUnitImg;
+	}
+
+	public static Group getGroup() {
+		return group;
+	}
+
+	public static void setGroup(Group group) {
+		BattleRoundScreen.group = group;
+	}
+
+	public static Label getAttDiceLabel() {
+		return attDiceLabel;
+	}
+
+	public static void setAttDiceLabel(Label attDiceLabel) {
+		BattleRoundScreen.attDiceLabel = attDiceLabel;
+	}
+
+	public static Label getDefDiceLabel() {
+		return defDiceLabel;
+	}
+
+	public static void setDefDiceLabel(Label defDiceLabel) {
+		BattleRoundScreen.defDiceLabel = defDiceLabel;
+	}
+
+	public static BattleCard getAttBattleCard() {
+		return attBattleCard;
+	}
+
+	public static void setAttBattleCard(BattleCard attBattleCard) {
+		BattleRoundScreen.attBattleCard = attBattleCard;
+	}
+
+	public static BattleCard getDefBattleCard() {
+		return defBattleCard;
+	}
+
+	public static void setDefBattleCard(BattleCard defBattleCard) {
+		BattleRoundScreen.defBattleCard = defBattleCard;
+	}
+
+	public static int getAttackerRolls() {
+		return attackerRolls;
+	}
+
+	public static void setAttackerRolls(int attackerRolls) {
+		BattleRoundScreen.attackerRolls = attackerRolls;
+	}
+
+	public static int getDefenderRolls() {
+		return defenderRolls;
+	}
+
+	public static void setDefenderRolls(int defenderRolls) {
+		BattleRoundScreen.defenderRolls = defenderRolls;
+	}
+
+	public static int getAttackerID() {
+		return attackerID;
+	}
+
+	public static void setAttackerID(int attackerID) {
+		BattleRoundScreen.attackerID = attackerID;
+	}
+
+	public static int getDefenderID() {
+		return defenderID;
+	}
+
+	public static void setDefenderID(int defenderID) {
+		BattleRoundScreen.defenderID = defenderID;
+	}
+	
+	
+	
 	
 }

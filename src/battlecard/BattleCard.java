@@ -34,7 +34,7 @@ public abstract class BattleCard {
 	protected static final List<BattleCard> Hero = Arrays.asList(HeroArray);
 	
 	private static BattleCard[] CavalryArray = new BattleCard[]{Chariot.getInstance(), Anubite.getInstance(), Centaur.getInstance(),
-				Hippokon.getInstance(), Jarl.getInstance(), Valkyric.getInstance()};
+				Hippokon.getInstance(), Valkyric.getInstance(), Huskarl.getInstance()};
 	protected static final List<BattleCard> Cavalry = Arrays.asList(CavalryArray);
 	
 	private static BattleCard[] ArcherArray = new BattleCard[]{Chariot.getInstance(), Centaur.getInstance(), Toxotes.getInstance(),
