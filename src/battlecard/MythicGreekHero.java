@@ -2,6 +2,8 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import menuscene.BattleRoundScreen;
+
 import component.Culture;
 
 import global.GlobalDef;
@@ -55,9 +57,17 @@ public final class MythicGreekHero extends BattleCard {
 		bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
-		
+		// get battle dice number of opponent
+		if(win){ // means attacker
+			int baseRoll = BattleRoundScreen.getDefenderRolls() - BattleRoundScreen.getDefBattleCard().getBonus();
+			BattleRoundScreen.setAttackerRolls(BattleRoundScreen.getAttackerRolls() + baseRoll);
+			System.out.println("bonus is: " + BattleRoundScreen.getDefBattleCard().getBonus());
+		}else{
+			int baseRoll = BattleRoundScreen.getAttackerRolls() - BattleRoundScreen.getAttBattleCard().getBonus();
+			BattleRoundScreen.setDefenderRolls(BattleRoundScreen.getDefenderRolls() + baseRoll);
+		}
 	}
 
 	public GlobalDef.GodPowerTime getGodPowerTime()

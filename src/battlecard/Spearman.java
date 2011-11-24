@@ -52,6 +52,7 @@ public final class Spearman extends BattleCard {
 	}
 
 	public void CheckBonus(BattleCard opponent) {
+		
 		if (Cavalry.contains(opponent))
 			bonus = 3;
 		else if (Hero.contains(opponent))

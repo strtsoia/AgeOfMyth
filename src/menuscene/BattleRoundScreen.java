@@ -81,12 +81,22 @@ public class BattleRoundScreen extends Scene2D{
 		attackUnitImg = attImg;
 		defendUnitImg = defImg;
 		
+		
 		// calculate dice
 		attackerUnit.CheckBonus(defenderUnit);
 		attackerRolls = attackerUnit.getRolls();
 		defenderUnit.CheckBonus(attackerUnit);
 		defenderRolls = defenderUnit.getRolls();
 		
+		// use god power if necessary
+				if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
+				{
+					attBattleCard.GodPower(attacker, defender, true);
+				}else if(defBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
+				{
+					defBattleCard.GodPower(defender, attacker, false);
+				}
+				
 		// check building bonus
 		if(PreBattleScreen.getAttackArea() == 0){// production area
 			if(defender.getB_build().get(Tower.GetInstance()) && 

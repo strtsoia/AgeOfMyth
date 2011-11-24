@@ -74,6 +74,7 @@ public final class Medusa extends BattleCard {
 		TiesDecisionScreen tdScreen = new TiesDecisionScreen();
 		Stage.replaceScene(tdScreen);
 		
+		// setting UI controller
 		BattleRoundScreen.setRolling(false);
 		BattleRoundScreen.setFinishRound(true);
 		BattleScreen.setFinish(false);
