@@ -2,6 +2,9 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import menuscene.PreBattleScreen;
+import menuscene.TrophyScreen;
+
 import component.Culture;
 
 import global.GlobalDef;
@@ -59,7 +62,9 @@ public final class Minotaur extends BattleCard {
 	
 	public void GodPower(Culture attacker, Culture Defender, boolean win)
 	{
-		
+		if(PreBattleScreen.getAttackArea() == 1){
+			TrophyScreen.setMaxDesBuild(2);
+		}
 	}
 
 	public GlobalDef.GodPowerTime getGodPowerTime()

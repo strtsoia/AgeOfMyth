@@ -17,65 +17,45 @@ import utility.ResourceHandler;
 
 public class TrophyScreen extends Scene2D {
 
-	/**
-	 */
+	
 	ImageSprite background;
-	/**
-	 */
+	
 	Group titleGroup;
-	/**
-	 */
 	Group selGroup;
-	/**
-	 */
+	
 	int attackArea;
-	/**
-	 */
 	int resSelection;
-	/**
-	 */
+	
+	static int maxDesBuild;
+	static int maxTiles;
 	Culture attacker;
-	/**
-	 */
 	Culture defender;
-	/**
-	 */
+	
 	Label message;
-	/**
-	 */
 	Label resMessageOk;
-	/**
-	 */
+	
 	CoreImage[] holdTileImg;
-
-	/**
-	 */
+	CoreImage[] resTileImg;
+	CoreImage[] buildTileImg;
+	
 	ArrayList<Button> resButton;
-	/**
-	 */
 	ArrayList<Button> buildButton;
-	/**
-	 */
 	ArrayList<Button> holdButton;
-	/**
-	 */
 	Hashtable<Button, Integer> resButtonMapID;
-	/**
-	 */
-	Hashtable<Button, Integer> buildButtonMapID;
-	/**
-	 */
-	Hashtable<Button, Integer> holdButtonMapID;
-	/**
-	 */
-	Hashtable<GlobalDef.Resources, Integer> reTable;
 
+	Hashtable<Button, Integer> buildButtonMapID;
+	Hashtable<Button, Integer> holdButtonMapID;
+	Hashtable<GlobalDef.Resources, Integer> reTable;
+	
+	
 	public void Init(int attArea, Culture a, Culture d) {
 		attackArea = attArea;
 		attacker = a;
 		defender = d;
 		resSelection = 0;
-
+		maxDesBuild = 1;
+		maxTiles = 1;
+		
 		resButtonMapID = new Hashtable<Button, Integer>();
 		buildButtonMapID = new Hashtable<Button, Integer>();
 		holdButtonMapID = new Hashtable<Button, Integer>();
@@ -99,8 +79,7 @@ public class TrophyScreen extends Scene2D {
 
 		selGroup = new Group(200, 200, 400, 300);
 		// if attack production area
-		CoreImage[] resTileImg = CoreImage.load("/resource/resTile.jpg").split(
-				12, 5);
+		resTileImg = CoreImage.load("/resource/resTile.jpg").split(12, 5);
 		resButton = new ArrayList<Button>();
 		if (attackArea == 0) {
 			int[][] pArea = defender.getGameBoard().getProductionOccupied();
@@ -134,8 +113,7 @@ public class TrophyScreen extends Scene2D {
 		}
 
 		// attack city area
-		CoreImage[] buildTileImg = CoreImage.load("/resource/buildTile.jpg")
-				.split(12, 5);
+		buildTileImg = CoreImage.load("/resource/buildTile.jpg").split(12, 4);
 		buildButton = new ArrayList<Button>();
 		if (attackArea == 1) {
 			int[][] cArea = defender.getGameBoard().getCityOccupied();
@@ -145,9 +123,7 @@ public class TrophyScreen extends Scene2D {
 						int ID = cArea[i][j];
 						int row = ID / 4;
 						int col = ID % 4;
-						CoreImage[] img = new CoreImage[] {
-								buildTileImg[row * 12 + col],
-								buildTileImg[row * 12 + col + 4],
+						CoreImage[] img = new CoreImage[] {buildTileImg[row * 12 + col],buildTileImg[row * 12 + col + 4],
 								buildTileImg[row * 12 + col + 8] };
 						Button btn = new Button(img, 0, 0);
 						buildButton.add(btn);
@@ -200,8 +176,7 @@ public class TrophyScreen extends Scene2D {
 
 		add(selGroup);
 
-		this.resMessageOk
-				.setLocation((400 - resMessageOk.width.get()) / 2, 200);
+		this.resMessageOk.setLocation((400 - resMessageOk.width.get()) / 2, 200);
 		this.selGroup.add(resMessageOk);
 
 	}
@@ -209,20 +184,36 @@ public class TrophyScreen extends Scene2D {
 	public void update(int elapsedTime) {
 		// background operation of attacking production area
 		if (attackArea == 0) {
-			for (int index = 0; index < this.resButton.size(); index++) {
-				if (resButton.get(index).isMousePressed()) {
+			if(maxTiles == 0){
+				for(int index = 0; index < this.resButton.size(); index++){
+					int ID = resButtonMapID.get(resButton.get(index));
+					int row = ID / 4; int col = ID % 4;
+					resButton.get(index).setImage(this.resTileImg[row * 12 + col + 8]);
+				}
+			}
+			for(int index = 0; index < this.resButton.size(); index++) {
+				if (resButton.get(index).isMousePressed() && maxTiles > 0) {
 					int ID = resButtonMapID.get(resButton.get(index));
 					defender.getGameBoard().removeProductionTile(ID);
 					attacker.getGameBoard().placeProductionTile(ID);
-					Stage.popScene();
+					selGroup.remove(this.resButton.get(index));
+					maxTiles--;
 				}
 			}
 		} else if (attackArea == 1) {
-			for (int index = 0; index < this.buildButton.size(); index++) {
-				if (this.buildButton.get(index).isMousePressed()) {
+			if(maxDesBuild == 0){
+				for(int index = 0; index < this.buildButton.size(); index++){
+					int ID = buildButtonMapID.get(buildButton.get(index));
+					int row = ID / 4; int col = ID % 4;
+					buildButton.get(index).setImage(buildTileImg[row * 12 + col + 8]);
+				}
+			}
+			for(int index = 0; index < this.buildButton.size(); index++) {
+				if (this.buildButton.get(index).isMousePressed() && maxDesBuild != 0) {
 					int ID = buildButtonMapID.get(buildButton.get(index));
 					defender.getGameBoard().RemoveBuilding(ID);
-					Stage.popScene();
+					selGroup.remove(this.buildButton.get(index));
+					maxDesBuild--;
 				}
 			}
 		} else if (attackArea == 2) {
@@ -231,7 +222,6 @@ public class TrophyScreen extends Scene2D {
 				for (int index = 0; index < 4; index++) {
 					CoreImage[] pImg = new CoreImage[] { holdTileImg[index],
 							holdTileImg[index + 5], holdTileImg[index + 10] };
-
 					if (!isResourceAvailableForPlayer(index))
 						holdButton.get(index).setImage(pImg[2]);
 				}
@@ -268,6 +258,10 @@ public class TrophyScreen extends Scene2D {
 		if (resMessageOk.isMousePressed()) {
 			Stage.popScene();
 		}
+	}
+	
+	public static void setMaxDesBuild(int max) {
+		maxDesBuild = max;
 	}
 
 	private void clearReTable() {

@@ -155,15 +155,20 @@ public class BattleScreen extends Scene2D {
 			middleGroup.add(battleOver);
 			
 			if(battleOver.isMousePressed()){
+				
+				TrophyScreen tScreen = new TrophyScreen();
+				tScreen.Init(attackArea, attacker, defender);
+				
 				// add remainning units back to holding area
 				for(int index = 0; index < attackUnits.size(); index++)
 				{
 					BattleCard bc = getUnitMap(attacker.getRace()).get(attackUnits.get(index));
+					if(bc.getGodPowerTime() == GlobalDef.GodPowerTime.Finish){
+						bc.GodPower(attacker, defender, true);
+					}
 					attacker.getGameBoard().PlaceUnit(bc);
 				}
 				
-				TrophyScreen tScreen = new TrophyScreen();
-				tScreen.Init(this.attackArea, attacker, defender);
 				Stage.replaceScene(tScreen);
 			}
 		}else if(attackerUnitBtn.size() == 0 && defenderUnitBtn.size() > 0)
