@@ -51,6 +51,11 @@ public class BattleScreen extends Scene2D {
 	
 	Label label;
 	Label battleOver;
+	
+	static CoreImage[] retreatImg;
+	static Button attackerRetreatBtn;
+	static Button defenderRetreatBtn;
+	
 	public void Init(Culture att, Culture def) {
 		attackUnits = PreBattleScreen.getAttackerUnitsID();
 		defenderUnits = PreBattleScreen.getDefenderUnitsID();
@@ -140,6 +145,13 @@ public class BattleScreen extends Scene2D {
 		middleGroup = new Group(325, 0, 150, 600);
 		add(middleGroup);
 		
+		// retreat buttons
+		retreatImg = CoreImage.load("/battle/retreat.jpg").split(3, 1);
+		attackerRetreatBtn = new Button(retreatImg, 0, 550);
+		attackerGroup.add(attackerRetreatBtn);
+		defenderRetreatBtn = new Button(retreatImg, 225, 550);
+		defenderGroup.add(defenderRetreatBtn);
+		
 		label = new Label("Begin round", 0, 0);
 		battleOver = new Label("", 0, 0);
 	}
@@ -207,6 +219,9 @@ public class BattleScreen extends Scene2D {
 			label.setLocation((150 - label.width.get()) / 2, (600 - label.height.get()) / 2);
 			middleGroup.add(label);
 			
+			defenderRetreatBtn.setImage(retreatImg[2]);
+			attackerRetreatBtn.setImage(retreatImg[2]);
+			
 			if(label.isMousePressed()){
 				middleGroup.remove(label);
 				BattleRoundScreen brScreen = new BattleRoundScreen();
@@ -219,6 +234,10 @@ public class BattleScreen extends Scene2D {
 		
 		if(!finish){
 			if(attackRound){
+				defenderRetreatBtn.setImage(retreatImg[2]);
+				if(attackerRetreatBtn.isClicked()){
+					Retreat();
+				}
 				
 				for (int index = 0; index < attackerUnitBtn.size(); index++) {
 					if (attackerUnitBtn.get(index).isClicked()) {
@@ -232,9 +251,15 @@ public class BattleScreen extends Scene2D {
 								* 12 + col + 4], 225, 225);
 						attackerGroup.add(attImg);
 						attackRound = false;
+						defenderRetreatBtn.setImage(retreatImg[0]);
 					}
 				}
 			}else if(!attackRound){
+				attackerRetreatBtn.setImage(retreatImg[2]);
+				if(defenderRetreatBtn.isClicked()){
+					Retreat();
+				}
+				
 				for (int index = 0; index < defenderUnitBtn.size(); index++) {
 					if (defenderUnitBtn.get(index).isClicked()) {
 						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
@@ -246,6 +271,7 @@ public class BattleScreen extends Scene2D {
 								defenderBattleCardImg[row * 12 + col + 4], 0, 225);
 						defenderGroup.add(defImg);
 						finish = true;
+						defenderRetreatBtn.setImage(retreatImg[2]);
 					}
 				}
 			}
@@ -376,6 +402,33 @@ public class BattleScreen extends Scene2D {
 			b.setLocation(75 * c, 125 * r);
 			defenderGroup.add(b);
 		}
+	}
+	
+	public static void updateRetreatBtn()
+	{
+		attackerGroup.remove(attackerRetreatBtn);
+		defenderGroup.remove(defenderRetreatBtn);
+		attackerRetreatBtn.setImage(retreatImg[0]);
+		attackerGroup.add(attackerRetreatBtn);
+		defenderRetreatBtn.setImage(retreatImg[0]);
+		defenderGroup.add(defenderRetreatBtn);
+	}
+	
+	private void Retreat()
+	{
+		for(int index = 0; index < attackUnits.size(); index++)
+		{
+			BattleCard bc = getUnitMap(attacker.getRace()).get(attackUnits.get(index));
+			attacker.getGameBoard().PlaceUnit(bc);
+		}
+		
+		for(int index = 0; index < defenderUnits.size(); index++)
+		{
+			BattleCard bc = getUnitMap(defender.getRace()).get(defenderUnits.get(index));
+			defender.getGameBoard().PlaceUnit(bc);
+		}
+		
+		Stage.popScene();
 	}
 	
 }

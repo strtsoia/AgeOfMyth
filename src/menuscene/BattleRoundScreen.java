@@ -132,10 +132,6 @@ public class BattleRoundScreen extends Scene2D{
 					defenderRolls -= 2;
 			}
 		}
-		
-		
-		System.out.println("attack roll is: " + attackerRolls);
-		System.out.println("defender roll is: " + defenderRolls);
 	}
 	
 	public void load()
@@ -199,6 +195,7 @@ public class BattleRoundScreen extends Scene2D{
 			if(ok.isMousePressed()){
 				BattleScreen.setFinish(false);
 				BattleScreen.setAttackRound(true);
+				BattleScreen.updateRetreatBtn();
 				Stage.popScene();
 			}
 			
@@ -317,12 +314,16 @@ public class BattleRoundScreen extends Scene2D{
 					defBattleCard.GodPower(defender, attacker, false);
 				}
 				
-				rolling = true;
-				finishRound = false;
-				attackRound = true;
 				msg.setText("tie, reroll");
 				msg.setLocation((600 - msg.width.get()) / 2, 175);
 				group.add(msg);
+				
+				if(msg.isMousePressed()){
+					rolling = true;
+					finishRound = false;
+					attackRound = true;
+				}
+				
 				
 				if(berserk){
 					if(attBattleCard == Huskarl.getInstance() || attBattleCard == HeroicNorseHero.getInstance()){
@@ -344,8 +345,7 @@ public class BattleRoundScreen extends Scene2D{
 							BattleScreen.removeFromDefenderGroup(attackerID);
 						}
 					}
-				}
-				
+				}		
 			}
 		}
 	}

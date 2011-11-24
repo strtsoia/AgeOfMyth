@@ -398,11 +398,11 @@ public class PreBattleScreen extends Scene2D {
 				bothFinish = true;
 			}
 
-			// both player not finish unit selction
+			// both player not finish unit selection
 			if (!bothFinish) {
 				// update drawing part for attack side
 				if (defenderSideChoice) {
-					// attacker finish select battlecard, then disable all
+					// attacker finish select battle card, then disable all
 					// buttons
 					for (int index = 0; index < attackUnitBtn.size(); index++) {
 						int ID = attackerBtnMapUnitID.get(attackUnitBtn

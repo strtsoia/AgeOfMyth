@@ -19,11 +19,9 @@ import component.Culture;
 
 public class TradeScreen extends Scene2D {
 
-	/**
-	 */
+	
 	final int width = 50;
-	/**
-	 */
+	
 	Culture player;
 
 	boolean payOver;
