@@ -2,8 +2,8 @@ package battlecard;
 
 import java.util.Hashtable;
 
+import menuscene.BattleScreen;
 import component.Culture;
-
 import global.GlobalDef;
 
 public final class HeroicGreekHero extends BattleCard {
@@ -58,9 +58,17 @@ public final class HeroicGreekHero extends BattleCard {
 			bonus = 0;
 	}
 	
-	public void GodPower(Culture attacker, Culture Defender, boolean win)
+	public void GodPower(Culture player, Culture opponent, boolean win)
 	{
+		if(win){
+			if(Hero.contains(opponent.getInRoundUnit())){
 		
+				BattleScreen.CallRetreat();
+				BattleScreen.setbRetreat(true);
+			}
+			
+			 
+		}
 	}
 	
 	public GlobalDef.GodPowerTime getGodPowerTime()

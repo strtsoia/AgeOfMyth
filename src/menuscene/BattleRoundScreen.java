@@ -82,6 +82,9 @@ public class BattleRoundScreen extends Scene2D{
 		
 		attBattleCard = attackerUnit;
 		defBattleCard = defenderUnit;
+		attacker.setInRoundUnit(attackerUnit);
+		defender.setInRoundUnit(defenderUnit);
+		
 		// image
 		attackUnitImg = attImg;
 		defendUnitImg = defImg;

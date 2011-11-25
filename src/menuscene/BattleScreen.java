@@ -39,8 +39,8 @@ public class BattleScreen extends Scene2D {
 	
 	static int hydraSp;
 	
-	Culture attacker;	
-	Culture defender;
+	static Culture attacker;	
+	static Culture defender;
 	
 	int attackArea;
 
@@ -56,6 +56,8 @@ public class BattleScreen extends Scene2D {
 	static Button attackerRetreatBtn;
 	static Button defenderRetreatBtn;
 	
+	static boolean bRetreat;
+	
 	public void Init(Culture att, Culture def) {
 		attackUnits = PreBattleScreen.getAttackerUnitsID();
 		defenderUnits = PreBattleScreen.getDefenderUnitsID();
@@ -70,6 +72,7 @@ public class BattleScreen extends Scene2D {
 		finish = false;
 		
 		hydraSp = 0;
+		bRetreat = false;
 		
 	}
 
@@ -158,6 +161,10 @@ public class BattleScreen extends Scene2D {
 
 	@Override
 	public void update(int elapsedTime) {
+		
+		if(bRetreat){
+			Stage.popScene();
+		}
 		
 		// attacker wins the whole battle
 		if(attackerUnitBtn.size() > 0 && defenderUnitBtn.size() == 0)
@@ -276,12 +283,10 @@ public class BattleScreen extends Scene2D {
 				}
 			}
 		}
-		
-		
 	}
 
 	// check proper battle card for proper culture
-	private Hashtable<Integer, BattleCard> getUnitMap(GlobalDef.Races race) {
+	private static Hashtable<Integer, BattleCard> getUnitMap(GlobalDef.Races race) {
 		if (race == GlobalDef.Races.Egypt) {
 			return GlobalDef.getEgyptBattleCard();
 		} else if (race == GlobalDef.Races.Greek) {
@@ -414,7 +419,12 @@ public class BattleScreen extends Scene2D {
 		defenderGroup.add(defenderRetreatBtn);
 	}
 	
-	private void Retreat()
+	public static void CallRetreat()
+	{
+		Retreat();
+	}
+	
+	private static void Retreat()
 	{
 		for(int index = 0; index < attackUnits.size(); index++)
 		{
@@ -430,5 +440,11 @@ public class BattleScreen extends Scene2D {
 		
 		Stage.popScene();
 	}
+
+	public static void setbRetreat(boolean bRetreat) {
+		BattleScreen.bRetreat = bRetreat;
+	}
+	
+	
 	
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import actioncard.AttackCard;
 import actioncard.*;
+import battlecard.*;
 
 public class Culture {
 	
@@ -25,9 +26,20 @@ public class Culture {
 	private Hashtable<Building, Boolean> b_build = new Hashtable<Building, Boolean>();
 	private GlobalDef.Age currentAge;
 	private GlobalDef.Races race;
-
+	private BattleCard inRoundUnit;
+	
 	private int playerID;
 	
+	public BattleCard getInRoundUnit() {
+		return inRoundUnit;
+	}
+
+
+	public void setInRoundUnit(BattleCard inRoundUnit) {
+		this.inRoundUnit = inRoundUnit;
+	}
+
+
 	public Hashtable<Card, Integer> getCardHold() {
 		return cardHold;
 	}
