@@ -1,7 +1,5 @@
 package menuscene;
 
-import static pulpcore.image.Colors.gray;
-
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -151,7 +149,7 @@ public class BattleRoundScreen extends Scene2D{
 				600, 200);
 		add(background);
 		
-		bgFont = CoreFont.load("serif.font.png").tint(gray(0));
+		bgFont = CoreFont.load("serif.font.png");
 		
 		group = new Group(100, 200, 450, 200);
 		// unit img
@@ -167,10 +165,10 @@ public class BattleRoundScreen extends Scene2D{
 		defDiceLabel.setFormatArg(defenderRolls);
 		group.add(defDiceLabel);
 		
-		this.attSixersLabel = new Label(bgFont, "Attacker gets %d sixers", 10, 175);
-		this.defSixersLabel = new Label(bgFont, "Defender gets %d sixers", 470, 175);
-		this.rollingMsg = new Label(bgFont, "", 0, 0);
-		this.msg = new Label(bgFont, "", 0, 0);
+		attSixersLabel = new Label(bgFont, "Attacker gets %d sixers", 10, 175);
+		defSixersLabel = new Label(bgFont, "Defender gets %d sixers", 470, 175);
+		rollingMsg = new Label(bgFont, "", 0, 0);
+		msg = new Label(bgFont, "", 0, 0);
 		ok = new Label(bgFont, "OK", 0, 0);
 		dices = new CoreImage[6];
 		// load dice img
@@ -212,7 +210,7 @@ public class BattleRoundScreen extends Scene2D{
 		}
 		
 		if(attackRound){
-			this.rollingMsg.setText("Attacker rolls Dice");
+			rollingMsg.setText("Attacker rolls Dice");
 			rollingMsg.setLocation((600 - rollingMsg.width.get()) / 2, 140);
 			group.add(rollingMsg);
 			
@@ -337,16 +335,15 @@ public class BattleRoundScreen extends Scene2D{
 						rolling = false;
 						
 						BattleScreen.removeFromAttackerGroup(attackerID);
-					}else{
-						if(defBattleCard == Huskarl.getInstance() || defBattleCard == HeroicNorseHero.getInstance()){
-							determine = true;
-							msg.setText("Defender wins");
-							msg.setLocation((600 - msg.width.get()) / 2, 175);
-							group.add(msg);
-							rolling = false;
-							
-							BattleScreen.removeFromDefenderGroup(attackerID);
-						}
+					}else if(defBattleCard == Huskarl.getInstance() || defBattleCard == HeroicNorseHero.getInstance())
+					{
+						determine = true;
+						msg.setText("attacker wins");
+						msg.setLocation((600 - msg.width.get()) / 2, 175);
+						group.add(msg);
+						rolling = false;
+						
+						BattleScreen.removeFromDefenderGroup(defenderID);
 					}
 				}		
 			}

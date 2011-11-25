@@ -20,16 +20,19 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
 
 import settings.Bank;
+import sound.SoundManager;
 
 import java.util.*;
 import pulpcore.sprite.Button;
+import pulpcore.sound.*;
+import pulpcore.animation.*;
 
 public class GameScreen extends Scene2D {
 
 
 	ImageSprite board;
 	ImageSprite side;
-
+	
 	Group sideGroup;
 	CoreImage[] buildTileImg;
 	ImageSprite[] buildingSprite;
@@ -50,9 +53,13 @@ public class GameScreen extends Scene2D {
 	CoreImage[] norseUnitsImg;
 	CoreImage[] unitsImg;
 	
+	Sound egyptBackgroundSound;
+	Sound greekBackgroundSound;
+	Sound norseBackgroundSound;
+	
 	// bank button
 	Button bankBtn;
-	
+	Playback etyptPBSound;
 	
 	// store img for city area dynamically
 	static ArrayList<ImageSprite> bList = new ArrayList<ImageSprite>();
@@ -88,12 +95,15 @@ public class GameScreen extends Scene2D {
 		player[1] = new Culture(GlobalDef.Races.Norse, 1);
 		player[2] = new Culture(GlobalDef.Races.Greek, 2);
 
+		SoundManager.GetInstance();
+		SoundManager.Init();
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
 			sideType = "greekpopback.jpg";
 		} else if (player[index].getRace() == GlobalDef.Races.Egypt) {
 			strBoardType = "EgyptBoard.jpg";
 			sideType = "egyptpopback.jpg";
+			
 		}else if(player[index].getRace() == GlobalDef.Races.Norse){
 			strBoardType = "NorseBoard.jpg";
 			sideType = "norsepopback.jpg";
@@ -142,7 +152,11 @@ public class GameScreen extends Scene2D {
 		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
 		bankBtn = new Button(bankImg, 0, 550);
 		this.sideGroup.add(bankBtn);
-
+		
+		/* load sound */
+		/*egyptBackgroundSound = Sound.load("/sound/egyptbacksound.wav");
+		egyptBackgroundSound.play();*/
+		
 	}
 
 	public void update(int elapsedTime) {

@@ -13,6 +13,7 @@ import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.Button;
+import sound.SoundManager;
 import utility.ResourceHandler;
 
 public class TrophyScreen extends Scene2D {
@@ -178,6 +179,10 @@ public class TrophyScreen extends Scene2D {
 
 		this.resMessageOk.setLocation((400 - resMessageOk.width.get()) / 2, 200);
 		this.selGroup.add(resMessageOk);
+		
+		// sound
+		SoundManager.GetInstance();
+		SoundManager.PlayWinBattle();
 
 	}
 
@@ -256,6 +261,8 @@ public class TrophyScreen extends Scene2D {
 		}
 
 		if (resMessageOk.isMousePressed()) {
+			SoundManager.GetInstance();
+			SoundManager.Stop();
 			Stage.popScene();
 		}
 	}

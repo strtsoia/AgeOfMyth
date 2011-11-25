@@ -4,13 +4,13 @@ import pulpcore.Stage;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.Input;
+import pulpcore.sound.*;
 
 public class MainScreen extends Scene2D {
 
-	/**
-	 */
 	ImageSprite background;
-
+	Sound mainSound;
+	
 	@Override
 	public void load() {
 		// CoreFont font = CoreFont.getSystemFont();
@@ -19,6 +19,9 @@ public class MainScreen extends Scene2D {
 				Stage.getHeight());
 
 		add(background);
+		
+		mainSound = Sound.load("/sound/MAINMENU.MP3");
+		mainSound.play();
 
 	}
 

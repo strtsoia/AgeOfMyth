@@ -7,6 +7,7 @@ import java.util.*;
 import battlecard.*;
 import component.Culture;
 
+import pulpcore.CoreSystem;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.sprite.ImageSprite;
@@ -14,6 +15,8 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Label;
+import pulpcore.sound.*;
+import sound.SoundManager;
 
 public class BattleScreen extends Scene2D {
 
@@ -58,6 +61,9 @@ public class BattleScreen extends Scene2D {
 	
 	static boolean bRetreat;
 	
+	Sound backgroundSound;
+	Playback playback;
+	
 	public void Init(Culture att, Culture def) {
 		attackUnits = PreBattleScreen.getAttackerUnitsID();
 		defenderUnits = PreBattleScreen.getDefenderUnitsID();
@@ -77,7 +83,7 @@ public class BattleScreen extends Scene2D {
 	}
 
 	public void load() {
-		
+	
 		background = new ImageSprite("battlebackground.jpg", 0, 0,
 				Stage.getWidth(), Stage.getHeight());
 		add(background);
@@ -157,12 +163,17 @@ public class BattleScreen extends Scene2D {
 		
 		label = new Label("Begin round", 0, 0);
 		battleOver = new Label("", 0, 0);
+		
+		SoundManager.GetInstance();
+		SoundManager.PlayBattleSound();
 	}
 
 	@Override
 	public void update(int elapsedTime) {
 		
 		if(bRetreat){
+			SoundManager.GetInstance();
+			SoundManager.Stop();
 			Stage.popScene();
 		}
 		
@@ -188,6 +199,8 @@ public class BattleScreen extends Scene2D {
 					attacker.getGameBoard().PlaceUnit(bc);
 				}
 				
+				SoundManager.GetInstance();
+				SoundManager.Stop();
 				Stage.replaceScene(tScreen);
 			}
 		}else if(attackerUnitBtn.size() == 0 && defenderUnitBtn.size() > 0)
@@ -438,6 +451,8 @@ public class BattleScreen extends Scene2D {
 			defender.getGameBoard().PlaceUnit(bc);
 		}
 		
+		SoundManager.GetInstance();
+		SoundManager.Stop();
 		Stage.popScene();
 	}
 

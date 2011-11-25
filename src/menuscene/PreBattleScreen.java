@@ -48,8 +48,7 @@ public class PreBattleScreen extends Scene2D {
 	Culture player;
 	
 	Culture[] players;
-	/**
-	 */
+	
 	Group selectPlayerGroup;
 	
 	boolean single; // whether only one player can select
