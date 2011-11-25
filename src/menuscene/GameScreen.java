@@ -25,7 +25,6 @@ import sound.SoundManager;
 import java.util.*;
 import pulpcore.sprite.Button;
 import pulpcore.sound.*;
-import pulpcore.animation.*;
 
 public class GameScreen extends Scene2D {
 
@@ -95,8 +94,6 @@ public class GameScreen extends Scene2D {
 		player[1] = new Culture(GlobalDef.Races.Norse, 1);
 		player[2] = new Culture(GlobalDef.Races.Greek, 2);
 
-		SoundManager.GetInstance();
-		SoundManager.Init();
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
 			sideType = "greekpopback.jpg";
@@ -153,9 +150,9 @@ public class GameScreen extends Scene2D {
 		bankBtn = new Button(bankImg, 0, 550);
 		this.sideGroup.add(bankBtn);
 		
-		/* load sound */
-		/*egyptBackgroundSound = Sound.load("/sound/egyptbacksound.wav");
-		egyptBackgroundSound.play();*/
+		SoundManager.GetInstance();
+		SoundManager.Init();
+		SoundManager.PlayBoardSound();
 		
 	}
 
@@ -284,7 +281,7 @@ public class GameScreen extends Scene2D {
 		}
 		
 		if (Input.isPressed(Input.KEY_B)) {
-
+			
 			BuildingCard.GetInstance().Action(player[index]);
 		}
 
