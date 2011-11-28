@@ -7,7 +7,6 @@ import java.util.*;
 import battlecard.*;
 import component.Culture;
 
-import pulpcore.CoreSystem;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.sprite.ImageSprite;

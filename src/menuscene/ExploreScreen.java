@@ -16,28 +16,19 @@ import tile.*;
 
 public class ExploreScreen extends Scene2D {
 
-	/**
-	 */
+	
 	final int width = 50;
-	/**
-	 */
+
 	private int numOfDraw;
-	/**
-	 */
+	
 	ArrayList<Integer> randomTile = new ArrayList<Integer>();
 
-	/**
-	 */
 	CoreImage[] resTileImg;
-	/**
-	 */
+	
 	Button[][] resBtn = new Button[5][4];
-	/**
-	 */
+	
 	Group resForm;
 
-	/**
-	 */
 	Culture player;
 
 	// how many tiles should be randomly draw from pool

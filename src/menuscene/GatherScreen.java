@@ -17,8 +17,6 @@ import utility.ResourceHandler;
 
 public class GatherScreen extends Scene2D {
 
-	/**
-	 */
 	final int width = 50;
 
 	ImageSprite background;

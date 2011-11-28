@@ -17,34 +17,20 @@ import building.*;
 
 public class BuildingScreen extends Scene2D {
 
-	/**
-	 */
+
 	final int width = 100;
 
-	/**
-	 */
 	CoreImage[] buildTileImg;
-	/**
-	 */
-	Button[][] buildBtn = new Button[4][4];
-	/**
-	 */
-	Label ok;
-	/**
-	 */
-	ImageSprite background;
-	/**
-	 */
-	Group buildForm;
 
-	/**
-	 */
+	Button[][] buildBtn = new Button[4][4];
+	
+	Label ok;
+	ImageSprite background;
+	
+	Group buildForm;
 	Culture player;
-	/**
-	 */
+	
 	int maxNumOfBuilding;
-	/**
-	 */
 	int constrctedNum;
 
 	public void Init(Culture culture, int max) {

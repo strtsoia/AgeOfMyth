@@ -24,7 +24,6 @@ public class RecruitScreen extends Scene2D {
 	final int width = 100;
 	final int height = 150;
 
-
 	ImageSprite background;
 	CoreImage[] battleCardImg;
 	Button[][] battleCardBtn = new Button[3][4];
