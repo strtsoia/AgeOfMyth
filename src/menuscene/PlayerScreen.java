@@ -1,32 +1,21 @@
 package menuscene;
 
 import pulpcore.Stage;
-import pulpcore.image.Colors;
-import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
 
 public class PlayerScreen extends Scene2D {
 
-	/**
-	 */
+
 	ImageSprite background;
-	/**
-	 */
+	
+
 	Label playerLabel;
-	/**
-	 */
 	Label numLabel;
-	/**
-	 */
 	Label continueLabel;
-	/**
-	 */
 	Label backLabel;
 
-	/**
-	 */
 	boolean hit = false;
 
 	private static int number;
@@ -40,12 +29,11 @@ public class PlayerScreen extends Scene2D {
 				Stage.getHeight());
 		add(background);
 
-		CoreFont font = CoreFont.load("serif.font.png").tint(Colors.YELLOW);
-
-		playerLabel = new Label(font, "Choose number of players: ", 0, 0);
-		numLabel = new Label(font, String.valueOf(number), 0, 0);
-		continueLabel = new Label(font, "continue", 0, 0);
-		backLabel = new Label(font, "back", 0, 0);
+	
+		playerLabel = new Label("Choose number of players: ", 0, 0);
+		numLabel = new Label(String.valueOf(number), 0, 0);
+		continueLabel = new Label("continue", 0, 0);
+		backLabel = new Label("back", 0, 0);
 
 		double x = (Stage.getWidth() - playerLabel.width.get()) / 2;
 		double y = Stage.getHeight() / 2;

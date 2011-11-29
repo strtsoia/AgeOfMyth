@@ -69,30 +69,35 @@ public class GameScreen extends Scene2D {
 
 	private static Culture[] player;
 	
-	int index;
+	int index = 0;
 	private static int numOfPlayers;
+	int startPlayer = 0;
 	
 	String strBoardType;
 	String sideType;
-
 	GlobalDef.Races[] playerRace;
-
+	
+	boolean initPTileOver = false;
+	boolean startPTileInit = false;
+	
+	InitExploreScreen initEScreen;
+	
 	// Initialize here
 	public void load() {
 		// initialize bank
 		Bank.getInstance();
 
-		numOfPlayers = 3;
+		numOfPlayers = PlayerScreen.getNumber();
 		player = new Culture[numOfPlayers];
-		/*
-		 * playerRace = CultureScreen.getPlayerCulture(); // create each players
-		 * for(int i = 0; i < numOfPlayers; i++) { player[i] = new
-		 * Culture(playerRace[i], i); }
-		 */
+		
+		playerRace = CultureScreen.getPlayerCulture(); // create each players
+		for(int i = 0; i < numOfPlayers; i++) 
+			player[i] = new Culture(playerRace[i], i); 
+		 
 
-		player[0] = new Culture(GlobalDef.Races.Egypt, 0);
+		/*player[0] = new Culture(GlobalDef.Races.Egypt, 0);
 		player[1] = new Culture(GlobalDef.Races.Norse, 1);
-		player[2] = new Culture(GlobalDef.Races.Greek, 2);
+		player[2] = new Culture(GlobalDef.Races.Greek, 2);*/
 
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
@@ -154,6 +159,8 @@ public class GameScreen extends Scene2D {
 		SoundManager.Init();
 		SoundManager.PlayBoardSound();
 		
+		
+		
 	}
 
 	public void update(int elapsedTime) {
@@ -170,7 +177,25 @@ public class GameScreen extends Scene2D {
 		}
 		side.setImage(sideType);
 		board.setImage(strBoardType);
-
+		
+		/* begin initialize production tile */
+		if(!startPTileInit){
+			startPTileInit = true;
+			initEScreen = new InitExploreScreen();
+			initEScreen.GenerateRomdomTiles();
+		}
+		
+		if(!initPTileOver){
+			initEScreen.Init(player[index]);
+			Stage.pushScene(initEScreen);
+			index++;
+			index = index % numOfPlayers;
+			 
+			if(index == startPlayer)
+				initPTileOver = true;
+		}
+		/* end initialization of production tiles*/
+		
 		/* showing resources */
 		for (int i = 0; i < 4; i++) {
 			// first remove

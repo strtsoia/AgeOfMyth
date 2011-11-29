@@ -28,9 +28,9 @@ public class ExploreScreen extends Scene2D {
 	Button[][] resBtn = new Button[5][4];
 	
 	Group resForm;
-
 	Culture player;
-
+	
+	
 	// how many tiles should be randomly draw from pool
 	public void Init(int tileNum, Culture c) {
 		numOfDraw = tileNum;

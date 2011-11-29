@@ -19,9 +19,6 @@ public class MainScreen extends Scene2D {
 				Stage.getHeight());
 
 		add(background);
-		
-		mainSound = Sound.load("/sound/MAINMENU.MP3");
-		mainSound.play();
 
 	}
 

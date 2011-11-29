@@ -2,8 +2,6 @@ package menuscene;
 
 import static pulpcore.image.Colors.*;
 import pulpcore.Stage;
-import pulpcore.image.Colors;
-import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Label;
 import pulpcore.sprite.FilledSprite;
@@ -16,37 +14,26 @@ import java.util.*;
 
 public class CultureScreen extends Scene2D {
 
-	/**
-	 */
+
 	ImageSprite[] cubes = new ImageSprite[4];
-	/**
-	 */
 	Label click;
 
-	/**
-	 */
+	
 	private int xPos = Stage.getWidth() / 2;
-	/**
-	 */
 	private int yPos = Stage.getHeight() / 2 - 50;
 
 	private static double labelWidth;
 
-	/**
-	 */
+	
 	private boolean hit;
 	// get number of players
-	/**
-	 */
+	
 	int playerNumber = PlayerScreen.getNumber();
-	/**
-	 */
+	
 	ArrayList<Integer> sequence = new ArrayList<Integer>();
-	/**
-	 */
+	
 	Random random = new Random();
-	/**
-	 */
+	
 	int index = 0;
 
 	// store culture of each player
@@ -63,8 +50,7 @@ public class CultureScreen extends Scene2D {
 		cubes[2] = new ImageSprite("/resource/favor.jpg", xPos, yPos);
 		cubes[3] = new ImageSprite("/resource/gold.jpg", xPos, yPos);
 
-		CoreFont font = CoreFont.load("serif.font.png").tint(Colors.BLACK);
-		click = new Label(font, "Click Me To Get Culture", xPos - 100,
+		click = new Label("Click Me To Get Culture", xPos - 100,
 				yPos + 100);
 		labelWidth = click.width.get();
 
