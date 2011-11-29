@@ -69,7 +69,7 @@ public class GameScreen extends Scene2D {
 
 	private static Culture[] player;
 	
-	int index = 0;
+	static int index = 0;
 	private static int numOfPlayers;
 	int startPlayer = 0;
 	
@@ -178,24 +178,6 @@ public class GameScreen extends Scene2D {
 		side.setImage(sideType);
 		board.setImage(strBoardType);
 		
-		/* begin initialize production tile */
-		if(!startPTileInit){
-			startPTileInit = true;
-			initEScreen = new InitExploreScreen();
-			initEScreen.GenerateRomdomTiles();
-		}
-		
-		if(!initPTileOver){
-			initEScreen.Init(player[index]);
-			Stage.pushScene(initEScreen);
-			index++;
-			index = index % numOfPlayers;
-			 
-			if(index == startPlayer)
-				initPTileOver = true;
-		}
-		/* end initialization of production tiles*/
-		
 		/* showing resources */
 		for (int i = 0; i < 4; i++) {
 			// first remove
@@ -298,6 +280,25 @@ public class GameScreen extends Scene2D {
 				}
 			}
 		
+		
+		/* begin initialize production tile */
+		if(!startPTileInit){
+			startPTileInit = true;
+			initEScreen = new InitExploreScreen();
+			initEScreen.GenerateRomdomTiles(6);
+		}
+		
+		if(!initPTileOver){
+			initEScreen.Init(player[index]);
+			Stage.pushScene(initEScreen);
+			index++;
+			index = index % numOfPlayers;
+			 
+			if(index == startPlayer)
+				initPTileOver = true;
+		}
+		/* end initialization of production tiles*/
+		
 		// if bank button is pressed
 		if(bankBtn.isClicked()){
 			BankScreen bScreen = new BankScreen();
@@ -360,6 +361,15 @@ public class GameScreen extends Scene2D {
 
 	public static Culture[] getPlayer() {
 		return player;
+	}
+	
+	
+	public static int getIndex() {
+		return index;
+	}
+
+	public static void setIndex(int index) {
+		GameScreen.index = index;
 	}
 
 	private Hashtable<BattleCard, Integer> getUnitID(GlobalDef.Races race) {

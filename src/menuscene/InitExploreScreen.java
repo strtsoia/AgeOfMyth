@@ -28,13 +28,12 @@ public class InitExploreScreen extends Scene2D {
 	Group resForm;
 	Culture player;
 	
-	
 	// how many tiles should be randomly draw from pool
 	public void Init(Culture c) {
 		player = c;
 	}
 	
-	public void GenerateRomdomTiles()
+	public void GenerateRomdomTiles(int n)
 	{
 		Random r = new Random();
 		int[] tileID = new int[20];
@@ -42,14 +41,14 @@ public class InitExploreScreen extends Scene2D {
 			tileID[i] = i;
 		
 		// randomly generate tiles
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < n; i++) {
 			int number = r.nextInt(20);
 			int temp = tileID[i];
 			tileID[i] = tileID[number];
 			tileID[number] = temp;
 		}
 		
-		for (int index = 0; index < 6; index++) {
+		for (int index = 0; index < n; index++) {
 			randomTile.add(tileID[index]);
 		}
 	}
