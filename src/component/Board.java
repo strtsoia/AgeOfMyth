@@ -390,7 +390,7 @@ public class Board {
 					number--;
 					table.put(GlobalDef.getTileMap().get(ID), number);
 					Bank.getInstance().setProductionPool(table);
-					System.out.println("I find you");
+					System.out.println(productionOccupied[row][col]);
 					return;
 				}
 
@@ -432,19 +432,12 @@ public class Board {
 							GlobalDef.Resources rType = tile.getResourceType();
 							int productivity = tile.getProductivity()
 									.get(rType);
-							productivity = productivity * numOfVillager;
 							int number = gatheredRes.get(rType);
 							number = number + productivity;
 							gatheredRes.put(rType, number);
 						}
 					}
 				}
-			
-			if(player.getB_build().get(Monument.GetInstance())){
-				int n = gatheredRes.get(GlobalDef.Resources.FAVOR);
-				n = n + 2;
-				gatheredRes.put(GlobalDef.Resources.FAVOR, n);
-			}
 
 			return gatheredRes;
 		} else // gathered by resource type
@@ -464,14 +457,8 @@ public class Board {
 					}
 				}
 
-			numRes = numRes * numOfVillager;
 			gatheredRes.put(resType, numRes);
-			
-			if(player.getB_build().get(Monument.GetInstance())){
-				int n = gatheredRes.get(GlobalDef.Resources.FAVOR);
-				n = n + 2;
-				gatheredRes.put(GlobalDef.Resources.FAVOR, n);
-			}
+		
 			return gatheredRes;
 		}
 	}

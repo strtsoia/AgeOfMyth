@@ -3,6 +3,7 @@ package actioncard;
 import pulpcore.Stage;
 import component.Culture;
 import menuscene.InitExploreScreen;
+import menuscene.ExploreScreen;
 import menuscene.GameScreen;
 
 public class ExploreCard extends Card {
@@ -25,7 +26,10 @@ public class ExploreCard extends Card {
 	}
 
 	public void Action(Culture player) {
-		InitExploreScreen eScreen = new InitExploreScreen();
+		ExploreScreen eScreen = new ExploreScreen();
+		eScreen.Init(tilesNum, player);
+		Stage.replaceScene(eScreen);
+		/*InitExploreScreen eScreen = new InitExploreScreen();
 		eScreen.GenerateRomdomTiles(GameScreen.getNumOfPlayers() + 1);
 		
 		for(int i = 0; i < GameScreen.getNumOfPlayers(); i++){
@@ -36,7 +40,7 @@ public class ExploreCard extends Card {
 			index = index % GameScreen.getNumOfPlayers();
 			GameScreen.setIndex(index);
 			index++;
-		}
+		}*/
 	}
 
 }

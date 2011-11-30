@@ -1,6 +1,8 @@
 package menuscene;
 
 import java.util.*;
+
+import building.Monument;
 import global.GlobalDef;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
@@ -213,22 +215,37 @@ public class GatherScreen extends Scene2D {
 				if (resBtn[index].isClicked() && isResTypeAvailable(index)
 						&& !finish) {
 					GlobalDef.Resources res = GlobalDef.getResourceMap().get(index);
-					System.out.println(res);
+					
 					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
-					System.out.println(gatheredTable.get(res));
+					
+					if(player.getB_build().get(Monument.GetInstance())){
+						int n = gatheredTable.get(GlobalDef.Resources.FAVOR);
+						n = n + 2;
+						gatheredTable.put(GlobalDef.Resources.FAVOR, n);
+					}
+					
 					// update bank
-					gatheredTable = ResourceHandler.Delete(Bank.getInstance()
-							.getResourcePool(), gatheredTable);
+					gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
 					// player resource pool
 					ResourceHandler.Add(player.getGameBoard().getHoldResource(),gatheredTable);
-
+					
 					// store each gathered resource
 					for (int i = 0; i < 4; i++) {
-						resGathered[i] = gatheredTable.get(GlobalDef
-								.getResourceMap().get(i));
+						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
 
 					}
-
+					
+					Culture[] players = GameScreen.getPlayer();
+					// other players all gather
+					for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
+					{
+						if(!players[i].equals(player)){
+							gatheredTable = players[i].getGameBoard().Gather(true, res, null);
+							gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+							// player resource pool
+							ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+						}
+					}
 					finish = true;
 					load();
 				}
