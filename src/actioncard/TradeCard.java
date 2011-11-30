@@ -36,7 +36,7 @@ public class TradeCard extends Card {
 	public void Action(Culture player) {
 		TradeScreen tScreen = new TradeScreen();
 		tScreen.Init(player);
-		Stage.pushScene(tScreen);
+		Stage.replaceScene(tScreen);
 	}
 
 }

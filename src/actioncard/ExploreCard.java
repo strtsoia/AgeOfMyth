@@ -30,7 +30,7 @@ public class ExploreCard extends Card {
 		
 		for(int i = 0; i < GameScreen.getNumOfPlayers(); i++){
 			eScreen.Init(player);
-			Stage.pushScene(eScreen);
+			Stage.replaceScene(eScreen);
 			int index = GameScreen.getIndex();
 			index++;
 			index = index % GameScreen.getNumOfPlayers();

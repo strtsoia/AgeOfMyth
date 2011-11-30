@@ -11,6 +11,7 @@ import actioncard.TradeCard;
 import battlecard.*;
 import component.Culture;
 import actioncard.*;
+import menuscene.*;
 
 import pulpcore.Input;
 import pulpcore.Stage;
@@ -58,6 +59,7 @@ public class GameScreen extends Scene2D {
 	CoreImage[] norseCardImg;
 	CoreImage[] cardImg;
 	ArrayList<Button> cardButton;
+	Hashtable<Button, Integer> cardBtnToID;
 	
 	Sound egyptBackgroundSound;
 	Sound greekBackgroundSound;
@@ -152,10 +154,8 @@ public class GameScreen extends Scene2D {
 		currentAgeLabel = new Label("  Current Age: %s", 0, 75);
 		
 		// picture of battle card
-		egyptUnitsImg = CoreImage.load("/battlecard/egyptBattlecard.jpg")
-				.split(12, 3);
-		greekUnitsImg = CoreImage.load("/battlecard/greekBattlecard.jpg")
-				.split(12, 3);
+		egyptUnitsImg = CoreImage.load("/battlecard/egyptBattlecard.jpg").split(12, 3);
+		greekUnitsImg = CoreImage.load("/battlecard/greekBattlecard.jpg").split(12, 3);
 		norseUnitsImg = CoreImage.load("/battlecard/norseBattlecard.jpg").split(12, 3);
 		holdUnitsImg = new ArrayList<ImageSprite>();
 		numOfUnitsLabel = new ArrayList<Label>();
@@ -169,14 +169,14 @@ public class GameScreen extends Scene2D {
 		/* load bank button */
 		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
 		bankBtn = new Button(bankImg, 0, 550);
-		this.sideGroup.add(bankBtn);
+		sideGroup.add(bankBtn);
 		
 		SoundManager.GetInstance();
 		SoundManager.Init();
 		SoundManager.PlayBoardSound();
 		
-		
-		
+		cardButton = new ArrayList<Button>();
+		cardBtnToID = new Hashtable<Button, Integer>();
 	}
 
 	public void update(int elapsedTime) {
@@ -328,7 +328,10 @@ public class GameScreen extends Scene2D {
 		else if(player[index].getRace() == GlobalDef.Races.Norse)
 			cardImg = norseCardImg;
 		
-		int numOfCards = -1;
+		for(int i = 0; i < cardButton.size(); i++)
+			this.sideGroup.remove(cardButton.get(i));
+		
+		cardButton.clear();
 		// for action card
 		Hashtable<Card, Integer> actionCardTable = GlobalDef.getActionCardID();
 		
@@ -338,30 +341,37 @@ public class GameScreen extends Scene2D {
 		while(cIter.hasNext()){
 			Card card = cIter.next();
 			int number = holdCard.get(card);
-			if(number > 0){
-				numOfCards = numOfCards + 1;
+			while(number > 0){
 				int ID = actionCardTable.get(card);
 				int row = ID / 4;
 				int col = ID % 4;
 				
 				// action card
 				if(ID < 7){
-					int i = numOfCards / 4;
-					int j = numOfCards % 4;
-					ImageSprite img = new ImageSprite(cardImg[row * 12 + col + 4],0, 0);
-					img.setSize(50, 75);
-					holdCardImg.add(img);
-					int xOrg = j * 50;
-					int yOrg = 320 + i * 75;
-					img.setLocation(xOrg, yOrg);
-					sideGroup.add(img);
+					CoreImage[] img = new CoreImage[]{cardImg[row * 12 + col], cardImg[row * 12 + col + 4],
+							cardImg[row * 12 + col + 8]};
+					Button btn = new Button(img, 0, 0);
+					btn.setSize(50, 75);
+					cardButton.add(btn);
+					cardBtnToID.put(btn, ID);
 				}
+				
+				number--;
 			}
 		}
 		
-		
-		
-		
+		// show card button on screen
+		for(int i = 0; i < this.cardButton.size(); i++)
+		{
+			int row = i / 4;
+			int col = i % 4;
+			int xOrg = col * 50;
+			int yOrg = row * 75 + 320;
+			Button btn = cardButton.get(i);
+			btn.setLocation(xOrg, yOrg);
+			sideGroup.add(btn);
+		}
+		/* end draw cards parts */
 		
 		
 		
@@ -372,8 +382,12 @@ public class GameScreen extends Scene2D {
 			Stage.pushScene(bScreen);
 		}
 		
-		
-		
+		if(Input.isPressed(Input.KEY_P)){
+			PlayCardScreen pcScreen = new PlayCardScreen();
+			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID);
+			Stage.pushScene(pcScreen);
+			
+		}
 		if (Input.isPressed(Input.KEY_B)) {
 			
 			BuildingCard.GetInstance().Action(player[index]);

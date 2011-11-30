@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import pulpcore.Stage;
 import component.Culture;
 import menuscene.BuildingScreen;
+import menuscene.PlayCardScreen;
 
 public class BuildingCard extends Card {
 
@@ -37,7 +38,7 @@ public class BuildingCard extends Card {
 
 		BuildingScreen bScreen = new BuildingScreen();
 		bScreen.Init(player, maxBuildNumber);
-		Stage.pushScene(bScreen);
+		Stage.replaceScene(bScreen);
 	}
 
 }

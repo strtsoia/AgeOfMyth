@@ -90,6 +90,6 @@ public class NextAgeCard extends Card {
 
 		NextAgeScreen nScreen = new NextAgeScreen();
 		nScreen.Init(player, upgradeSucess);
-		Stage.pushScene(nScreen);
+		Stage.replaceScene(nScreen);
 	}
 }

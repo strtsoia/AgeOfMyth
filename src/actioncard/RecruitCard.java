@@ -40,6 +40,6 @@ public class RecruitCard extends Card {
 	public void Action(Culture player) {
 		RecruitScreen rScreen = new RecruitScreen();
 		rScreen.Init(player, maxRecruitNum, player.getRace());
-		Stage.pushScene(rScreen);
+		Stage.replaceScene(rScreen);
 	}
 }

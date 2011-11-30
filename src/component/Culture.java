@@ -183,8 +183,9 @@ public class Culture {
 		}
 	}
 
-	public void PlayCard() {
-
+	public void PlayCard(Card card) {
+		this.cardHold.remove(card);
+		card.Action(this);
 	}
 
 	public void PassCard() {

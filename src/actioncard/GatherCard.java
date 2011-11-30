@@ -23,6 +23,6 @@ public class GatherCard extends Card{
 	{
 		GatherScreen gScreen = new GatherScreen();
 		gScreen.Init(player);
-		Stage.pushScene(gScreen);
+		Stage.replaceScene(gScreen);
 	}
 }
