@@ -69,6 +69,7 @@ public class GameScreen extends Scene2D {
 	Button bankBtn;
 	Button playBtn;
 	Button burnBtn;
+	Button finishBtn;
 	
 	// store img for city area dynamically
 	static ArrayList<ImageSprite> bList = new ArrayList<ImageSprite>();
@@ -91,7 +92,7 @@ public class GameScreen extends Scene2D {
 	static boolean initPTileOver = false;
 	boolean startPTileInit = false;
 	static boolean initCardOver = false;
-	 
+	boolean lock = false;
 	
 	InitExploreScreen initEScreen;
 	
@@ -176,6 +177,10 @@ public class GameScreen extends Scene2D {
 		CoreImage[] burnBtnImg = CoreImage.load("burncard.jpg").split(3, 1);
 		burnBtn = new Button(burnBtnImg, 100, 550);
 		sideGroup.add(burnBtn);
+		
+		CoreImage[] finishBtnImg = CoreImage.load("finishbutton.jpg").split(3, 1);
+		finishBtn = new Button(finishBtnImg, 150, 550);
+		sideGroup.add(finishBtn);
 		
 		SoundManager.GetInstance();
 		SoundManager.Init();
@@ -379,8 +384,6 @@ public class GameScreen extends Scene2D {
 		}
 		/* end draw cards parts */
 		
-		
-		
 		// if bank button is pressed
 		if(bankBtn.isClicked()){
 			BankScreen bScreen = new BankScreen();
@@ -389,19 +392,28 @@ public class GameScreen extends Scene2D {
 		}
 		
 		// if play card button is pressed
-		if(playBtn.isClicked()){
+		if(playBtn.isClicked() && !lock){
 			PlayCardScreen pcScreen = new PlayCardScreen();
 			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
 			Stage.pushScene(pcScreen);		
+			lock = true;
 		}
 		
 		// if burn card button is pressed
-		if(burnBtn.isClicked()){
+		if(burnBtn.isClicked() && !lock){
 			PlayCardScreen pcScreen = new PlayCardScreen();
 			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, true);
 			Stage.pushScene(pcScreen);	
+			lock = true;
 		}
 		
+		// if finish turn button is pressed
+		if(finishBtn.isClicked()){
+			index++;
+			index = index % numOfPlayers;
+			lock = false;
+			
+		}
 		if (Input.isPressed(Input.KEY_B)) {
 			
 			BuildingCard.GetInstance().Action(player[index]);
@@ -426,11 +438,6 @@ public class GameScreen extends Scene2D {
 
 		if (Input.isPressed(Input.KEY_N)) {
 			NextAgeCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_ENTER)) {
-			index++;
-			index = index % numOfPlayers;
 		}
 
 		if (Input.isPressed(Input.KEY_A)) {
