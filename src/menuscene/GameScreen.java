@@ -414,35 +414,6 @@ public class GameScreen extends Scene2D {
 			lock = false;
 			
 		}
-		if (Input.isPressed(Input.KEY_B)) {
-			
-			BuildingCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_G)) {
-
-			GatherCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_T)) {
-			TradeCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_E)) {
-			ExploreCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_R)) {
-			RecruitCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_N)) {
-			NextAgeCard.GetInstance().Action(player[index]);
-		}
-
-		if (Input.isPressed(Input.KEY_A)) {
-			AttackCard.GetInstance().Action(player[index]);
-		}
 		
 		if(Input.isPressed(Input.KEY_D)){
 			DrawCardScreen dScreen = new DrawCardScreen();
@@ -450,12 +421,6 @@ public class GameScreen extends Scene2D {
 			Stage.pushScene(dScreen);
 		}
 		
-		if(Input.isPressed(Input.KEY_0))
-		{
-			BankScreen bScreen = new BankScreen();
-			bScreen.Init(player[index], false);
-			Stage.pushScene(bScreen);
-		}
 	}
 
 	public static int getNumOfPlayers() {
