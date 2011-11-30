@@ -31,10 +31,10 @@ public class DrawCardScreen extends Scene2D{
 	Label finishActSelLable;
 	Label okLabel;
 	
-	public void Init(Culture c, GlobalDef.Races r)
+	public void Init(Culture c)
 	{
 		player = c;
-		race = r;
+		race = player.getRace();
 		selRandomCard = false;
 		
 		int holdNumber = getNumOfHoldingCard();

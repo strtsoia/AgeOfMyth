@@ -90,6 +90,13 @@ public class InitExploreScreen extends Scene2D {
 					// do background update
 					ResProduceTile tile = GlobalDef.getTileMap().get(ID);
 					player.getGameBoard().Explore(tile, ID);
+					// switch players
+					int index = GameScreen.getIndex();
+					index++;
+					index = index % GameScreen.getNumOfPlayers();
+					GameScreen.setIndex(index);
+					if(index == GameScreen.getStartPlayer())
+						GameScreen.setInitPTileOver(true);
 					Stage.popScene();
 				}
 			}

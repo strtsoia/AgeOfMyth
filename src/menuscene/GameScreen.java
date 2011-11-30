@@ -71,14 +71,16 @@ public class GameScreen extends Scene2D {
 	
 	static int index = 0;
 	private static int numOfPlayers;
-	int startPlayer = 0;
+	static int startPlayer = 0;
 	
 	String strBoardType;
 	String sideType;
 	GlobalDef.Races[] playerRace;
 	
-	boolean initPTileOver = false;
+	static boolean initPTileOver = false;
 	boolean startPTileInit = false;
+	boolean initCardOver = false;
+	boolean startCardInit = false;
 	
 	InitExploreScreen initEScreen;
 	
@@ -290,14 +292,27 @@ public class GameScreen extends Scene2D {
 		
 		if(!initPTileOver){
 			initEScreen.Init(player[index]);
+			System.out.println("before:" +index);
 			Stage.pushScene(initEScreen);
-			index++;
-			index = index % numOfPlayers;
-			 
-			if(index == startPlayer)
-				initPTileOver = true;
+			/*index++;
+			index = index % numOfPlayers;*/
+			
 		}
 		/* end initialization of production tiles*/
+		
+		/* begin initialize each players card */
+		if(!initCardOver && initPTileOver){
+			DrawCardScreen dcScreen = new DrawCardScreen();
+			dcScreen.Init(player[index]);
+			Stage.pushScene(dcScreen);
+			index++;
+			
+			index = index % numOfPlayers;
+			if(index == startPlayer)
+				initCardOver = true;
+			
+		}
+		/* end initialization card for player */
 		
 		// if bank button is pressed
 		if(bankBtn.isClicked()){
@@ -343,7 +358,7 @@ public class GameScreen extends Scene2D {
 		
 		if(Input.isPressed(Input.KEY_D)){
 			DrawCardScreen dScreen = new DrawCardScreen();
-			dScreen.Init(player[index], player[index].getRace());
+			dScreen.Init(player[index]);
 			Stage.pushScene(dScreen);
 		}
 		
@@ -382,4 +397,20 @@ public class GameScreen extends Scene2D {
 		return GlobalDef.getNorseUnitsID();
 	}
 
+	public static boolean isInitPTileOver() {
+		return initPTileOver;
+	}
+
+	public static void setInitPTileOver(boolean initPTileOver) {
+		GameScreen.initPTileOver = initPTileOver;
+	}
+
+	public static int getStartPlayer() {
+		return startPlayer;
+	}
+
+	public static void setStartPlayer(int startPlayer) {
+		GameScreen.startPlayer = startPlayer;
+	}
+	
 }
