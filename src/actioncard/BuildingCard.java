@@ -7,7 +7,6 @@ import java.util.Hashtable;
 import pulpcore.Stage;
 import component.Culture;
 import menuscene.BuildingScreen;
-import menuscene.PlayCardScreen;
 
 public class BuildingCard extends Card {
 

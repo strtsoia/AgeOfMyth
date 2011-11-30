@@ -13,7 +13,7 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Label;
 
-public class DrawCardScreen extends Scene2D{
+public class InitialCardScreen extends Scene2D{
 
 	Culture player;
 	static int numOfCard;	// how many cards a player can draw
@@ -126,7 +126,6 @@ public class DrawCardScreen extends Scene2D{
 					// select this card
 					if(cardBtn[row][col].isClicked() && numOfCard > 0 && isActionCardAvailable(ID)){
 						Card card = GlobalDef.getActionCard().get(ID);
-						System.out.println("ID is: " + ID);
 						player.DrawCard(card);
 						numOfCard--;
 						avaCardLabel.setFormatArg(numOfCard);
@@ -149,6 +148,13 @@ public class DrawCardScreen extends Scene2D{
 		
 		if(okLabel.isMousePressed())
 		{
+			int index = GameScreen.getIndex();
+			index++;
+			index = index % GameScreen.getNumOfPlayers();
+			GameScreen.setIndex(index);
+			
+			if(index == GameScreen.getStartPlayer())
+				GameScreen.setInitCardOver(true);
 			Stage.popScene();
 		}
 	}

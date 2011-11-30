@@ -171,7 +171,7 @@ public class Culture {
 		// update user side
 		int number = cardHold.get(card);
 		number++;
-		this.cardHold.put(card, number);
+		cardHold.put(card, number);
 		
 		// update pool side
 		int cardID = GlobalDef.getActionCardID().get(card);
@@ -184,7 +184,17 @@ public class Culture {
 	}
 
 	public void PlayCard(Card card) {
-		this.cardHold.remove(card);
+		int number = cardHold.get(card);
+		number--;
+		cardHold.put(card, number);
+		
+		int cardID = GlobalDef.getActionCardID().get(card);
+		if(cardID < 7)	// permanent card, add to permanent pool
+		{
+			int pNumber = permanentcardPool.get(card);
+			pNumber++;
+			permanentcardPool.put(card, pNumber);
+		}
 		card.Action(this);
 	}
 
