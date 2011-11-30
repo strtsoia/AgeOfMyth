@@ -202,8 +202,18 @@ public class Culture {
 
 	}
 
-	public void BurnCard() {
-
+	public void BurnCard(Card card) {
+		int number = cardHold.get(card);
+		number--;
+		cardHold.put(card, number);
+		
+		int cardID = GlobalDef.getActionCardID().get(card);
+		if(cardID < 7)	// permanent card, add to permanent pool
+		{
+			int pNumber = permanentcardPool.get(card);
+			pNumber++;
+			permanentcardPool.put(card, pNumber);
+		}
 	}
 
 	public void DestroyBuilding() {

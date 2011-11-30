@@ -11,7 +11,7 @@ import actioncard.TradeCard;
 import battlecard.*;
 import component.Culture;
 import actioncard.*;
-import menuscene.*;
+
 
 import pulpcore.Input;
 import pulpcore.Stage;
@@ -67,7 +67,8 @@ public class GameScreen extends Scene2D {
 	
 	// bank button
 	Button bankBtn;
-	Playback etyptPBSound;
+	Button playBtn;
+	Button burnBtn;
 	
 	// store img for city area dynamically
 	static ArrayList<ImageSprite> bList = new ArrayList<ImageSprite>();
@@ -84,6 +85,7 @@ public class GameScreen extends Scene2D {
 	
 	String strBoardType;
 	String sideType;
+	String playBtnType;
 	GlobalDef.Races[] playerRace;
 	
 	static boolean initPTileOver = false;
@@ -106,9 +108,7 @@ public class GameScreen extends Scene2D {
 			player[i] = new Culture(playerRace[i], i); 
 		 
 
-		/*player[0] = new Culture(GlobalDef.Races.Egypt, 0);
-		player[1] = new Culture(GlobalDef.Races.Norse, 1);
-		player[2] = new Culture(GlobalDef.Races.Greek, 2);*/
+		
 
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
@@ -116,12 +116,11 @@ public class GameScreen extends Scene2D {
 		} else if (player[index].getRace() == GlobalDef.Races.Egypt) {
 			strBoardType = "EgyptBoard.jpg";
 			sideType = "egyptpopback.jpg";
-			
 		}else if(player[index].getRace() == GlobalDef.Races.Norse){
 			strBoardType = "NorseBoard.jpg";
 			sideType = "norsepopback.jpg";
 		}
-
+		
 		board = new ImageSprite(strBoardType, 0, 0, Stage.getWidth() * 3 / 4,
 				Stage.getHeight());
 		side = new ImageSprite(sideType, 600, 0, 200, 600);
@@ -133,8 +132,7 @@ public class GameScreen extends Scene2D {
 
 		/* beginning to initialize building pic */
 		buildingSprite = new ImageSprite[14];
-		CoreImage[] build = CoreImage.load("/resource/buildTile.jpg").split(3,
-				1);
+		CoreImage[] build = CoreImage.load("/resource/buildTile.jpg").split(3,1);
 		buildTileImg = build[1].split(4, 4);
 
 		/* beginning to initialize production pic */
@@ -170,6 +168,14 @@ public class GameScreen extends Scene2D {
 		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
 		bankBtn = new Button(bankImg, 0, 550);
 		sideGroup.add(bankBtn);
+		
+		CoreImage[] playBtnImg = CoreImage.load("playButton.jpg").split(3, 1);
+		playBtn = new Button(playBtnImg, 50, 550);
+		sideGroup.add(playBtn);
+		
+		CoreImage[] burnBtnImg = CoreImage.load("burncard.jpg").split(3, 1);
+		burnBtn = new Button(burnBtnImg, 100, 550);
+		sideGroup.add(burnBtn);
 		
 		SoundManager.GetInstance();
 		SoundManager.Init();
@@ -382,12 +388,20 @@ public class GameScreen extends Scene2D {
 			Stage.pushScene(bScreen);
 		}
 		
-		if(Input.isPressed(Input.KEY_P)){
+		// if play card button is pressed
+		if(playBtn.isClicked()){
 			PlayCardScreen pcScreen = new PlayCardScreen();
-			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID);
-			Stage.pushScene(pcScreen);
-			
+			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
+			Stage.pushScene(pcScreen);		
 		}
+		
+		// if burn card button is pressed
+		if(burnBtn.isClicked()){
+			PlayCardScreen pcScreen = new PlayCardScreen();
+			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, true);
+			Stage.pushScene(pcScreen);	
+		}
+		
 		if (Input.isPressed(Input.KEY_B)) {
 			
 			BuildingCard.GetInstance().Action(player[index]);

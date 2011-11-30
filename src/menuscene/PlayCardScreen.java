@@ -4,6 +4,7 @@ import global.GlobalDef;
 import component.Culture;
 import actioncard.*;
 
+import pulpcore.Stage;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
@@ -21,13 +22,15 @@ public class PlayCardScreen extends Scene2D{
 	String strBackground;
 	ImageSprite background;
 	Hashtable<Button, Integer> btnToID;
+	boolean burn;
 	
-	public void Init(Culture c, ArrayList<Button> btnList, Hashtable<Button,Integer> bToI)
+	public void Init(Culture c, ArrayList<Button> btnList, Hashtable<Button,Integer> bToI, boolean b)
 	{
 		player = c;
 		race = c.getRace();
 		cardBtn = btnList;
 		btnToID = bToI;
+		burn = b;
 	}
 	
 	public void load()
@@ -67,10 +70,19 @@ public class PlayCardScreen extends Scene2D{
 		for(int index = 0; index < cardBtn.size(); index++){
 			if(cardBtn.get(index).isClicked()){
 				int ID = btnToID.get(cardBtn.get(index));	// card ID
-				if(ID < 7){
-					Card card = GlobalDef.getActionCard().get(ID);
-					player.PlayCard(card);
+				if(burn){// burn card
+					if(ID < 7){
+						Card card = GlobalDef.getActionCard().get(ID);
+						player.BurnCard(card);
+						Stage.popScene();
+					}
+				}else{
+					if(ID < 7){
+						Card card = GlobalDef.getActionCard().get(ID);
+						player.PlayCard(card);
+					}
 				}
+				
 			}
 		}
 	}
