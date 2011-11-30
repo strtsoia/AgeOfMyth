@@ -1,14 +1,8 @@
 package menuscene;
 
 import global.GlobalDef;
-import actioncard.AttackCard;
-import actioncard.BuildingCard;
-import actioncard.ExploreCard;
-import actioncard.GatherCard;
-import actioncard.NextAgeCard;
-import actioncard.RecruitCard;
-import actioncard.TradeCard;
 import battlecard.*;
+import building.StoreHouse;
 import component.Culture;
 import actioncard.*;
 
@@ -23,6 +17,7 @@ import pulpcore.sprite.Label;
 
 import settings.Bank;
 import sound.SoundManager;
+import utility.ResourceHandler;
 
 import java.util.*;
 import pulpcore.sprite.Button;
@@ -76,8 +71,6 @@ public class GameScreen extends Scene2D {
 	// store img for production area dynamically
 	static ArrayList<ImageSprite> pList = new ArrayList<ImageSprite>();
 
-	// Culture c;
-
 	private static Culture[] player;
 	
 	static int index = 0;
@@ -108,9 +101,6 @@ public class GameScreen extends Scene2D {
 		for(int i = 0; i < numOfPlayers; i++) 
 			player[i] = new Culture(playerRace[i], i); 
 		 
-
-		
-
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
 			sideType = "greekpopback.jpg";
@@ -421,6 +411,9 @@ public class GameScreen extends Scene2D {
 			Stage.pushScene(dScreen);
 		}
 		
+		if(Input.isPressed(Input.KEY_0)){
+			Spoliage();
+		}
 	}
 
 	public static int getNumOfPlayers() {
@@ -450,6 +443,36 @@ public class GameScreen extends Scene2D {
 		return GlobalDef.getNorseUnitsID();
 	}
 	
+	private void Spoliage(){
+		for(int i = 0; i < numOfPlayers; i++){
+			Hashtable<GlobalDef.Resources, Integer> spoTable = new Hashtable<GlobalDef.Resources, Integer>();
+			spoTable.put(GlobalDef.Resources.FOOD, 0);
+			spoTable.put(GlobalDef.Resources.FAVOR, 0);
+			spoTable.put(GlobalDef.Resources.GOLD, 0);
+			spoTable.put(GlobalDef.Resources.WOOD, 0);
+			
+			Hashtable<GlobalDef.Resources, Integer> table = player[i].getGameBoard().getHoldResource();
+			Set<GlobalDef.Resources> kSet = table.keySet();
+			Iterator<GlobalDef.Resources> iter = kSet.iterator();
+			int therhold = 0;
+			
+			if(player[i].getB_build().get(StoreHouse.GetInstance())){
+				therhold = 8;
+			}else{
+				therhold = 5;
+			}
+			while(iter.hasNext()){
+				GlobalDef.Resources res = iter.next();
+				if(table.get(res) > therhold){
+					int spNumber = table.get(res) - therhold;
+					spoTable.put(res, spNumber);
+				}
+			}
+			
+			spoTable = ResourceHandler.Delete(player[i].getGameBoard().getHoldResource(), spoTable);
+			ResourceHandler.Add(Bank.getInstance().getResourcePool(), spoTable);
+		}
+	}
 	
 	public static boolean isInitPTileOver() {
 		return initPTileOver;
