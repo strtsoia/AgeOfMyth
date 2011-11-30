@@ -79,8 +79,8 @@ public class GameScreen extends Scene2D {
 	
 	static boolean initPTileOver = false;
 	boolean startPTileInit = false;
-	boolean initCardOver = false;
-	boolean startCardInit = false;
+	static boolean initCardOver = false;
+	 
 	
 	InitExploreScreen initEScreen;
 	
@@ -294,23 +294,14 @@ public class GameScreen extends Scene2D {
 			initEScreen.Init(player[index]);
 			System.out.println("before:" +index);
 			Stage.pushScene(initEScreen);
-			/*index++;
-			index = index % numOfPlayers;*/
-			
 		}
 		/* end initialization of production tiles*/
 		
 		/* begin initialize each players card */
 		if(!initCardOver && initPTileOver){
-			DrawCardScreen dcScreen = new DrawCardScreen();
+			InitialCardScreen dcScreen = new InitialCardScreen();
 			dcScreen.Init(player[index]);
-			Stage.pushScene(dcScreen);
-			index++;
-			
-			index = index % numOfPlayers;
-			if(index == startPlayer)
-				initCardOver = true;
-			
+			Stage.pushScene(dcScreen);	
 		}
 		/* end initialization card for player */
 		
@@ -412,5 +403,11 @@ public class GameScreen extends Scene2D {
 	public static void setStartPlayer(int startPlayer) {
 		GameScreen.startPlayer = startPlayer;
 	}
+
+	public static void setInitCardOver(boolean initCardOver) {
+		GameScreen.initCardOver = initCardOver;
+	}
+	
+	
 	
 }
