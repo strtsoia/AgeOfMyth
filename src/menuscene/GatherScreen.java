@@ -131,10 +131,8 @@ public class GatherScreen extends Scene2D {
 			group.add(terrainForm);
 		}
 
-		if (finish && totalresType != 0 && totalTerrainType != 0
-				&& player.getGameBoard().getNumOfVillager() > 0) {
-			messageLb = new Label("The resource you gathered is as follow:", 0,
-					0);
+		if (finish && totalresType != 0 && totalTerrainType != 0) {
+			messageLb = new Label("The resource you gathered is as follow:", 0, 0);
 			message = new Group((350 - messageLb.width.get()) / 2,
 					byRes.height.get() + byTerrain.height.get() + 100);
 			message.add(messageLb);
@@ -166,14 +164,11 @@ public class GatherScreen extends Scene2D {
 
 		}
 
-		if (totalresType == 0 || totalTerrainType == 0
-				|| player.getGameBoard().getNumOfVillager() == 0) {
+		if (totalresType == 0 || totalTerrainType == 0) {
 			finish = true;
-			if (player.getGameBoard().getNumOfVillager() == 0) {
-				errorLb = new Label("No villager available to gather!", 0, 0);
-			} else {
-				errorLb = new Label("No resource can be gathered!!", 0, 0);
-			}
+			
+			errorLb = new Label("No resource can be gathered!!", 0, 0);
+			
 
 			errorLb.setLocation((350 - errorLb.width.get()) / 2, 350);
 			ok = new Label("OK", 0, 0);
@@ -217,18 +212,15 @@ public class GatherScreen extends Scene2D {
 			for (int index = 0; index < 4; index++) {
 				if (resBtn[index].isClicked() && isResTypeAvailable(index)
 						&& !finish) {
-					GlobalDef.Resources res = GlobalDef.getResourceMap().get(
-							index);
-					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player
-							.getGameBoard().Gather(true, res, null);
-
+					GlobalDef.Resources res = GlobalDef.getResourceMap().get(index);
+					System.out.println(res);
+					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
+					System.out.println(gatheredTable.get(res));
 					// update bank
 					gatheredTable = ResourceHandler.Delete(Bank.getInstance()
 							.getResourcePool(), gatheredTable);
 					// player resource pool
-					ResourceHandler.Add(
-							player.getGameBoard().getHoldResource(),
-							gatheredTable);
+					ResourceHandler.Add(player.getGameBoard().getHoldResource(),gatheredTable);
 
 					// store each gathered resource
 					for (int i = 0; i < 4; i++) {
@@ -271,7 +263,6 @@ public class GatherScreen extends Scene2D {
 					for (int i = 0; i < 4; i++) {
 						resGathered[i] = gatheredTable.get(GlobalDef
 								.getResourceMap().get(i));
-						System.out.println("Number is: " + resGathered[i]);
 					}
 
 					finish = true;

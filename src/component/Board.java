@@ -18,58 +18,33 @@ public class Board {
 	int[][] productionOccupied = new int[4][4];
 	// different culture has different board terrain,must be determined by
 	// subclass
-	/**
-	 */
+
 	GlobalDef.Terrain[][] terrainOnBoard = new GlobalDef.Terrain[4][4];
 
 	/* city area */
 	// store the ID of building: -1 indicates nothing
-	/**
-	 */
 	int[][] cityOccupied = new int[4][4];
 
 	/* holding area */
-	/**
-	 */
 	Hashtable<BattleCard, Integer> holdingUnits = new Hashtable<BattleCard, Integer>();
-	/**
-	 */
 	Hashtable<GlobalDef.Resources, Integer> holdResource = new Hashtable<GlobalDef.Resources, Integer>();
-	/**
-	 */
 	Hashtable<BattleCard, Integer> unitsPool = new Hashtable<BattleCard, Integer>();
 
-	/**
-	 */
 	private int numOfVillager;
-	/**
-	 */
 	private Culture player;
 
-	/**
-	 * @return
-	 */
 	public int[][] getCityOccupied() {
 		return cityOccupied;
 	}
 
-	/**
-	 * @return
-	 */
 	public int[][] getProductionOccupied() {
 		return productionOccupied;
 	}
 
-	/**
-	 * @return
-	 */
 	public int getNumOfVillager() {
 		return numOfVillager;
 	}
 
-	/**
-	 * @param number
-	 */
 	public void setNumOfVillager(int number) {
 		numOfVillager = number;
 	}
@@ -108,10 +83,10 @@ public class Board {
 
 		// initial resource each player get
 		Hashtable<GlobalDef.Resources, Integer> iniRes = new Hashtable<GlobalDef.Resources, Integer>();
-		iniRes.put(GlobalDef.Resources.FAVOR, 24);
-		iniRes.put(GlobalDef.Resources.FOOD, 24);
-		iniRes.put(GlobalDef.Resources.GOLD, 24);
-		iniRes.put(GlobalDef.Resources.WOOD, 24);
+		iniRes.put(GlobalDef.Resources.FAVOR, 4);
+		iniRes.put(GlobalDef.Resources.FOOD, 4);
+		iniRes.put(GlobalDef.Resources.GOLD, 4);
+		iniRes.put(GlobalDef.Resources.WOOD, 4);
 
 		ResourceHandler.Add(holdResource, iniRes);
 		ResourceHandler.Delete(Bank.getInstance().getResourcePool(), iniRes);
@@ -415,6 +390,7 @@ public class Board {
 					number--;
 					table.put(GlobalDef.getTileMap().get(ID), number);
 					Bank.getInstance().setProductionPool(table);
+					System.out.println("I find you");
 					return;
 				}
 
@@ -446,6 +422,7 @@ public class Board {
 			for (int row = 0; row < 4; row++)
 				for (int col = 0; col < 4; col++) {
 					if (productionOccupied[row][col] >= 0) {
+						System.out.println("strtsoia");
 						ResProduceTile tile = GlobalDef.getTileMap().get(
 								productionOccupied[row][col]);
 						GlobalDef.Terrain terrain = tile.getTerrainType();
@@ -462,6 +439,12 @@ public class Board {
 						}
 					}
 				}
+			
+			if(player.getB_build().get(Monument.GetInstance())){
+				int n = gatheredRes.get(GlobalDef.Resources.FAVOR);
+				n = n + 2;
+				gatheredRes.put(GlobalDef.Resources.FAVOR, n);
+			}
 
 			return gatheredRes;
 		} else // gathered by resource type
@@ -483,6 +466,12 @@ public class Board {
 
 			numRes = numRes * numOfVillager;
 			gatheredRes.put(resType, numRes);
+			
+			if(player.getB_build().get(Monument.GetInstance())){
+				int n = gatheredRes.get(GlobalDef.Resources.FAVOR);
+				n = n + 2;
+				gatheredRes.put(GlobalDef.Resources.FAVOR, n);
+			}
 			return gatheredRes;
 		}
 	}
