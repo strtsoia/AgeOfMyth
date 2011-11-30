@@ -215,6 +215,8 @@ public class BattleScreen extends Scene2D {
 					BattleCard bc = getUnitMap(defender.getRace()).get(defenderUnits.get(index));
 					defender.getGameBoard().PlaceUnit(bc);
 				}
+				SoundManager.GetInstance();
+				SoundManager.Stop();
 				Stage.popScene();
 			}
 		}

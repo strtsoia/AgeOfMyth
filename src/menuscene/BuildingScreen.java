@@ -21,8 +21,10 @@ public class BuildingScreen extends Scene2D {
 	final int width = 100;
 
 	CoreImage[] buildTileImg;
-
+	CoreImage[] cubesImg;
+	Button[] costBtn;
 	Button[][] buildBtn = new Button[4][4];
+	
 	
 	Label ok;
 	ImageSprite background;
@@ -32,11 +34,24 @@ public class BuildingScreen extends Scene2D {
 	
 	int maxNumOfBuilding;
 	int constrctedNum;
-
+	
+	boolean reduceCubes;
+	boolean chooseReduceOver;
+	GlobalDef.Resources reduceResType;
+	
 	public void Init(Culture culture, int max) {
 		player = culture;
 		maxNumOfBuilding = max;
 		constrctedNum = 0;
+		
+		if(player.getB_build().get(Quarry.GetInstance())){
+			reduceCubes = true;
+			chooseReduceOver = false;
+		}
+		else{
+			reduceCubes = false;
+			chooseReduceOver = true;
+		}
 	}
 
 	public void load() {
@@ -70,64 +85,120 @@ public class BuildingScreen extends Scene2D {
 		buildForm.add(ok);
 		add(background);
 		add(buildForm);
+		
+		Group resGroup = new Group(200, 50, 200, 50);
+		cubesImg = CoreImage.load("/resource/resourceCubes.jpg").split(15, 1);
+		costBtn = new Button[4];
+		
+		if(reduceCubes){
+			for (int index = 0; index < 4; index++) {
+				CoreImage[] pImg = new CoreImage[] { cubesImg[index],
+						cubesImg[index + 5], cubesImg[index + 10] };
+				costBtn[index] = new Button(pImg, index * 50, 0);
+				
+				// show player's resource
+				if (!isResourceAvailableForPlayer(index))
+					costBtn[index].setImage(pImg[2]);
+				resGroup.add(costBtn[index]);
+			}
+		}
+		
+		add(resGroup);
 	}
 
 	@Override
 	public void update(int elapsedTime) {
-		// determine which tile has been selected
-		int ID;
-		for (int row = 0; row < 4; row++)
-			for (int col = 0; col < 4; col++) {
-				ID = row * 4 + col;
-				if (ID < 14) {
-					// drawing
-					if (!EnoughResource(ID)
-							|| constrctedNum == maxNumOfBuilding)
-						buildBtn[row][col].setImage(buildTileImg[row * 12 + col
-								+ 8]);
-					else if (hasBuild(ID)) {
-						if (ID != 0)
-							buildBtn[row][col].setImage(buildTileImg[row * 12
-									+ col + 8]);
-						else { // house
-							if (player.getGameBoard().getNumOfVillager() >= 10)
-								buildBtn[row][col].setImage(buildTileImg[row
-										* 12 + col + 8]);
-						}
-					}
-
-					// build this one
-					if (buildBtn[row][col].isClicked() && EnoughResource(ID)
-							&& constrctedNum < maxNumOfBuilding) {
-						// building other than house
-						if (!hasBuild(ID) && ID > 0) {
-							Building newBuild = GlobalDef.getBuildingMap().get(
-									ID);
-							player.getGameBoard().PlaceBuilding(newBuild, ID);
-							constrctedNum++;
-						} else if (ID == 0
-								&& player.getGameBoard().getNumOfVillager() <= 10) // house
-						{
-							Building newBuild = GlobalDef.getBuildingMap().get(
-									ID);
-							player.getGameBoard().PlaceBuilding(newBuild, ID);
-							constrctedNum++;
-						}
-
-					}
-
+		if(!chooseReduceOver){
+			// image part
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					int ID = row * 4 + col;
+					if(ID < 14)
+						buildBtn[row][col].setImage(buildTileImg[row * 12+ col + 8]);
+				}
+			
+			for(int index = 0; index < 4; index++)
+			{
+				if(costBtn[index].isClicked()){
+					reduceResType = GlobalDef.getResourceMap().get(index);
+					chooseReduceOver = true;
+					load();
 				}
 			}
-
-		if (ok.isMouseDown()) {
-			Stage.popScene();
 		}
+		
+		if(chooseReduceOver){
+			if(this.reduceCubes){
+				for (int index = 0; index < 4; index++){
+					CoreImage[] pImg = new CoreImage[] { cubesImg[index], cubesImg[index + 5], cubesImg[index + 10] };
+					costBtn[index].setImage(pImg[2]);
+				}
+			}
+			
+			// determine which tile has been selected
+			int ID;
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					ID = row * 4 + col;
+					if (ID < 14) {
+						// drawing
+						if (!EnoughResource(ID) || constrctedNum == maxNumOfBuilding)
+							buildBtn[row][col].setImage(buildTileImg[row * 12 + col
+									+ 8]);
+						else if (hasBuild(ID)) {
+							if (ID != 0)
+								buildBtn[row][col].setImage(buildTileImg[row * 12
+										+ col + 8]);
+							else { // house
+								if (player.getGameBoard().getNumOfVillager() >= 10)
+									buildBtn[row][col].setImage(buildTileImg[row
+											* 12 + col + 8]);
+							}
+						}
+
+						// build this one
+						if (buildBtn[row][col].isClicked() && EnoughResource(ID)
+								&& constrctedNum < maxNumOfBuilding) {
+							// building other than house
+							if (!hasBuild(ID) && ID > 0) {
+								Building newBuild = GlobalDef.getBuildingMap().get(
+										ID);
+								player.getGameBoard().PlaceBuilding(newBuild, ID);
+								constrctedNum++;
+							} else if (ID == 0
+									&& player.getGameBoard().getNumOfVillager() <= 10) // house
+							{
+								Building newBuild = GlobalDef.getBuildingMap().get(
+										ID);
+								player.getGameBoard().PlaceBuilding(newBuild, ID);
+								constrctedNum++;
+							}
+
+						}
+
+					}
+				}
+
+			if (ok.isMouseDown()) {
+				Stage.popScene();
+			}
+		}
+		
 	}
 
 	// check whether player's resource is qualified for certain building
 	private boolean EnoughResource(int ID) {
 		Hashtable<GlobalDef.Resources, Integer> cost = GlobalDef
 				.getBuildingMap().get(ID).getCost();
+		if(reduceCubes && this.chooseReduceOver){
+			int number = cost.get(reduceResType);
+			number--;
+			if(number >= 0)
+				cost.put(reduceResType, number);
+			else
+				cost.put(reduceResType, 0);
+		}
+		
 		return ResourceHandler.isResEnough(player.getGameBoard()
 				.getHoldResource(), cost);
 	}
@@ -135,6 +206,19 @@ public class BuildingScreen extends Scene2D {
 	// check whether this building has been build
 	private boolean hasBuild(int ID) {
 		return player.getB_build().get(GlobalDef.getBuildingMap().get(ID));
+	}
+	
+	// check whether player hold certain resource
+	private boolean isResourceAvailableForPlayer(int ID) {
+		GlobalDef.Resources res = GlobalDef.getResourceMap().get(ID);
+		if (res != GlobalDef.Resources.VICTORY) {
+			if (player.getGameBoard().getHoldResource().get(res) > 0)
+				return true;
+			else
+				return false;
+		}
+
+		return true;
 	}
 
 }

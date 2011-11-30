@@ -12,6 +12,7 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
 
 import battlecard.*;
+import building.Armory;
 import building.SiegeEngineWorkshop;
 import building.Tower;
 import building.Wall;
@@ -102,7 +103,14 @@ public class BattleRoundScreen extends Scene2D{
 		{
 			defBattleCard.GodPower(defender, attacker, false);
 		}
-				
+		
+		// check armory building
+		if(attacker.getB_build().get(Armory.GetInstance())){
+			attackerRolls++;
+		}else if(defender.getB_build().get(Armory.GetInstance())){
+			defenderRolls++;
+		}
+		
 		// check building bonus
 		if(PreBattleScreen.getAttackArea() == 0){// production area
 			if(defender.getB_build().get(Tower.GetInstance()) && 

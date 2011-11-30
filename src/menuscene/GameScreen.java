@@ -76,6 +76,7 @@ public class GameScreen extends Scene2D {
 	static int index = 0;
 	private static int numOfPlayers;
 	static int startPlayer = 0;
+	static int round = 0;
 	
 	String strBoardType;
 	String sideType;
@@ -401,7 +402,18 @@ public class GameScreen extends Scene2D {
 		if(finishBtn.isClicked()){
 			index++;
 			index = index % numOfPlayers;
+			if(index == startPlayer){
+				startPlayer++;
+				startPlayer = startPlayer % numOfPlayers;
+				round++;
+			}
 			lock = false;
+		}
+		
+		// if 3 rounds finish
+		if(round == 3){
+			round = 0;
+			Spoliage();
 			
 		}
 		

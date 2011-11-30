@@ -2,6 +2,8 @@ package menuscene;
 
 import java.util.*;
 
+import building.Market;
+
 import global.GlobalDef;
 import pulpcore.Input;
 import pulpcore.Stage;
@@ -41,7 +43,11 @@ public class TradeScreen extends Scene2D {
 
 	public void Init(Culture c) {
 		player = c;
-		payOver = false;
+		
+		if(player.getB_build().get(Market.GetInstance()))
+			payOver = true;
+		else
+			payOver = false;
 	}
 
 	public void load() {
