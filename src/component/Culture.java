@@ -179,7 +179,7 @@ public class Culture {
 		{
 			int pNumber = this.permanentcardPool.get(card);
 			pNumber--;
-			this.permanentcardPool.put(card, pNumber);
+			permanentcardPool.put(card, pNumber);
 		}
 	}
 

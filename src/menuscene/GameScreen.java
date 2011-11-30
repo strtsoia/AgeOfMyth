@@ -10,6 +10,7 @@ import actioncard.RecruitCard;
 import actioncard.TradeCard;
 import battlecard.*;
 import component.Culture;
+import actioncard.*;
 
 import pulpcore.Input;
 import pulpcore.Stage;
@@ -39,18 +40,24 @@ public class GameScreen extends Scene2D {
 	ImageSprite[] productionSprite;
 	CoreImage[] resourceImg;
 	ImageSprite[] resourceSprite;
-	
 
 	Label[] resourceLabel;
 	Label currentAgeLabel;
 
 	ArrayList<ImageSprite> holdUnitsImg;
+	ArrayList<ImageSprite> holdCardImg;
 	ArrayList<Label> numOfUnitsLabel;
 
 	CoreImage[] egyptUnitsImg;
 	CoreImage[] greekUnitsImg;
 	CoreImage[] norseUnitsImg;
 	CoreImage[] unitsImg;
+	
+	CoreImage[] egyptCardImg;
+	CoreImage[] greekCardImg;
+	CoreImage[] norseCardImg;
+	CoreImage[] cardImg;
+	ArrayList<Button> cardButton;
 	
 	Sound egyptBackgroundSound;
 	Sound greekBackgroundSound;
@@ -143,7 +150,8 @@ public class GameScreen extends Scene2D {
 			resourceLabel[i] = new Label("%d", i * 50 + 15, 50);
 
 		currentAgeLabel = new Label("  Current Age: %s", 0, 75);
-
+		
+		// picture of battle card
 		egyptUnitsImg = CoreImage.load("/battlecard/egyptBattlecard.jpg")
 				.split(12, 3);
 		greekUnitsImg = CoreImage.load("/battlecard/greekBattlecard.jpg")
@@ -151,6 +159,12 @@ public class GameScreen extends Scene2D {
 		norseUnitsImg = CoreImage.load("/battlecard/norseBattlecard.jpg").split(12, 3);
 		holdUnitsImg = new ArrayList<ImageSprite>();
 		numOfUnitsLabel = new ArrayList<Label>();
+		
+		// picture of action card
+		egyptCardImg = CoreImage.load("egyptCard.jpg").split(12, 2);
+		greekCardImg = CoreImage.load("greekCard.jpg").split(12, 2);
+		norseCardImg = CoreImage.load("norseCard.jpg").split(12, 2);
+		holdCardImg = new ArrayList<ImageSprite>();
 		
 		/* load bank button */
 		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
@@ -242,8 +256,6 @@ public class GameScreen extends Scene2D {
 			}
 		}
 		
-		// holding card showing
-		
 		// update city area, first clear city area, just remove all building
 		// image from board
 		Iterator<ImageSprite> bIter = bList.iterator();
@@ -305,12 +317,62 @@ public class GameScreen extends Scene2D {
 		}
 		/* end initialization card for player */
 		
+		/* draw cards parts */
+		for (int i = 0; i < holdCardImg.size(); i++)
+			sideGroup.remove(holdCardImg.get(i));
+		
+		if (player[index].getRace() == GlobalDef.Races.Egypt)
+			cardImg = egyptCardImg;
+		else if (player[index].getRace() == GlobalDef.Races.Greek)
+			cardImg = greekCardImg;
+		else if(player[index].getRace() == GlobalDef.Races.Norse)
+			cardImg = norseCardImg;
+		
+		int numOfCards = -1;
+		// for action card
+		Hashtable<Card, Integer> actionCardTable = GlobalDef.getActionCardID();
+		
+		Hashtable<Card, Integer> holdCard = player[index].getCardHold();
+		Set<Card> cSet = holdCard.keySet();
+		Iterator<Card> cIter = cSet.iterator();
+		while(cIter.hasNext()){
+			Card card = cIter.next();
+			int number = holdCard.get(card);
+			if(number > 0){
+				numOfCards = numOfCards + 1;
+				int ID = actionCardTable.get(card);
+				int row = ID / 4;
+				int col = ID % 4;
+				
+				// action card
+				if(ID < 7){
+					int i = numOfCards / 4;
+					int j = numOfCards % 4;
+					ImageSprite img = new ImageSprite(cardImg[row * 12 + col + 4],0, 0);
+					img.setSize(50, 75);
+					holdCardImg.add(img);
+					int xOrg = j * 50;
+					int yOrg = 320 + i * 75;
+					img.setLocation(xOrg, yOrg);
+					sideGroup.add(img);
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
 		// if bank button is pressed
 		if(bankBtn.isClicked()){
 			BankScreen bScreen = new BankScreen();
 			bScreen.Init(player[index], true);
 			Stage.pushScene(bScreen);
 		}
+		
+		
 		
 		if (Input.isPressed(Input.KEY_B)) {
 			
@@ -387,7 +449,8 @@ public class GameScreen extends Scene2D {
 
 		return GlobalDef.getNorseUnitsID();
 	}
-
+	
+	
 	public static boolean isInitPTileOver() {
 		return initPTileOver;
 	}
