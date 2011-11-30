@@ -58,6 +58,7 @@ public class BattleRoundScreen extends Scene2D{
 	Label msg;
 	Label ok;
 	
+	boolean negWT;
 	static boolean cyclopsThrowing;
 	static boolean berserk;
 	
@@ -70,6 +71,7 @@ public class BattleRoundScreen extends Scene2D{
 		determine = false;
 		cyclopsThrowing = false;
 		berserk = false;
+		negWT = true;
 		attSixers = 0;
 		defSixers = 0;
 		this.attacker = attacker;
@@ -116,29 +118,52 @@ public class BattleRoundScreen extends Scene2D{
 			if(defender.getB_build().get(Tower.GetInstance()) && 
 					!attacker.getB_build().get(SiegeEngineWorkshop.GetInstance())){
 				
+				negWT = false;
 				defenderRolls += 2;
 				
 				// check god power of attacker
-				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Egypt)
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Egypt){
 					defenderRolls -= 2;
-				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse)
+					negWT = true;
+				}
+				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse){
 					defenderRolls -= 2;
-				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek)
+					negWT = true;
+				}
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek){
 					defenderRolls -= 2;
+					negWT = true;
+				}
+				
+				if(negWT == false && attacker.getB_build().get(SiegeEngineWorkshop.GetInstance())){
+					negWT = true;
+					defenderRolls -= 2;
+				}
 			}
 		}else if(PreBattleScreen.getAttackArea() == 1){ //city area
 			if(defender.getB_build().get(Wall.GetInstance()) && 
 					!attacker.getB_build().get(SiegeEngineWorkshop.GetInstance())){
-				
+				negWT = false;
 				defenderRolls += 2;
 				
 				// check god power of attacker
-				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Egypt)
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Egypt){
 					defenderRolls -= 2;
-				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse)
+					negWT = true;
+				}
+				if(BattleScreen.getAttackUnits().contains(4) && attacker.getRace() == GlobalDef.Races.Norse){
 					defenderRolls -= 2;
-				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek)
+					negWT = true;
+				}
+				if(BattleScreen.getAttackUnits().contains(2) && attacker.getRace() == GlobalDef.Races.Greek){
 					defenderRolls -= 2;
+					negWT = true;
+				}
+				
+				if(negWT == false && attacker.getB_build().get(SiegeEngineWorkshop.GetInstance())){
+					negWT = true;
+					defenderRolls -= 2;
+				}
 			}
 		}
 	}

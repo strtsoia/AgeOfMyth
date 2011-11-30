@@ -2,7 +2,10 @@ package menuscene;
 
 import java.util.*;
 
+import building.Garnary;
+import building.GoldMint;
 import building.Monument;
+import building.WoodWorkshop;
 import global.GlobalDef;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
@@ -222,6 +225,18 @@ public class GatherScreen extends Scene2D {
 						int n = gatheredTable.get(GlobalDef.Resources.FAVOR);
 						n = n + 2;
 						gatheredTable.put(GlobalDef.Resources.FAVOR, n);
+					}else if(player.getB_build().get(Garnary.GetInstance())){
+						int n = gatheredTable.get(GlobalDef.Resources.FOOD);
+						n = n + 2;
+						gatheredTable.put(GlobalDef.Resources.FOOD, n);
+					}else if(player.getB_build().get(GoldMint.GetInstance())){
+						int n = gatheredTable.get(GoldMint.GetInstance());
+						n = n + 2;
+						gatheredTable.put(GlobalDef.Resources.FOOD, n);
+					}else if(player.getB_build().get(WoodWorkshop.GetInstance())){
+						int n = gatheredTable.get(WoodWorkshop.GetInstance());
+						n = n + 2;
+						gatheredTable.put(GlobalDef.Resources.WOOD, n);
 					}
 					
 					// update bank
