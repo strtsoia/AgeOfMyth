@@ -12,12 +12,8 @@ public class RecruitCard extends Card {
 
 	private static RecruitCard recruitCard;
 
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 
-	/**
-	 */
 	private int maxRecruitNum;
 
 	public Hashtable<GlobalDef.Resources, Integer> getCost() {

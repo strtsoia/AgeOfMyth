@@ -14,7 +14,6 @@ import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Button;
 import pulpcore.sprite.Label;
-import pulpcore.sound.*;
 import sound.SoundManager;
 
 public class BattleScreen extends Scene2D {
@@ -59,11 +58,9 @@ public class BattleScreen extends Scene2D {
 	static Button defenderRetreatBtn;
 	
 	static boolean bRetreat;
+	boolean brag;
 	
-	Sound backgroundSound;
-	Playback playback;
-	
-	public void Init(Culture att, Culture def) {
+	public void Init(Culture att, Culture def, boolean brag) {
 		attackUnits = PreBattleScreen.getAttackerUnitsID();
 		defenderUnits = PreBattleScreen.getDefenderUnitsID();
 		attacker = att;
@@ -78,6 +75,7 @@ public class BattleScreen extends Scene2D {
 		
 		hydraSp = 0;
 		bRetreat = false;
+		this.brag = brag;
 		
 	}
 
@@ -248,7 +246,7 @@ public class BattleScreen extends Scene2D {
 				BattleRoundScreen brScreen = new BattleRoundScreen();
 				BattleCard attBC = getUnitMap(attacker.getRace()).get(this.attRoundID);
 				BattleCard defBC = getUnitMap(defender.getRace()).get(this.defRoundID);
-				brScreen.Init(attacker, defender, attBC, defBC, this.attRoundID, this.defRoundID, attImg, defImg);
+				brScreen.Init(attacker, defender, attBC, defBC, this.attRoundID, this.defRoundID, attImg, defImg, brag);
 				Stage.pushScene(brScreen);
 			}
 		}
@@ -460,7 +458,4 @@ public class BattleScreen extends Scene2D {
 	public static void setbRetreat(boolean bRetreat) {
 		BattleScreen.bRetreat = bRetreat;
 	}
-	
-	
-	
 }

@@ -34,7 +34,6 @@ public class BuildingCard extends Card {
 	}
 
 	public void Action(Culture player) {
-
 		BuildingScreen bScreen = new BuildingScreen();
 		bScreen.Init(player, maxBuildNumber);
 		Stage.replaceScene(bScreen);

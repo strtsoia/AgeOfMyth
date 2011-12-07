@@ -2,9 +2,11 @@ package global;
 
 import java.util.Hashtable;
 import building.*;
+import randomcard.*;
 import tile.*;
 import battlecard.*;
 import actioncard.*;
+
 
 /*
  * this class contains all global data
@@ -290,25 +292,7 @@ public class GlobalDef {
 		return norseUnitsID;
 	}
 	
-	/* card ID mapping */
-	private static Hashtable<Card, Integer> actionCardID = new Hashtable<Card, Integer>();
-	public static Hashtable<Card, Integer> getActionCardID()
-	{
-		if(actionCardID.size() == 0){
-			actionCardID.put(AttackCard.GetInstance(), 0);
-			actionCardID.put(BuildingCard.GetInstance(), 1);
-			actionCardID.put(ExploreCard.GetInstance(), 2);
-			actionCardID.put(GatherCard.GetInstance(), 3);
-			actionCardID.put(NextAgeCard.GetInstance(), 4);
-			actionCardID.put(RecruitCard.GetInstance(), 5);
-			actionCardID.put(TradeCard.GetInstance(), 6);
-			
-			return actionCardID;
-		}
-		
-		return actionCardID;
-	}
-	
+	/* card ID mapping */	
 	private static Hashtable<Integer, Card> actionCard = new Hashtable<Integer, Card>();
 	public static Hashtable<Integer, Card> getActionCard()
 	{
@@ -327,4 +311,209 @@ public class GlobalDef {
 		return actionCard;
 	}
 	
+	private static Hashtable<Integer, Card> egyptRandomCard = new Hashtable<Integer, Card>();
+	public static Hashtable<Integer, Card> getEgyptRandomCard()
+	{
+		if(egyptRandomCard.size() == 0)
+		{
+			egyptRandomCard.put(7, AttackFive.GetInstance());
+			egyptRandomCard.put(8, AttackSix.GetInstance());
+			egyptRandomCard.put(9, AttackSeven.GetInstance());
+			egyptRandomCard.put(10, BuildThree.GetInstance());
+			egyptRandomCard.put(11, BuildFour.GetInstance());
+			egyptRandomCard.put(12, ExploreSame.GetInstance());
+			egyptRandomCard.put(13, ExploreTwo.GetInstance());
+			egyptRandomCard.put(14, GatherAll.GetInstance());
+			egyptRandomCard.put(15, RandomTrade.GetInstance());
+			egyptRandomCard.put(16, RecruitThree.GetInstance());
+			egyptRandomCard.put(17, RecruitFour.GetInstance());
+			egyptRandomCard.put(18, RecruitFive.GetInstance());
+			egyptRandomCard.put(19, RandomNextAge.GetInstance());
+			egyptRandomCard.put(20, Hathor.GetInstance());
+			egyptRandomCard.put(21, Horus.GetInstance());
+			egyptRandomCard.put(22, RAGather.GetInstance());
+			egyptRandomCard.put(23, RecruitOsiris.GetInstance());
+			egyptRandomCard.put(24, Sekhmet.GetInstance());
+			
+			return egyptRandomCard;
+		}
+		
+		return egyptRandomCard;
+	}
+
+	private static Hashtable<Card, Integer> egyptCardID = new Hashtable<Card, Integer>();
+	public static Hashtable<Card, Integer> getEgyptCardID()
+	{
+		if(egyptCardID.size() == 0)
+		{
+			egyptCardID.put(AttackCard.GetInstance(), 0);
+			egyptCardID.put(BuildingCard.GetInstance(), 1);
+			egyptCardID.put(ExploreCard.GetInstance(), 2);
+			egyptCardID.put(GatherCard.GetInstance(), 3);
+			egyptCardID.put(NextAgeCard.GetInstance(), 4);
+			egyptCardID.put(RecruitCard.GetInstance(), 5);
+			egyptCardID.put(TradeCard.GetInstance(), 6);
+			egyptCardID.put(AttackFive.GetInstance(), 7);
+			egyptCardID.put(AttackSix.GetInstance(), 8);
+			egyptCardID.put(AttackSeven.GetInstance(), 9);
+			egyptCardID.put(BuildThree.GetInstance(), 10);
+			egyptCardID.put(BuildFour.GetInstance(), 11);
+			egyptCardID.put(ExploreSame.GetInstance(), 12);
+			egyptCardID.put(ExploreTwo.GetInstance(), 13);
+			egyptCardID.put(GatherAll.GetInstance(), 14);
+			egyptCardID.put(RandomTrade.GetInstance(), 15);
+			egyptCardID.put(RecruitThree.GetInstance(), 16);
+			egyptCardID.put(RecruitFour.GetInstance(), 17);
+			egyptCardID.put(RecruitFive.GetInstance(), 18);
+			egyptCardID.put(RandomNextAge.GetInstance(), 19);
+			egyptCardID.put(Hathor.GetInstance(), 20);
+			egyptCardID.put(Horus.GetInstance(), 21);
+			egyptCardID.put(RAGather.GetInstance(), 22);
+			egyptCardID.put(RecruitOsiris.GetInstance(), 23);
+			egyptCardID.put(Sekhmet.GetInstance(), 24);
+			
+			return egyptCardID;
+		}
+		
+		return egyptCardID;
+	}
+	
+	private static Hashtable<Integer, Card> greekRandomCard = new Hashtable<Integer, Card>();
+	public static Hashtable<Integer, Card> getGreekRandomCard()
+	{
+		if(greekRandomCard.size() == 0){
+			greekRandomCard.put(7, AttackFive.GetInstance());
+			greekRandomCard.put(8, AttackSix.GetInstance());
+			greekRandomCard.put(9, AttackSeven.GetInstance());
+			greekRandomCard.put(10, BuildThree.GetInstance());
+			greekRandomCard.put(11, BuildFour.GetInstance());
+			greekRandomCard.put(12, ExploreSame.GetInstance());
+			greekRandomCard.put(13, ExploreTwo.GetInstance());
+			greekRandomCard.put(14, GatherAll.GetInstance());
+			greekRandomCard.put(15, RandomNextAge.GetInstance());
+			greekRandomCard.put(16, RandomTrade.GetInstance());
+			greekRandomCard.put(17, RecruitThree.GetInstance());
+			greekRandomCard.put(18, RecruitFour.GetInstance());
+			greekRandomCard.put(19, RecruitFive.GetInstance());
+			greekRandomCard.put(20, Ares.GetInstance());
+			greekRandomCard.put(21, Hera.GetInstance());
+			greekRandomCard.put(22, Dionysus.GetInstance());
+			greekRandomCard.put(23, Poseidon.GetInstance());
+			greekRandomCard.put(24, Zeus.GetInstance());
+			greekRandomCard.put(25, Apollo.GetInstance());
+			greekRandomCard.put(26, Hermes.GetInstance());
+			
+			return greekRandomCard;
+		}
+		
+		return greekRandomCard;
+	}
+	
+	private static Hashtable<Card, Integer> greekCardID = new Hashtable<Card, Integer>();
+	public static Hashtable<Card, Integer> getGreekCardID()
+	{
+		if(greekCardID.size() == 0)
+		{
+			greekCardID.put(AttackCard.GetInstance(), 0);
+			greekCardID.put(BuildingCard.GetInstance(), 1);
+			greekCardID.put(ExploreCard.GetInstance(), 2);
+			greekCardID.put(GatherCard.GetInstance(), 3);
+			greekCardID.put(NextAgeCard.GetInstance(), 4);
+			greekCardID.put(RecruitCard.GetInstance(), 5);
+			greekCardID.put(TradeCard.GetInstance(), 6);
+			greekCardID.put(AttackFive.GetInstance(), 7);
+			greekCardID.put(AttackSix.GetInstance(), 8);
+			greekCardID.put(AttackSeven.GetInstance(), 9);
+			greekCardID.put(BuildThree.GetInstance(), 10);
+			greekCardID.put(BuildFour.GetInstance(), 11);
+			greekCardID.put(ExploreSame.GetInstance(), 12);
+			greekCardID.put(ExploreTwo.GetInstance(), 13);
+			greekCardID.put(GatherAll.GetInstance(), 14);
+			greekCardID.put(RandomNextAge.GetInstance(), 15);
+			greekCardID.put(RandomTrade.GetInstance(), 16);
+			greekCardID.put(RecruitThree.GetInstance(), 17);
+			greekCardID.put(RecruitFour.GetInstance(), 18);
+			greekCardID.put(RecruitFive.GetInstance(), 19);
+			greekCardID.put(Ares.GetInstance(), 20);
+			greekCardID.put(Hera.GetInstance(), 21);
+			greekCardID.put(Dionysus.GetInstance(), 22);
+			greekCardID.put(Poseidon.GetInstance(), 23);
+			greekCardID.put(Zeus.GetInstance(),24);
+			greekCardID.put(Apollo.GetInstance(), 25);
+			greekCardID.put(Hermes.GetInstance(), 26);
+			
+			return greekCardID;
+		}
+		return greekCardID;
+	}
+
+	private static Hashtable<Integer, Card> norseRandomCard = new Hashtable<Integer, Card>();
+	public static Hashtable<Integer, Card> getNorseRandomCard()
+	{
+		if(norseRandomCard.size() == 0){
+			norseRandomCard.put(7, AttackFive.GetInstance());
+			norseRandomCard.put(8, AttackSix.GetInstance());
+			norseRandomCard.put(9, AttackSeven.GetInstance());
+			norseRandomCard.put(10, BuildThree.GetInstance());
+			norseRandomCard.put(11, BuildFour.GetInstance());
+			norseRandomCard.put(12, ExploreSame.GetInstance());
+			norseRandomCard.put(13, ExploreTwo.GetInstance());
+			norseRandomCard.put(14, GatherAll.GetInstance());
+			norseRandomCard.put(15, RandomTrade.GetInstance());
+			norseRandomCard.put(16, RandomNextAge.GetInstance());
+			norseRandomCard.put(17, RecruitThree.GetInstance());
+			norseRandomCard.put(18, RecruitFour.GetInstance());
+			norseRandomCard.put(19, RecruitFive.GetInstance());
+			norseRandomCard.put(20, Brag.GetInstance());
+			norseRandomCard.put(21, Njord.GetInstance());
+			norseRandomCard.put(22, Loki.GetInstance());
+			norseRandomCard.put(23, Skadi.GetInstance());
+			norseRandomCard.put(24, Forseti.GetInstance());
+			norseRandomCard.put(25, Freyia.GetInstance());
+			norseRandomCard.put(26, Hel.GetInstance());
+			
+			return norseRandomCard;
+		}
+		
+		return norseRandomCard;
+	}
+
+	private static Hashtable<Card, Integer> norseCardID = new Hashtable<Card, Integer>();
+	public static Hashtable<Card, Integer> getNorseCardID()
+	{
+		if(norseCardID.size() == 0)
+		{
+			norseCardID.put(AttackCard.GetInstance(), 0);
+			norseCardID.put(BuildingCard.GetInstance(), 1);
+			norseCardID.put(ExploreCard.GetInstance(), 2);
+			norseCardID.put(GatherCard.GetInstance(), 3);
+			norseCardID.put(NextAgeCard.GetInstance(), 4);
+			norseCardID.put(RecruitCard.GetInstance(), 5);
+			norseCardID.put(TradeCard.GetInstance(), 6);
+			norseCardID.put(AttackFive.GetInstance(), 7);
+			norseCardID.put(AttackSix.GetInstance(), 8);
+			norseCardID.put(AttackSeven.GetInstance(), 9);
+			norseCardID.put(BuildThree.GetInstance(), 10);
+			norseCardID.put(BuildFour.GetInstance(), 11);
+			norseCardID.put(ExploreSame.GetInstance(), 12);
+			norseCardID.put(ExploreTwo.GetInstance(), 13);
+			norseCardID.put(GatherAll.GetInstance(), 14);
+			norseCardID.put(RandomTrade.GetInstance(), 15);
+			norseCardID.put(RandomNextAge.GetInstance(), 16);
+			norseCardID.put(RecruitThree.GetInstance(), 17);
+			norseCardID.put(RecruitFour.GetInstance(), 18);
+			norseCardID.put(RecruitFive.GetInstance(), 19);
+			norseCardID.put(Brag.GetInstance(), 20);
+			norseCardID.put(Njord.GetInstance(), 21);
+			norseCardID.put(Loki.GetInstance(), 22);
+			norseCardID.put(Skadi.GetInstance(), 23);
+			norseCardID.put(Forseti.GetInstance(), 24);
+			norseCardID.put(Freyia.GetInstance(), 25);
+			norseCardID.put(Hel.GetInstance(), 26);
+			
+			return norseCardID;
+		}
+		
+		return norseCardID;
+	}
 }

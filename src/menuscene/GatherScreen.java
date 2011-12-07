@@ -55,15 +55,24 @@ public class GatherScreen extends Scene2D {
 	Label ok;
 
 	int totalresType;
-	
 	int totalTerrainType;
-
+	static boolean RA;
+	static boolean poseidon;
+	static boolean dionysus;
+	static boolean freyia;
+	static boolean skadi;
+	
 	public void Init(Culture c) {
 		player = c;
 		status = 0;
 		finish = false;
 		totalresType = 4;
 		totalTerrainType = 6;
+		RA = false;
+		poseidon = false;
+		dionysus = false;
+		freyia = false;
+		skadi = false;
 
 	}
 
@@ -98,8 +107,7 @@ public class GatherScreen extends Scene2D {
 			Group resForm = new Group(75, byRes.height.get()
 					+ byTerrain.height.get() + 30, 200, 50);
 			// resource cubes
-			cubesImg = CoreImage.load("/resource/resourceCubes.jpg").split(15,
-					1);
+			cubesImg = CoreImage.load("/resource/resourceCubes.jpg").split(15,1);
 			for (int index = 0; index < 4; index++) {
 				CoreImage[] pImg = new CoreImage[] { cubesImg[index],
 						cubesImg[index + 5], cubesImg[index + 10] };
@@ -220,25 +228,20 @@ public class GatherScreen extends Scene2D {
 					GlobalDef.Resources res = GlobalDef.getResourceMap().get(index);
 					
 					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
+					BuildGodPower(gatheredTable);
 					
-					if(player.getB_build().get(Monument.GetInstance())){
-						int n = gatheredTable.get(GlobalDef.Resources.FAVOR);
-						n = n + 2;
-						gatheredTable.put(GlobalDef.Resources.FAVOR, n);
-					}else if(player.getB_build().get(Garnary.GetInstance())){
-						int n = gatheredTable.get(GlobalDef.Resources.FOOD);
-						n = n + 2;
-						gatheredTable.put(GlobalDef.Resources.FOOD, n);
-					}else if(player.getB_build().get(GoldMint.GetInstance())){
-						int n = gatheredTable.get(GoldMint.GetInstance());
-						n = n + 2;
-						gatheredTable.put(GlobalDef.Resources.FOOD, n);
-					}else if(player.getB_build().get(WoodWorkshop.GetInstance())){
-						int n = gatheredTable.get(WoodWorkshop.GetInstance());
-						n = n + 2;
-						gatheredTable.put(GlobalDef.Resources.WOOD, n);
+					if(RA){// God Power
+						RAPower(gatheredTable, res, null);
 					}
-					
+					if(poseidon){
+						PosePower(gatheredTable);
+					}
+					if(dionysus){
+						DionysusPower(gatheredTable, res, null);
+					}
+					if(freyia){
+						FreyiaPower(gatheredTable);
+					}
 					// update bank
 					gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
 					// player resource pool
@@ -247,18 +250,19 @@ public class GatherScreen extends Scene2D {
 					// store each gathered resource
 					for (int i = 0; i < 4; i++) {
 						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
-
 					}
 					
 					Culture[] players = GameScreen.getPlayer();
-					// other players all gather
-					for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
-					{
-						if(!players[i].equals(player)){
-							gatheredTable = players[i].getGameBoard().Gather(true, res, null);
-							gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
-							// player resource pool
-							ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+					if(!dionysus && !skadi){
+						// other players all gather
+						for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
+						{
+							if(!players[i].equals(player)){
+								gatheredTable = players[i].getGameBoard().Gather(true, res, null);
+								gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+								// player resource pool
+								ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+							}
 						}
 					}
 					finish = true;
@@ -279,24 +283,46 @@ public class GatherScreen extends Scene2D {
 			for (int index = 0; index < 6; index++) {
 				if (terrainBtn[index].isClicked() && isTerrainAvailable(index)
 						&& !finish) {
-					GlobalDef.Terrain terrainType = GlobalDef.getTerrainMap()
-							.get(index);
-					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player
-							.getGameBoard().Gather(false, null, terrainType);
+					GlobalDef.Terrain terrainType = GlobalDef.getTerrainMap().get(index);
+					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(false, null, terrainType);
+					BuildGodPower(gatheredTable);
+					
+					if(RA){// God Power
+						RAPower(gatheredTable, null, terrainType);
+					}
+					if(poseidon){
+						PosePower(gatheredTable);
+					}
+					if(dionysus){
+						DionysusPower(gatheredTable, null, terrainType);
+					}
+					if(freyia){
+						FreyiaPower(gatheredTable);
+					}
+					
 					// update bank
-					gatheredTable = ResourceHandler.Delete(Bank.getInstance()
-							.getResourcePool(), gatheredTable);
+					gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
 					// player resource pool
-					ResourceHandler.Add(
-							player.getGameBoard().getHoldResource(),
-							gatheredTable);
+					ResourceHandler.Add(player.getGameBoard().getHoldResource(), gatheredTable);
 
 					// store each gathered resource
 					for (int i = 0; i < 4; i++) {
-						resGathered[i] = gatheredTable.get(GlobalDef
-								.getResourceMap().get(i));
+						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
 					}
-
+					
+					Culture[] players = GameScreen.getPlayer();
+					if(!dionysus && !skadi){
+						// other players all gather
+						for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
+						{
+							if(!players[i].equals(player)){
+								gatheredTable = players[i].getGameBoard().Gather(false, null, terrainType);
+								gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+								// player resource pool
+								ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+							}
+						}
+					}
 					finish = true;
 					load();
 				}
@@ -362,4 +388,146 @@ public class GatherScreen extends Scene2D {
 
 		return false;
 	}
+	
+	private void BuildGodPower(Hashtable<GlobalDef.Resources, Integer> gatheredTable)
+	{
+		Hashtable<GlobalDef.Resources, Integer> t = new Hashtable<GlobalDef.Resources, Integer>();
+		this.InitTable(t);
+		if(player.getB_build().get(Monument.GetInstance())){
+			t.put(GlobalDef.Resources.FAVOR, 2);
+			t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+			ResourceHandler.Add(gatheredTable, t);
+		}else if(player.getB_build().get(Garnary.GetInstance())){
+			t.put(GlobalDef.Resources.FOOD, 2);
+			t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+			ResourceHandler.Add(gatheredTable, t);
+		}else if(player.getB_build().get(GoldMint.GetInstance())){
+			t.put(GlobalDef.Resources.GOLD, 2);
+			t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+			ResourceHandler.Add(gatheredTable, t);
+		}else if(player.getB_build().get(WoodWorkshop.GetInstance())){
+			t.put(GlobalDef.Resources.WOOD, 2);
+			t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+			ResourceHandler.Add(gatheredTable, t);
+		}
+	}
+	
+	private void DionysusPower(Hashtable<GlobalDef.Resources, Integer> gatheredTable, GlobalDef.Resources resType,
+			GlobalDef.Terrain terrain)
+	{
+		Hashtable<GlobalDef.Resources, Integer> t = new Hashtable<GlobalDef.Resources, Integer>();
+		InitTable(t);
+		t.put(GlobalDef.Resources.FOOD, 1);
+		if(terrain == null && resType == GlobalDef.Resources.FOOD){
+			int[][] tiles = player.getGameBoard().getProductionOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(tiles[row][col] > 0){
+						ResProduceTile tile = GlobalDef.getTileMap().get(tiles[row][col]);
+						GlobalDef.Resources rType = tile.getResourceType();
+						if(rType == GlobalDef.Resources.FOOD){
+							t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+							ResourceHandler.Add(gatheredTable, t);
+						}
+					}
+				}
+		}else if(resType == null){
+			int[][] tiles = player.getGameBoard().getProductionOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(tiles[row][col] > 0){
+						ResProduceTile tile = GlobalDef.getTileMap().get(tiles[row][col]);
+						if(terrain == tile.getTerrainType() && tile.getResourceType() == GlobalDef.Resources.FOOD)
+						{
+							t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+							ResourceHandler.Add(gatheredTable, t);
+						}
+					}
+				}
+		}
+		
+	}
+	
+	private void RAPower(Hashtable<GlobalDef.Resources, Integer> gatheredTable, GlobalDef.Resources resType,
+			GlobalDef.Terrain terrain)
+	{
+		Hashtable<GlobalDef.Resources, Integer> t = new Hashtable<GlobalDef.Resources, Integer>();
+		InitTable(t);
+		t.put(GlobalDef.Resources.FOOD, 2);
+		if(terrain == null && resType == GlobalDef.Resources.FOOD){
+			int[][] tiles = player.getGameBoard().getProductionOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(tiles[row][col] > 0){
+						ResProduceTile tile = GlobalDef.getTileMap().get(tiles[row][col]);
+						GlobalDef.Resources rType = tile.getResourceType();
+						if(rType == GlobalDef.Resources.FOOD){
+							t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+							ResourceHandler.Add(gatheredTable, t);
+						}
+					}
+				}
+		}else if(resType == null){
+			int[][] tiles = player.getGameBoard().getProductionOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(tiles[row][col] > 0){
+						ResProduceTile tile = GlobalDef.getTileMap().get(tiles[row][col]);
+						if(terrain == tile.getTerrainType() && tile.getResourceType() == GlobalDef.Resources.FOOD)
+						{
+							t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+							ResourceHandler.Add(gatheredTable, t);
+						}
+					}
+				}
+		}
+		
+	}
+	
+	private void PosePower(Hashtable<GlobalDef.Resources, Integer> gatheredTable)
+	{
+		Hashtable<GlobalDef.Resources, Integer> t = new Hashtable<GlobalDef.Resources, Integer>();
+		InitTable(t);
+		t.put(GlobalDef.Resources.FAVOR, 5);
+		t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+		ResourceHandler.Add(gatheredTable, t);
+	}
+	
+	private void FreyiaPower(Hashtable<GlobalDef.Resources, Integer> gatheredTable)
+	{
+		Hashtable<GlobalDef.Resources, Integer> t = new Hashtable<GlobalDef.Resources, Integer>();
+		InitTable(t);
+		t.put(GlobalDef.Resources.GOLD, 5);
+		t = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), t);
+		ResourceHandler.Add(gatheredTable, t);
+	}
+	
+	public static void setPoseidon(boolean poseidon) {
+		GatherScreen.poseidon = poseidon;
+	}
+
+	public static void setRA(boolean rA) {
+		RA = rA;
+	}
+
+	public static void setDionysus(boolean dionysus) {
+		GatherScreen.dionysus = dionysus;
+	}
+
+	public static void setFreyia(boolean freyia) {
+		GatherScreen.freyia = freyia;
+	}
+
+	public static void setSkadi(boolean skadi) {
+		GatherScreen.skadi = skadi;
+	}
+
+	private void InitTable(Hashtable<GlobalDef.Resources, Integer> t)
+	{
+		t.put(GlobalDef.Resources.FAVOR, 0);
+		t.put(GlobalDef.Resources.FOOD, 0);
+		t.put(GlobalDef.Resources.GOLD, 0);
+		t.put(GlobalDef.Resources.WOOD, 0);
+	}
+	
 }

@@ -1,21 +1,18 @@
 package settings;
 
-import java.util.*;
+
 import global.GlobalDef;
 import menuscene.CultureScreen;
 import menuscene.PlayerScreen;
-import actioncard.*;
 import component.*;
 
 public class GameSetting {
 
 	private static GameSetting iniSetting;
-	/**
-	 */
+	
 	private GlobalDef.Races[] playerCulture;
 	private static Culture[] players;
-	/**
-	 */
+	
 	private int numOfPlayer;
 	private static GlobalDef.Races[] playerRace;
 

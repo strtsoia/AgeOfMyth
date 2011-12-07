@@ -6,8 +6,6 @@ import building.StoreHouse;
 import component.Culture;
 import actioncard.*;
 
-
-import pulpcore.Input;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
@@ -16,12 +14,14 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
 
 import settings.Bank;
+import settings.XmlManager;
 import sound.SoundManager;
 import utility.ResourceHandler;
 
 import java.util.*;
 import pulpcore.sprite.Button;
 import pulpcore.sound.*;
+import pulpcore.Input;
 
 public class GameScreen extends Scene2D {
 
@@ -56,6 +56,11 @@ public class GameScreen extends Scene2D {
 	ArrayList<Button> cardButton;
 	Hashtable<Button, Integer> cardBtnToID;
 	
+	CoreImage[] egyptRCardImg;
+	CoreImage[] greekRCardImg;
+	CoreImage[] norseRCardImg;
+	CoreImage[] randomCardImg;
+	
 	Sound egyptBackgroundSound;
 	Sound greekBackgroundSound;
 	Sound norseBackgroundSound;
@@ -77,6 +82,7 @@ public class GameScreen extends Scene2D {
 	private static int numOfPlayers;
 	static int startPlayer = 0;
 	static int round = 0;
+	static boolean duringTurn = true;
 	
 	String strBoardType;
 	String sideType;
@@ -86,9 +92,11 @@ public class GameScreen extends Scene2D {
 	static boolean initPTileOver = false;
 	boolean startPTileInit = false;
 	static boolean initCardOver = false;
+	static boolean initVicPointOver = false;
 	boolean lock = false;
 	
 	InitExploreScreen initEScreen;
+	
 	
 	// Initialize here
 	public void load() {
@@ -154,7 +162,12 @@ public class GameScreen extends Scene2D {
 		egyptCardImg = CoreImage.load("egyptCard.jpg").split(12, 2);
 		greekCardImg = CoreImage.load("greekCard.jpg").split(12, 2);
 		norseCardImg = CoreImage.load("norseCard.jpg").split(12, 2);
-		holdCardImg = new ArrayList<ImageSprite>();
+		this.holdCardImg = new ArrayList<ImageSprite>();
+		
+		// picture of random card
+		egyptRCardImg = CoreImage.load("egyptrandomcard.jpg").split(15, 4);
+		greekRCardImg = CoreImage.load("greekrandomcard.jpg").split(15, 4);
+		norseRCardImg = CoreImage.load("norserandomcard.jpg").split(15, 4);
 		
 		/* load bank button */
 		CoreImage[] bankImg= CoreImage.load("bank.jpg").split(3, 1);
@@ -182,6 +195,23 @@ public class GameScreen extends Scene2D {
 	}
 
 	public void update(int elapsedTime) {
+		// if 3 rounds finish
+		if(round == 3){
+			Spoliage();
+			
+			// discard card
+			if(duringTurn){
+				DiscardCardScreen dcScreen = new DiscardCardScreen();
+				dcScreen.Init(player[index], this.cardButton, this.cardBtnToID);
+				Stage.pushScene(dcScreen);
+			}
+			if(!duringTurn){
+				round = 0;
+				duringTurn = true;
+			}
+			
+		}
+				
 		// update background board for different players
 		if (player[index].getRace() == GlobalDef.Races.Greek) {
 			strBoardType = "GreekBoard.jpg";
@@ -306,13 +336,20 @@ public class GameScreen extends Scene2D {
 		
 		if(!initPTileOver){
 			initEScreen.Init(player[index]);
-			System.out.println("before:" +index);
 			Stage.pushScene(initEScreen);
 		}
 		/* end initialization of production tiles*/
 		
+		/* victory point cubes */
+		if(!initVicPointOver && initPTileOver){
+			VictoryPointInitScreen vpiScreen = new VictoryPointInitScreen();
+			vpiScreen.Init(player[index]);
+			Stage.pushScene(vpiScreen);
+		}
+		/* end of victory point cubes */
+		
 		/* begin initialize each players card */
-		if(!initCardOver && initPTileOver){
+		if(!initCardOver && initVicPointOver){
 			InitialCardScreen dcScreen = new InitialCardScreen();
 			dcScreen.Init(player[index]);
 			Stage.pushScene(dcScreen);	
@@ -323,19 +360,25 @@ public class GameScreen extends Scene2D {
 		for (int i = 0; i < holdCardImg.size(); i++)
 			sideGroup.remove(holdCardImg.get(i));
 		
-		if (player[index].getRace() == GlobalDef.Races.Egypt)
+		if (player[index].getRace() == GlobalDef.Races.Egypt){
 			cardImg = egyptCardImg;
-		else if (player[index].getRace() == GlobalDef.Races.Greek)
+			randomCardImg = egyptRCardImg;
+		}
+		else if (player[index].getRace() == GlobalDef.Races.Greek){
 			cardImg = greekCardImg;
-		else if(player[index].getRace() == GlobalDef.Races.Norse)
+			randomCardImg = greekRCardImg;
+		}
+		else if(player[index].getRace() == GlobalDef.Races.Norse){
 			cardImg = norseCardImg;
+			randomCardImg = norseRCardImg;
+		}
 		
 		for(int i = 0; i < cardButton.size(); i++)
 			this.sideGroup.remove(cardButton.get(i));
 		
 		cardButton.clear();
-		// for action card
-		Hashtable<Card, Integer> actionCardTable = GlobalDef.getActionCardID();
+		// for card
+		Hashtable<Card, Integer> CardTable = getCardID();
 		
 		Hashtable<Card, Integer> holdCard = player[index].getCardHold();
 		Set<Card> cSet = holdCard.keySet();
@@ -344,7 +387,7 @@ public class GameScreen extends Scene2D {
 			Card card = cIter.next();
 			int number = holdCard.get(card);
 			while(number > 0){
-				int ID = actionCardTable.get(card);
+				int ID = CardTable.get(card);
 				int row = ID / 4;
 				int col = ID % 4;
 				
@@ -356,9 +399,19 @@ public class GameScreen extends Scene2D {
 					btn.setSize(50, 75);
 					cardButton.add(btn);
 					cardBtnToID.put(btn, ID);
-				}
-				
-				number--;
+					number--;
+				}else{
+					ID = ID - 7;
+					int r = ID / 5; int c = ID % 5;
+					CoreImage[] img = new CoreImage[]{randomCardImg[r * 15 + c], randomCardImg[r * 15 + c + 5],
+							randomCardImg[r * 15 + c + 10]};
+					Button btn = new Button(img, 0, 0);
+					btn.setSize(50, 75);
+					cardButton.add(btn);
+					ID = ID + 7;
+					cardBtnToID.put(btn, ID);
+					number--;
+				}		
 			}
 		}
 		
@@ -403,18 +456,12 @@ public class GameScreen extends Scene2D {
 			index++;
 			index = index % numOfPlayers;
 			if(index == startPlayer){
-				startPlayer++;
-				startPlayer = startPlayer % numOfPlayers;
+				/*startPlayer++;
+				startPlayer = startPlayer % numOfPlayers;*/
 				round++;
+				System.out.println(round);
 			}
 			lock = false;
-		}
-		
-		// if 3 rounds finish
-		if(round == 3){
-			round = 0;
-			Spoliage();
-			
 		}
 		
 		if(Input.isPressed(Input.KEY_D)){
@@ -424,7 +471,7 @@ public class GameScreen extends Scene2D {
 		}
 		
 		if(Input.isPressed(Input.KEY_0)){
-			Spoliage();
+			Save(this);
 		}
 	}
 
@@ -454,6 +501,8 @@ public class GameScreen extends Scene2D {
 
 		return GlobalDef.getNorseUnitsID();
 	}
+	
+	 
 	
 	private void Spoliage(){
 		for(int i = 0; i < numOfPlayers; i++){
@@ -505,7 +554,38 @@ public class GameScreen extends Scene2D {
 	public static void setInitCardOver(boolean initCardOver) {
 		GameScreen.initCardOver = initCardOver;
 	}
+
+	public static boolean getduringTurn() {
+		return duringTurn;
+	}
+
+	public static void setduringTurn(boolean turn) {
+		GameScreen.duringTurn = turn;
+	}
+
+	public static boolean isInitVicPointOver() {
+		return initVicPointOver;
+	}
+
+	public static void setInitVicPointOver(boolean initVicPointOver) {
+		GameScreen.initVicPointOver = initVicPointOver;
+	}
 	
+	private Hashtable<Card, Integer> getCardID()
+	{
+		if(player[index].getRace() == GlobalDef.Races.Egypt)
+			return GlobalDef.getEgyptCardID();
+		if(player[index].getRace() == GlobalDef.Races.Greek)
+			return GlobalDef.getGreekCardID();
+		else
+			return GlobalDef.getNorseCardID();
+	}
 	
+	private void Save(GameScreen g)
+	{
+		//XmlManager xStreamManager = XmlManager.GetInstance();
+		//xStreamManager.Save(g);
+		
+	}
 	
 }

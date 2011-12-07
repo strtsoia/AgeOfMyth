@@ -1,6 +1,7 @@
 package menuscene;
 
 import java.util.*;
+
 import global.GlobalDef;
 import component.Culture;
 import actioncard.*;
@@ -132,8 +133,11 @@ public class InitialCardScreen extends Scene2D{
 					}
 				}
 				
-				if(ID == 7 && numOfCard > 0){ // randomly get random card
+				if(ID == 7 && numOfCard > 0 && selRandomCard){ // randomly get random card
 					if(cardBtn[row][col].isClicked()){
+						Card card = getRandomCard();
+						System.out.println(card);
+						player.DrawCard(card);
 						numOfCard--;
 						avaCardLabel.setFormatArg(numOfCard);
 					}
@@ -159,6 +163,40 @@ public class InitialCardScreen extends Scene2D{
 		}
 	}
 	
+	private Card getRandomCard()
+	{
+		int seed;
+		if(race == GlobalDef.Races.Egypt)
+			seed = 18;
+		else if(race == GlobalDef.Races.Greek)
+			seed = 20;
+		else
+			seed = 20;
+		
+		Random r = new Random();
+		int id = r.nextInt(seed) + 7;
+		Card card = getRandomCardMap().get(id);
+		int left = player.getRandomcardPool().get(card);
+		
+		while(left == 0){
+			id = r.nextInt(seed) + 7;
+			card = getRandomCardMap().get(id);
+			left = player.getRandomcardPool().get(card);
+		}
+		
+		return card;
+	}
+	
+	// get proper random card map
+	Hashtable<Integer, Card> getRandomCardMap()
+	{
+		if(player.getRace() == GlobalDef.Races.Egypt)
+			return GlobalDef.getEgyptRandomCard();
+		else if(player.getRace() == GlobalDef.Races.Greek)
+			return GlobalDef.getGreekRandomCard();
+		return GlobalDef.getNorseRandomCard();
+	}
+		
 	// whether this action card is available
 	private boolean isActionCardAvailable(int ID)
 	{

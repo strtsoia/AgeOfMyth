@@ -40,11 +40,16 @@ public class TradeScreen extends Scene2D {
 	Label[] bankSideLabel;
 	Slider[] userSlider;
 	Slider[] bankSlider;
-
-	public void Init(Culture c) {
+	
+	private int cost;
+	 
+	static boolean Hermes;
+	
+	public void Init(Culture c, int n) {
 		player = c;
-		
-		if(player.getB_build().get(Market.GetInstance()))
+		cost = n;
+		Hermes = false;
+		if(player.getB_build().get(Market.GetInstance()) || cost == 0)
 			payOver = true;
 		else
 			payOver = false;
@@ -181,10 +186,10 @@ public class TradeScreen extends Scene2D {
 
 					// update background resource
 					player.getGameBoard().RemoveResource(table);
-					ResourceHandler.Add(Bank.getInstance().getResourcePool(),
-							table);
-
-					payOver = true;
+					ResourceHandler.Add(Bank.getInstance().getResourcePool(),table);
+					cost--;
+					if(cost == 0)
+						payOver = true;
 					load();
 				}
 			}
@@ -235,8 +240,15 @@ public class TradeScreen extends Scene2D {
 					bt.put(GlobalDef.getResourceMap().get(index), num);
 				}
 				player.getGameBoard().PlaceResource(bt);
-
-				Stage.popScene();
+				
+				if(Hermes){
+					remove(costForm);
+					HermesScreen hScreen = new HermesScreen();
+					hScreen.Init(player);
+					Stage.replaceScene(hScreen);
+				}else{
+					Stage.popScene();
+				}
 			}
 		}
 	}
@@ -254,4 +266,8 @@ public class TradeScreen extends Scene2D {
 		return true;
 	}
 
+	public static void setHermes(boolean hermes) {
+		Hermes = hermes;
+	}
+	
 }

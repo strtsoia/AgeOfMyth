@@ -8,8 +8,6 @@ public class AttackCard extends Card {
 
 	private static AttackCard attackCard;
 
-	/**
-	 */
 	private int numOfUnits;
 
 	private AttackCard() {

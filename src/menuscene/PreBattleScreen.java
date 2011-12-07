@@ -40,7 +40,7 @@ public class PreBattleScreen extends Scene2D {
 	int leftPlayerIndex;
 	int rightPlayerIndex;
 	int opponent;
-	int attAddUnits;
+	static int attAddUnits;
 	int defAddUnits;
 	int maxUnits;
 	static int attackArea; // 0 for production, 1 for city, 2 for holding
@@ -75,7 +75,9 @@ public class PreBattleScreen extends Scene2D {
 	static ArrayList<Integer> attackerUnitsID; // ID of units selected to engage
 												// battle
 	static ArrayList<Integer> defenderUnitsID;
-
+	
+	static boolean brag;
+	
 	public void Init(Culture culture, int maxUnit) {
 		player = culture;
 		attAddUnits = 0;
@@ -95,7 +97,7 @@ public class PreBattleScreen extends Scene2D {
 		attackerUnitsID = new ArrayList<Integer>();
 		defenderUnitsID = new ArrayList<Integer>();
 		players = GameScreen.getPlayer();
-
+		brag = false;
 	}
 
 	public void load() {
@@ -513,7 +515,7 @@ public class PreBattleScreen extends Scene2D {
 			} else if (bothFinish) {
 				// then go to battle screen
 				BattleScreen bScreen = new BattleScreen();
-				bScreen.Init(player, players[opponent]);
+				bScreen.Init(player, players[opponent], brag);
 				Stage.replaceScene(bScreen);
 
 			}
@@ -568,4 +570,12 @@ public class PreBattleScreen extends Scene2D {
 		return attackArea;
 	}
 
+	public static void setAttAddUnits(int attAddUnits) {
+		PreBattleScreen.attAddUnits = attAddUnits;
+	}
+
+	public static void setBrag(boolean brag) {
+		PreBattleScreen.brag = brag;
+	}
+	
 }

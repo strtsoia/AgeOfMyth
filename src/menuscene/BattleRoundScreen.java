@@ -61,9 +61,10 @@ public class BattleRoundScreen extends Scene2D{
 	boolean negWT;
 	static boolean cyclopsThrowing;
 	static boolean berserk;
+	boolean brag;
 	
 	public void Init(Culture attacker, Culture defender, BattleCard attackerUnit, BattleCard defenderUnit, int attID, int defID,
-			ImageSprite attImg, ImageSprite defImg)
+			ImageSprite attImg, ImageSprite defImg, boolean brag)
 	{
 		attackRound = true;
 		rolling = true;
@@ -72,6 +73,7 @@ public class BattleRoundScreen extends Scene2D{
 		cyclopsThrowing = false;
 		berserk = false;
 		negWT = true;
+		this.brag = brag;
 		attSixers = 0;
 		defSixers = 0;
 		this.attacker = attacker;
@@ -96,6 +98,9 @@ public class BattleRoundScreen extends Scene2D{
 		attackerRolls = attackerUnit.getRolls();
 		defenderUnit.CheckBonus(attackerUnit);
 		defenderRolls = defenderUnit.getRolls();
+		
+		if(brag)
+			attackerRolls++;
 		
 		// use god power if necessary
 		if(attBattleCard.getGodPowerTime() == GlobalDef.GodPowerTime.Before)
@@ -518,8 +523,5 @@ public class BattleRoundScreen extends Scene2D{
 	public static void setBerserk(boolean berserk) {
 		BattleRoundScreen.berserk = berserk;
 	}
-	
-	
-	
 	
 }

@@ -14,14 +14,8 @@ public class NextAgeCard extends Card {
 
 	private static NextAgeCard nextAgeCard;
 
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> classic = new Hashtable<GlobalDef.Resources, Integer>();
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> heroic = new Hashtable<GlobalDef.Resources, Integer>();
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> mythic = new Hashtable<GlobalDef.Resources, Integer>();
 
 	private static boolean upgradeSucess;

@@ -74,19 +74,33 @@ public class PlayCardScreen extends Scene2D{
 					if(ID < 7){
 						Card card = GlobalDef.getActionCard().get(ID);
 						player.BurnCard(card);
-						Stage.popScene();
+					}else{
+						Card card = getCard().get(ID);
+						player.BurnCard(card);
 					}
+					Stage.popScene();
 				}else{
 					if(ID < 7){
 						Card card = GlobalDef.getActionCard().get(ID);
 						player.PlayCard(card);
+					}else{
+						Card card = getCard().get(ID);
+						player.PlayCard(card);
 					}
-				}
-				
+				}			
 			}
 		}
 	}
-
 	
+	
+	private Hashtable<Integer, Card> getCard()
+	{
+		if(race == GlobalDef.Races.Egypt)
+			return GlobalDef.getEgyptRandomCard();
+		if(race == GlobalDef.Races.Greek)
+			return GlobalDef.getGreekRandomCard();
+		else
+			return GlobalDef.getNorseRandomCard();
+	}
 
 }

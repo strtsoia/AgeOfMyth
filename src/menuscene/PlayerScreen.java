@@ -62,7 +62,7 @@ public class PlayerScreen extends Scene2D {
 		}
 
 		if (continueLabel.isMouseDown()) {
-			Stage.setScene(new CultureScreen());
+			Stage.replaceScene(new CultureScreen());
 		}
 	}
 }

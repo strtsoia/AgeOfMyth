@@ -301,6 +301,8 @@ public class Board {
 
 	public void PlaceUnit(BattleCard unit) {
 		int num = unitsPool.get(unit);
+		if(num == 0)
+			return;
 		unitsPool.put(unit, num - 1);
 		int hNum = holdingUnits.get(unit);
 		holdingUnits.put(unit, hNum + 1);
@@ -309,7 +311,7 @@ public class Board {
 	public void RemoveBuilding(int ID) {
 		Building build = GlobalDef.getBuildingMap().get(ID);
 		build.UnBehavior(player);
-		System.out.println("there is: " + ID);
+
 		for (int row = 0; row < 4; row++)
 			for (int col = 0; col < 4; col++) {
 				if (cityOccupied[row][col] == ID) {
@@ -407,7 +409,31 @@ public class Board {
 	public void PlaceResource(Hashtable<GlobalDef.Resources, Integer> res) {
 		ResourceHandler.Add(holdResource, res);
 	}
-
+	
+	public Hashtable<GlobalDef.Resources, Integer> GatherAll()
+	{
+		Hashtable<GlobalDef.Resources, Integer> gatheredRes = new Hashtable<GlobalDef.Resources, Integer>();
+		gatheredRes.put(GlobalDef.Resources.FAVOR, 0);
+		gatheredRes.put(GlobalDef.Resources.FOOD, 0);
+		gatheredRes.put(GlobalDef.Resources.GOLD, 0);
+		gatheredRes.put(GlobalDef.Resources.WOOD, 0);
+		
+		for(int row = 0; row < 4; row++)
+			for(int col = 0; col < 4; col++){
+				if (productionOccupied[row][col] >= 0) {
+					ResProduceTile tile = GlobalDef.getTileMap().get(productionOccupied[row][col]);
+					GlobalDef.Resources rType = tile.getResourceType();
+					int productivity = tile.getProductivity().get(rType);
+					int number = gatheredRes.get(rType);
+					number = number + productivity;
+					
+					gatheredRes.put(rType, number);
+				}
+			}
+		
+		return gatheredRes;
+	}
+	
 	// gatherType: 0 for gather by terrain. 1 for gather by resource type
 	public Hashtable<GlobalDef.Resources, Integer> Gather(boolean gatherType,
 			GlobalDef.Resources resType, GlobalDef.Terrain choosenType) {
@@ -422,7 +448,6 @@ public class Board {
 			for (int row = 0; row < 4; row++)
 				for (int col = 0; col < 4; col++) {
 					if (productionOccupied[row][col] >= 0) {
-						System.out.println("strtsoia");
 						ResProduceTile tile = GlobalDef.getTileMap().get(
 								productionOccupied[row][col]);
 						GlobalDef.Terrain terrain = tile.getTerrainType();
@@ -430,8 +455,7 @@ public class Board {
 						if (choosenType == terrain) {
 							// which type of resource
 							GlobalDef.Resources rType = tile.getResourceType();
-							int productivity = tile.getProductivity()
-									.get(rType);
+							int productivity = tile.getProductivity().get(rType);
 							int number = gatheredRes.get(rType);
 							number = number + productivity;
 							gatheredRes.put(rType, number);

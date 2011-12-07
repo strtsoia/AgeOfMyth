@@ -2,7 +2,6 @@ package actioncard;
 
 import pulpcore.Stage;
 import component.Culture;
-import menuscene.InitExploreScreen;
 import menuscene.ExploreScreen;
 import menuscene.GameScreen;
 
@@ -13,7 +12,7 @@ public class ExploreCard extends Card {
 	private int tilesNum;
 
 	private ExploreCard() {
-		tilesNum = GameScreen.getNumOfPlayers();
+		tilesNum = GameScreen.getNumOfPlayers() + 1;
 	}
 
 	public static ExploreCard GetInstance() {

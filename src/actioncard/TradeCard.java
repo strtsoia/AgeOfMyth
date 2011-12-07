@@ -12,8 +12,7 @@ public class TradeCard extends Card {
 
 	private static TradeCard tradeCard;
 
-	/**
-	 */
+	
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 
 	public Hashtable<GlobalDef.Resources, Integer> getCost() {
@@ -35,7 +34,7 @@ public class TradeCard extends Card {
 
 	public void Action(Culture player) {
 		TradeScreen tScreen = new TradeScreen();
-		tScreen.Init(player);
+		tScreen.Init(player, 2);
 		Stage.replaceScene(tScreen);
 	}
 

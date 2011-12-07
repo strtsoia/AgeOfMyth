@@ -14,6 +14,7 @@ import utility.ResourceHandler;
 import component.Culture;
 import global.GlobalDef;
 import building.*;
+import menuscene.EndGameScreen;
 
 public class BuildingScreen extends Scene2D {
 
@@ -37,6 +38,8 @@ public class BuildingScreen extends Scene2D {
 	
 	boolean reduceCubes;
 	boolean chooseReduceOver;
+	boolean wonderBuild;
+	
 	GlobalDef.Resources reduceResType;
 	
 	public void Init(Culture culture, int max) {
@@ -52,6 +55,8 @@ public class BuildingScreen extends Scene2D {
 			reduceCubes = false;
 			chooseReduceOver = true;
 		}
+		
+		wonderBuild = false;
 	}
 
 	public void load() {
@@ -108,6 +113,7 @@ public class BuildingScreen extends Scene2D {
 
 	@Override
 	public void update(int elapsedTime) {
+		
 		if(!chooseReduceOver){
 			// image part
 			for (int row = 0; row < 4; row++)
@@ -136,9 +142,9 @@ public class BuildingScreen extends Scene2D {
 			}
 			
 			// determine which tile has been selected
-			int ID;
 			for (int row = 0; row < 4; row++)
 				for (int col = 0; col < 4; col++) {
+					int ID;
 					ID = row * 4 + col;
 					if (ID < 14) {
 						// drawing
@@ -173,14 +179,22 @@ public class BuildingScreen extends Scene2D {
 								player.getGameBoard().PlaceBuilding(newBuild, ID);
 								constrctedNum++;
 							}
-
+							
+							if(ID == 12)
+								wonderBuild = true;
 						}
 
 					}
 				}
 
 			if (ok.isMouseDown()) {
-				Stage.popScene();
+				if(!wonderBuild)
+					Stage.popScene();
+				else{
+					EndGameScreen eScreen = new EndGameScreen();
+					Stage.replaceScene(eScreen);
+					
+				}
 			}
 		}
 		

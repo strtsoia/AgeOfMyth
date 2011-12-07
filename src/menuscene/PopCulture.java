@@ -1,8 +1,6 @@
 package menuscene;
 
 import pulpcore.Stage;
-import pulpcore.image.Colors;
-import pulpcore.image.CoreFont;
 import pulpcore.scene.Scene2D;
 import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
@@ -12,17 +10,11 @@ import global.GlobalDef;
 
 public class PopCulture extends Scene2D {
 
-	/**
-	 */
 	Group form;
-	/**
-	 */
+	
 	Label ok;
-	/**
-	 */
 	boolean hit = false;
-	/**
-	 */
+	
 	GlobalDef.Races race;
 
 	public PopCulture(GlobalDef.Races r) {
@@ -33,13 +25,13 @@ public class PopCulture extends Scene2D {
 		int xPos = Stage.getWidth() / 2;
 		int yPos = Stage.getHeight() / 2;
 
-		CoreFont font = CoreFont.load("serif.font.png").tint(Colors.BLACK);
-		Label message = new Label(font, "You get culture " + race, 0, 0);
+		//CoreFont font = CoreFont.load("serif.font.png").tint(Colors.BLACK);
+		Label message = new Label("You get culture " + race, 0, 0);
 		message.setLocation(
 				(CultureScreen.getLableWidth() - message.width.get()) / 2, 0);
-		ok = new Label(font, "Next One", 0, 0);
+		ok = new Label("Next One", 0, 0);
 		ok.setLocation((CultureScreen.getLableWidth() - ok.width.get()) / 2,
-				100 - font.getHeight());
+				100 - ok.height.get());
 
 		form = new Group(xPos - 100, yPos + 150, CultureScreen.getLableWidth(),
 				100);
