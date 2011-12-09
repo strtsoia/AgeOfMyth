@@ -119,9 +119,14 @@ public class VictoryPointInitScreen extends Scene2D{
 			index++;
 			index = index % GameScreen.getNumOfPlayers();
 			GameScreen.setIndex(index);
+			
 			if(time == GameScreen.getNumOfPlayers() || time == 3){
 				GameScreen.setInitVicPointOver(true);
-				index = GameScreen.getIndex() - 3;
+				if(GameScreen.getNumOfPlayers() < 4)
+					index = GameScreen.getIndex() - GameScreen.getNumOfPlayers();
+				else
+					index = GameScreen.getIndex() - 3;
+				
 				if(index < 0)
 					index = index + GameScreen.getNumOfPlayers();
 				GameScreen.setIndex(index);
