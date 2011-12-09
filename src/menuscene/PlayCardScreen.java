@@ -67,33 +67,49 @@ public class PlayCardScreen extends Scene2D{
 	@Override
 	public void update(int elapsedTime) 
 	{
-		for(int index = 0; index < cardBtn.size(); index++){
-			if(cardBtn.get(index).isClicked()){
-				int ID = btnToID.get(cardBtn.get(index));	// card ID
-				if(burn){// burn card
-					if(ID < 7){
-						Card card = GlobalDef.getActionCard().get(ID);
-						player.BurnCard(card);
-					}else{
-						Card card = getCard().get(ID);
-						player.BurnCard(card);
-					}
+		if(player.isAI()){
+			if(cardBtn.size() > 0){
+				int ID = btnToID.get(cardBtn.get(0));
+				Card card = GlobalDef.getActionCard().get(ID);
+				player.PlayCard(card);
+				if(ID == 2){
 					Stage.popScene();
-				}else{
-					if(ID < 7){
-						Card card = GlobalDef.getActionCard().get(ID);
-						player.PlayCard(card);
-						if(ID == 2){
-							Stage.popScene();
+				}
+			}
+			
+			GameScreen.setIndex(0);
+		}
+		
+		if(!player.isAI()){
+			for(int index = 0; index < cardBtn.size(); index++){
+				if(cardBtn.get(index).isClicked()){
+					int ID = btnToID.get(cardBtn.get(index));	// card ID
+					if(burn){// burn card
+						if(ID < 7){
+							Card card = GlobalDef.getActionCard().get(ID);
+							player.BurnCard(card);
+						}else{
+							Card card = getCard().get(ID);
+							player.BurnCard(card);
 						}
+						Stage.popScene();
 					}else{
-						Card card = getCard().get(ID);
-						player.PlayCard(card);
-					}
-					//Stage.popScene();
-				}			
+						if(ID < 7){
+							Card card = GlobalDef.getActionCard().get(ID);
+							player.PlayCard(card);
+							if(ID == 2){
+								Stage.popScene();
+							}
+						}else{
+							Card card = getCard().get(ID);
+							player.PlayCard(card);
+						}
+						//Stage.popScene();
+					}			
+				}
 			}
 		}
+		
 	}
 	
 	

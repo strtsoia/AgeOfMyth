@@ -164,6 +164,9 @@ public class TradeScreen extends Scene2D {
 
 	@Override
 	public void update(int elapsedTime) {
+		if(player.isAI()){
+			Stage.popScene();
+		}
 		// show pay form when user not decide which resource to pay
 		if (!payOver) {
 			for (int index = 0; index < 4; index++) {

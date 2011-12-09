@@ -194,6 +194,10 @@ public class GameScreen extends Scene2D {
 		
 		cardButton = new ArrayList<Button>();
 		cardBtnToID = new Hashtable<Button, Integer>();
+		
+		if(numOfPlayers == 2){
+			player[1].setAI(true);
+		}
 	}
 
 	public void update(int elapsedTime) {
@@ -461,6 +465,15 @@ public class GameScreen extends Scene2D {
 		// if finish turn button is pressed
 		if(finishBtn.isClicked()){
 			index++;
+			
+			if(player[index].isAI()){
+				PlayCardScreen pcScreen = new PlayCardScreen();
+				System.out.println("AI do");
+				pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
+				Stage.pushScene(pcScreen);
+				round++;
+			}
+			
 			index = index % numOfPlayers;
 			if(index == startPlayer){
 				/*startPlayer++;

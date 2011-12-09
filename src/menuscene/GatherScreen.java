@@ -61,6 +61,7 @@ public class GatherScreen extends Scene2D {
 	static boolean dionysus;
 	static boolean freyia;
 	static boolean skadi;
+	boolean bbreak;
 	
 	public void Init(Culture c) {
 		player = c;
@@ -73,6 +74,7 @@ public class GatherScreen extends Scene2D {
 		dionysus = false;
 		freyia = false;
 		skadi = false;
+		bbreak = false;
 
 	}
 
@@ -197,6 +199,38 @@ public class GatherScreen extends Scene2D {
 
 	@Override
 	public void update(int elapsedTime) {
+		if(player.isAI()){
+			int[][] pArea = player.getGameBoard().getProductionOccupied();
+			for(int row = 0; row < 4; row++){
+				for(int col = 0; col < 4; col++)
+				{
+					if(pArea[row][col] >= 0){
+						ResProduceTile ptile = GlobalDef.getTileMap().get(pArea[row][col]);
+						GlobalDef.Resources res = ptile.getResourceType();
+						Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
+						BuildGodPower(gatheredTable);
+						// update bank
+						gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+						// player resource pool
+						ResourceHandler.Add(player.getGameBoard().getHoldResource(),gatheredTable);
+						
+						Culture[] players = GameScreen.getPlayer();
+						gatheredTable = players[0].getGameBoard().Gather(true, res, null);
+						gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+						// player resource pool
+						ResourceHandler.Add(players[0].getGameBoard().getHoldResource(),gatheredTable);
+						
+						bbreak = true;
+					}
+				}
+				if(bbreak){
+					break;
+				}
+				GameScreen.setIndex(0);
+				Stage.popScene();
+			}
+		}
+		
 		if (!finish) {
 			if (byRes.isMousePressed() && totalTerrainType != 0
 					&& totalresType != 0) {

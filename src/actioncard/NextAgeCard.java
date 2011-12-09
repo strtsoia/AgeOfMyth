@@ -51,8 +51,7 @@ public class NextAgeCard extends Card {
 
 	public void Action(Culture player) {
 		if (player.getCurrentAge() == GlobalDef.Age.Ancient) {
-			if (ResourceHandler.isResEnough(player.getGameBoard()
-					.getHoldResource(), classic)) {
+			if (ResourceHandler.isResEnough(player.getGameBoard().getHoldResource(), classic)) {
 				ResourceHandler.Delete(player.getGameBoard().getHoldResource(),
 						classic);
 				ResourceHandler.Add(Bank.getInstance().getResourcePool(),

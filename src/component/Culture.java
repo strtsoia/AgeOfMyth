@@ -44,7 +44,7 @@ import battlecard.*;
 
 public class Culture {
 	
-	boolean isAI;
+	boolean isAI = false;
 	int status; // 0 for nothing, 1 for attack, 2 for defend
 	private Board gameBoard;
 	
@@ -162,6 +162,7 @@ public class Culture {
 		race = r;
 		playerID = id;
 		status = 0;
+		isAI = false;
 		
 		InitialPermanentPool();
 		InitialRandomPool();
@@ -423,6 +424,11 @@ public class Culture {
 			return GlobalDef.getGreekCardID();
 		else
 			return GlobalDef.getNorseCardID();
+	}
+
+
+	public void setAI(boolean isAI) {
+		this.isAI = isAI;
 	}
 
 }

@@ -1,5 +1,7 @@
 package menuscene;
 
+import java.util.Random;
+
 import global.GlobalDef;
 import pulpcore.Stage;
 import pulpcore.scene.Scene2D;
@@ -77,10 +79,28 @@ public class VictoryPointInitScreen extends Scene2D{
 	@Override
 	public void update(int elapsedTime)
 	{
+		
 		// update victory point cubes number in bank
 		GlobalDef.Resources res = GlobalDef.getResourceMap().get(4);
 		int vicNumber = Bank.getInstance().getResourcePool().get(res);
-				
+		
+		if(player.isAI()){
+			Random r = new Random();
+			int index = r.nextInt(4);
+			// minus victory point cube from bank
+			int number = Bank.getInstance().getResourcePool().get(res);
+			number--;
+			Bank.getInstance().getResourcePool().put(res, number);
+			
+			// add victory point to selected card
+			int n = Bank.getInstance().getVpcOnCards().get(index);
+			n++;
+			Bank.getInstance().getVpcOnCards().put(index, n);
+			GameScreen.setIndex(0);
+			GameScreen.setInitVicPointOver(true);
+			Stage.popScene();
+		}
+		
 		// update victory point cubes on card
 		for(int index = 0; index < 4; index++)
 			this.vicNumLabel[index].setFormatArg(Bank.getInstance().getVpcOnCards().get(index));

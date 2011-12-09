@@ -11,26 +11,14 @@ import pulpcore.sprite.Group;
 
 public class NextAgeScreen extends Scene2D {
 
-	/**
-	 */
 	ImageSprite background;
-	/**
-	 */
 	boolean upgradeSuccess;
-	/**
-	 */
+
 	Culture player;
-	/**
-	 */
 	String strBackground;
-	/**
-	 */
 	Label ok;
-	/**
-	 */
+	
 	Label message;
-	/**
-	 */
 	Group group;
 
 	public void Init(Culture c, boolean success) {
@@ -68,7 +56,12 @@ public class NextAgeScreen extends Scene2D {
 	}
 
 	public void update(int elapsedTime) {
-
+		
+		if(player.isAI()){
+			GameScreen.setIndex(0);
+			Stage.popScene();
+		}
+		
 		if (ok.isMousePressed())
 			Stage.popScene();
 	}

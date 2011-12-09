@@ -114,6 +114,35 @@ public class BuildingScreen extends Scene2D {
 	@Override
 	public void update(int elapsedTime) {
 		
+		// AI
+		if(player.isAI()){
+			Random r = new Random();
+			int ID = r.nextInt(14);
+			// build this one
+			if (EnoughResource(ID) && constrctedNum < maxNumOfBuilding) {
+				// building other than house
+				if (!hasBuild(ID) && ID > 0) {
+					Building newBuild = GlobalDef.getBuildingMap().get(
+							ID);
+					player.getGameBoard().PlaceBuilding(newBuild, ID);
+					constrctedNum++;
+				} else if (ID == 0 && player.getGameBoard().getNumOfVillager() <= 10) // house
+				{
+					Building newBuild = GlobalDef.getBuildingMap().get(
+							ID);
+					player.getGameBoard().PlaceBuilding(newBuild, ID);
+					constrctedNum++;
+				}
+				
+				if(ID == 12)
+					wonderBuild = true;
+			}
+			
+			GameScreen.setIndex(0);
+			Stage.popScene();
+		}
+		
+		
 		if(!chooseReduceOver){
 			// image part
 			for (int row = 0; row < 4; row++)

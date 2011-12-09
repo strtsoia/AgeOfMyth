@@ -25,6 +25,7 @@ public class ExploreCard extends Card {
 	}
 
 	public void Action(Culture player) {
+		
 		GameScreen.setStartPTileInit(false);
 		GameScreen.setInitPTileOver(false);
 		GameScreen.setNumOfTiles(GameScreen.getNumOfPlayers() + 1);

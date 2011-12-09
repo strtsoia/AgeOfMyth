@@ -16,6 +16,7 @@ import pulpcore.sprite.Label;
 import settings.Bank;
 import utility.ResourceHandler;
 import battlecard.*;
+import java.util.*;
 
 public class RecruitScreen extends Scene2D {
 
@@ -113,6 +114,29 @@ public class RecruitScreen extends Scene2D {
 	@Override
 	public void update(int elapsedTime) {
 		int ID;
+		if(player.isAI()){
+			Random r = new Random();
+			ID = r.nextInt(11);
+			if(EnoughResource(ID) && meetAgeRecruit(ID)&& isAvailable(ID))
+			{
+				BattleCard battleCard = getUnitMap().get(ID);
+
+				// update back ground: unit pool and holing unit for
+				// player
+				player.getGameBoard().PlaceUnit(battleCard);
+				// update resource
+				Hashtable<GlobalDef.Resources, Integer> cost = getUnitMap()
+						.get(ID).getCost();
+				ResourceHandler.Delete(player.getGameBoard()
+						.getHoldResource(), cost);
+				ResourceHandler.Add(Bank.getInstance()
+						.getResourcePool(), cost);
+			}
+			
+			GameScreen.setIndex(0);
+			Stage.popScene();
+		}
+		
 		for (int row = 0; row < 3; row++)
 			for (int col = 0; col < 4; col++) {
 				ID = row * 4 + col;
