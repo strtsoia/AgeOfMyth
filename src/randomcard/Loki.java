@@ -35,7 +35,7 @@ public class Loki extends Card{
 			Bank.getInstance().getResourcePool().put(GlobalDef.Resources.FAVOR, number);
 			LokiScreen lScreen = new LokiScreen();
 			lScreen.Init(player, GameScreen.getPlayer());
-			Stage.pushScene(lScreen);
+			Stage.replaceScene(lScreen);
 		}
 	}
 }

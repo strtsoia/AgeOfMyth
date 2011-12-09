@@ -99,7 +99,7 @@ public class Hathor extends Card{
 			HathorScreen hScreen = new HathorScreen();
 			Culture[] players = GameScreen.getPlayer();
 			hScreen.Init(player, players);
-			Stage.pushScene(hScreen);
+			Stage.replaceScene(hScreen);
 		}
 		else{
 			NextAgeScreen nScreen = new NextAgeScreen();

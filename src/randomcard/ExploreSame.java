@@ -27,9 +27,9 @@ public class ExploreSame extends Card{
 	}
 
 	public void Action(Culture player) {
-		ExploreScreen eScreen = new ExploreScreen();
-		eScreen.Init(tilesNum, player);
-		Stage.replaceScene(eScreen);
+		GameScreen.setStartPTileInit(false);
+		GameScreen.setInitPTileOver(false);
+		GameScreen.setNumOfTiles(GameScreen.getNumOfPlayers());
 		/*InitExploreScreen eScreen = new InitExploreScreen();
 		eScreen.GenerateRomdomTiles(GameScreen.getNumOfPlayers() + 1);
 		
