@@ -12,6 +12,8 @@ import pulpcore.sprite.ImageSprite;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Set;
+import java.util.Iterator;
 
 public class PlayCardScreen extends Scene2D{
 	
@@ -68,16 +70,29 @@ public class PlayCardScreen extends Scene2D{
 	public void update(int elapsedTime) 
 	{
 		if(player.isAI()){
-			if(cardBtn.size() > 0){
-				int ID = btnToID.get(cardBtn.get(0));
-				Card card = GlobalDef.getActionCard().get(ID);
-				player.PlayCard(card);
-				if(ID == 2){
-					Stage.popScene();
+			int ID = 0;
+			Hashtable<Card, Integer> h = player.getCardHold();
+			Set<Card> set = h.keySet();
+			Iterator<Card> iter = set.iterator();
+			while(iter.hasNext()){
+				Card c = iter.next();
+				if(h.get(c) > 0){
+					ID = GlobalDef.getActionCardID().get(c);
+					player.PlayCard(c);
+					break;
 				}
 			}
 			
+			if(ID == 2){
+				Stage.popScene();
+			}
+			
+			int round = GameScreen.getRound();
+			round++;
+			GameScreen.setRound(round);
 			GameScreen.setIndex(0);
+			Stage.popScene();
+			
 		}
 		
 		if(!player.isAI()){

@@ -79,31 +79,34 @@ public class GatherScreen extends Scene2D {
 	}
 
 	public void load() {
-		if (player.getRace() == GlobalDef.Races.Egypt) {
-			strbackground = "egyptpopback.jpg";
-		} else if (player.getRace() == GlobalDef.Races.Greek) {
-			strbackground = "greekpopback.jpg";
-		}else if(player.getRace() == GlobalDef.Races.Norse){
-			strbackground = "norsepopback.jpg";
+		if(!player.isAI()){
+			if (player.getRace() == GlobalDef.Races.Egypt) {
+				strbackground = "egyptpopback.jpg";
+			} else if (player.getRace() == GlobalDef.Races.Greek) {
+				strbackground = "greekpopback.jpg";
+			}else if(player.getRace() == GlobalDef.Races.Norse){
+				strbackground = "norsepopback.jpg";
+			}
+
+			background = new ImageSprite(strbackground, Stage.getWidth() * 3 / 4
+					/ 2 - 175, Stage.getHeight() * 3 / 4 / 2 - 150, 350, 400);
+			add(background);
+
+			group = new Group(Stage.getWidth() * 3 / 4 / 2 - 175, Stage.getHeight()
+					* 3 / 4 / 2 - 150, 350, 400);
+
+			byRes = new Label("Gather by resource", 0, 0);
+			byRes.setLocation((350 - byRes.width.get()) / 2, 20);
+			byTerrain = new Label("Gather by terrain", 0, 0);
+			byTerrain.setLocation((350 - byTerrain.width.get()) / 2,
+					byRes.height.get() + 20);
+			resBtn = new Button[4];
+
+			totalresType = 4;
+			totalTerrainType = 6;
 		}
-
-		background = new ImageSprite(strbackground, Stage.getWidth() * 3 / 4
-				/ 2 - 175, Stage.getHeight() * 3 / 4 / 2 - 150, 350, 400);
-		add(background);
-
-		group = new Group(Stage.getWidth() * 3 / 4 / 2 - 175, Stage.getHeight()
-				* 3 / 4 / 2 - 150, 350, 400);
-
-		byRes = new Label("Gather by resource", 0, 0);
-		byRes.setLocation((350 - byRes.width.get()) / 2, 20);
-		byTerrain = new Label("Gather by terrain", 0, 0);
-		byTerrain.setLocation((350 - byTerrain.width.get()) / 2,
-				byRes.height.get() + 20);
-		resBtn = new Button[4];
-
-		totalresType = 4;
-		totalTerrainType = 6;
-
+		
+		
 		if (status == 1) {
 			// Form for resource choice
 			Group resForm = new Group(75, byRes.height.get()
@@ -192,13 +195,16 @@ public class GatherScreen extends Scene2D {
 			group.add(ok);
 		}
 
-		group.add(byRes);
-		group.add(byTerrain);
-		add(group);
+		if(!player.isAI()){
+			group.add(byRes);
+			group.add(byTerrain);
+			add(group);
+		}
 	}
 
 	@Override
 	public void update(int elapsedTime) {
+		
 		if(player.isAI()){
 			int[][] pArea = player.getGameBoard().getProductionOccupied();
 			for(int row = 0; row < 4; row++){
@@ -231,152 +237,156 @@ public class GatherScreen extends Scene2D {
 			}
 		}
 		
-		if (!finish) {
-			if (byRes.isMousePressed() && totalTerrainType != 0
-					&& totalresType != 0) {
-				status = 1;
-				load();
-			}
-		}
-
-		if (!finish) {
-			if (byTerrain.isMousePressed() && totalresType != 0
-					&& totalTerrainType != 0) {
-				status = 2;
-				load();
-
-			}
-		}
-
-		if (status == 1) {
-			// update picture and do background
-			for (int index = 0; index < 4; index++) {
-				if (!isResTypeAvailable(index))
-					resBtn[index].setImage(cubesImg[index + 10]);
-			}
-
-			// handle background
-			for (int index = 0; index < 4; index++) {
-				if (resBtn[index].isClicked() && isResTypeAvailable(index)
-						&& !finish) {
-					GlobalDef.Resources res = GlobalDef.getResourceMap().get(index);
-					
-					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
-					BuildGodPower(gatheredTable);
-					
-					if(RA){// God Power
-						RAPower(gatheredTable, res, null);
-					}
-					if(poseidon){
-						PosePower(gatheredTable);
-					}
-					if(dionysus){
-						DionysusPower(gatheredTable, res, null);
-					}
-					if(freyia){
-						FreyiaPower(gatheredTable);
-					}
-					// update bank
-					gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
-					// player resource pool
-					ResourceHandler.Add(player.getGameBoard().getHoldResource(),gatheredTable);
-					
-					// store each gathered resource
-					for (int i = 0; i < 4; i++) {
-						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
-					}
-					
-					Culture[] players = GameScreen.getPlayer();
-					if(!dionysus && !skadi){
-						// other players all gather
-						for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
-						{
-							if(!players[i].equals(player)){
-								gatheredTable = players[i].getGameBoard().Gather(true, res, null);
-								gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
-								// player resource pool
-								ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
-							}
-						}
-					}
-					finish = true;
+		if(!player.isAI()){
+			if (!finish) {
+				if (byRes.isMousePressed() && totalTerrainType != 0
+						&& totalresType != 0) {
+					status = 1;
 					load();
 				}
 			}
 
-		}
-
-		if (status == 2) {
-			// update picture and do background
-			for (int index = 0; index < 6; index++) {
-				if (!isTerrainAvailable(index))
-					terrainBtn[index].setImage(terrainImg[index + 12]);
-			}
-
-			// handle background
-			for (int index = 0; index < 6; index++) {
-				if (terrainBtn[index].isClicked() && isTerrainAvailable(index)
-						&& !finish) {
-					GlobalDef.Terrain terrainType = GlobalDef.getTerrainMap().get(index);
-					Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(false, null, terrainType);
-					BuildGodPower(gatheredTable);
-					
-					if(RA){// God Power
-						RAPower(gatheredTable, null, terrainType);
-					}
-					if(poseidon){
-						PosePower(gatheredTable);
-					}
-					if(dionysus){
-						DionysusPower(gatheredTable, null, terrainType);
-					}
-					if(freyia){
-						FreyiaPower(gatheredTable);
-					}
-					
-					// update bank
-					gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
-					// player resource pool
-					ResourceHandler.Add(player.getGameBoard().getHoldResource(), gatheredTable);
-
-					// store each gathered resource
-					for (int i = 0; i < 4; i++) {
-						resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
-					}
-					
-					Culture[] players = GameScreen.getPlayer();
-					if(!dionysus && !skadi){
-						// other players all gather
-						for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
-						{
-							if(!players[i].equals(player)){
-								gatheredTable = players[i].getGameBoard().Gather(false, null, terrainType);
-								gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
-								// player resource pool
-								ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
-							}
-						}
-					}
-					finish = true;
+			if (!finish) {
+				if (byTerrain.isMousePressed() && totalresType != 0
+						&& totalTerrainType != 0) {
+					status = 2;
 					load();
+
 				}
 			}
-		}
-
-		// if finish gather, disable all components
-		if (finish) {
 
 			if (status == 1) {
+				// update picture and do background
 				for (int index = 0; index < 4; index++) {
-					resBtn[index].setImage(cubesImg[index + 10]);
+					if (!isResTypeAvailable(index))
+						resBtn[index].setImage(cubesImg[index + 10]);
 				}
-			} else if (status == 2) {
+
+				// handle background
+				for (int index = 0; index < 4; index++) {
+					if (resBtn[index].isClicked() && isResTypeAvailable(index)
+							&& !finish) {
+						GlobalDef.Resources res = GlobalDef.getResourceMap().get(index);
+						
+						Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(true, res, null);
+						BuildGodPower(gatheredTable);
+						
+						if(RA){// God Power
+							RAPower(gatheredTable, res, null);
+						}
+						if(poseidon){
+							PosePower(gatheredTable);
+						}
+						if(dionysus){
+							DionysusPower(gatheredTable, res, null);
+						}
+						if(freyia){
+							FreyiaPower(gatheredTable);
+						}
+						// update bank
+						gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+						// player resource pool
+						ResourceHandler.Add(player.getGameBoard().getHoldResource(),gatheredTable);
+						
+						// store each gathered resource
+						for (int i = 0; i < 4; i++) {
+							resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
+						}
+						
+						Culture[] players = GameScreen.getPlayer();
+						if(!dionysus && !skadi){
+							// other players all gather
+							for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
+							{
+								if(!players[i].equals(player)){
+									gatheredTable = players[i].getGameBoard().Gather(true, res, null);
+									gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+									// player resource pool
+									ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+								}
+							}
+						}
+						finish = true;
+						load();
+					}
+				}
+
+			}
+
+			if (status == 2) {
+				// update picture and do background
 				for (int index = 0; index < 6; index++) {
-					terrainBtn[index].setImage(terrainImg[index + 12]);
+					if (!isTerrainAvailable(index))
+						terrainBtn[index].setImage(terrainImg[index + 12]);
+				}
+
+				// handle background
+				for (int index = 0; index < 6; index++) {
+					if (terrainBtn[index].isClicked() && isTerrainAvailable(index)
+							&& !finish) {
+						GlobalDef.Terrain terrainType = GlobalDef.getTerrainMap().get(index);
+						Hashtable<GlobalDef.Resources, Integer> gatheredTable = player.getGameBoard().Gather(false, null, terrainType);
+						BuildGodPower(gatheredTable);
+						
+						if(RA){// God Power
+							RAPower(gatheredTable, null, terrainType);
+						}
+						if(poseidon){
+							PosePower(gatheredTable);
+						}
+						if(dionysus){
+							DionysusPower(gatheredTable, null, terrainType);
+						}
+						if(freyia){
+							FreyiaPower(gatheredTable);
+						}
+						
+						// update bank
+						gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+						// player resource pool
+						ResourceHandler.Add(player.getGameBoard().getHoldResource(), gatheredTable);
+
+						// store each gathered resource
+						for (int i = 0; i < 4; i++) {
+							resGathered[i] = gatheredTable.get(GlobalDef.getResourceMap().get(i));
+						}
+						
+						Culture[] players = GameScreen.getPlayer();
+						if(!dionysus && !skadi){
+							// other players all gather
+							for(int i = 0; i < GameScreen.getNumOfPlayers(); i++)
+							{
+								if(!players[i].equals(player)){
+									gatheredTable = players[i].getGameBoard().Gather(false, null, terrainType);
+									gatheredTable = ResourceHandler.Delete(Bank.getInstance().getResourcePool(), gatheredTable);
+									// player resource pool
+									ResourceHandler.Add(players[i].getGameBoard().getHoldResource(),gatheredTable);
+								}
+							}
+						}
+						finish = true;
+						load();
+					}
 				}
 			}
-		}
 
+			// if finish gather, disable all components
+			if (finish) {
+
+				if (status == 1) {
+					for (int index = 0; index < 4; index++) {
+						resBtn[index].setImage(cubesImg[index + 10]);
+					}
+				} else if (status == 2) {
+					for (int index = 0; index < 6; index++) {
+						terrainBtn[index].setImage(terrainImg[index + 12]);
+					}
+				}
+			}
+
+		}
+		
+		
 		// do background
 		if (finish) {
 			if (ok.isMousePressed()) {

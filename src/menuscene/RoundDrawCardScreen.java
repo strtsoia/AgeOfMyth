@@ -115,45 +115,66 @@ public class RoundDrawCardScreen extends Scene2D{
 	public void update(int elapsedTime) 
 	{
 		int ID;
-		
-		for(int row = 0; row < 2; row++)
-			for(int col = 0; col < 4; col++){
-				ID = row * 4 + col;
-				
-				// handle drawing part
-				if(numOfCard == 0){	// no more cards can draw
-					cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
-				}
-				if(selRandomCard){	// only want to select random
-					if(ID < 7)
-						cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
-				}
-				if(ID < 7 && !selRandomCard){	// select action but card not available
-					if(!isActionCardAvailable(ID)){
-						cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
-					}
-				}
-				
-				if(ID < 7 && !selRandomCard){ // action card
-					// select this card
-					if(cardBtn[row][col].isClicked() && numOfCard > 0 && isActionCardAvailable(ID)){
-						Card card = GlobalDef.getActionCard().get(ID);
-						System.out.println("ID is: " + ID);
-						player.DrawCard(card);
-						numOfCard--;
-						avaCardLabel.setFormatArg(numOfCard);
-					}
-				}
-				
-				if(ID == 7 && numOfCard > 0){ // randomly get random card
-					if(cardBtn[row][col].isClicked()){
-						Card card = getRandomCard();
-						player.DrawCard(card);
-						numOfCard--;
-						avaCardLabel.setFormatArg(numOfCard);
-					}			
+		if(player.isAI()){
+			Random r = new Random();System.out.println("numOfCard is: " + numOfCard);
+			while(numOfCard != 0)
+			{
+				ID = r.nextInt(7);
+				System.out.println("ID is: " + ID);
+				if(isActionCardAvailable(ID) && ID != 0){
+					Card card = GlobalDef.getActionCard().get(ID);
+					player.DrawCard(card);
+					numOfCard--;
+					avaCardLabel.setFormatArg(numOfCard);
 				}
 			}
+			
+			RoundVictoryScreen rvScreen = new RoundVictoryScreen();
+			rvScreen.Init(player);
+			System.out.println("round card");
+			Stage.replaceScene(rvScreen);
+		}
+		else if(!player.isAI()){
+			for(int row = 0; row < 2; row++)
+				for(int col = 0; col < 4; col++){
+					ID = row * 4 + col;
+					
+					// handle drawing part
+					if(numOfCard == 0){	// no more cards can draw
+						cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
+					}
+					if(selRandomCard){	// only want to select random
+						if(ID < 7)
+							cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
+					}
+					if(ID < 7 && !selRandomCard){	// select action but card not available
+						if(!isActionCardAvailable(ID)){
+							cardBtn[row][col].setImage(cardImg[row * 12 + col + 8]);
+						}
+					}
+					
+					if(ID < 7 && !selRandomCard){ // action card
+						// select this card
+						if(cardBtn[row][col].isClicked() && numOfCard > 0 && isActionCardAvailable(ID)){
+							Card card = GlobalDef.getActionCard().get(ID);
+							System.out.println("ID is: " + ID);
+							player.DrawCard(card);
+							numOfCard--;
+							avaCardLabel.setFormatArg(numOfCard);
+						}
+					}
+					
+					if(ID == 7 && numOfCard > 0){ // randomly get random card
+						if(cardBtn[row][col].isClicked()){
+							Card card = getRandomCard();
+							player.DrawCard(card);
+							numOfCard--;
+							avaCardLabel.setFormatArg(numOfCard);
+						}			
+					}
+				}
+		}
+		
 			
 		if(finishActSelLable.isMousePressed() && !selRandomCard)
 		{

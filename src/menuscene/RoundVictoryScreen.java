@@ -1,5 +1,7 @@
 package menuscene;
 
+import java.util.Random;
+
 import global.GlobalDef;
 import pulpcore.Stage;
 import pulpcore.scene.Scene2D;
@@ -84,54 +86,74 @@ public class RoundVictoryScreen extends Scene2D{
 		for(int index = 0; index < 4; index++)
 			this.vicNumLabel[index].setFormatArg(Bank.getInstance().getVpcOnCards().get(index));
 		
-		if(!selFinish){
-			for(int index = 0; index < 4; index++)
-			{
-				if(this.vicBtn[index].isClicked() && vicNumber > 0)
+		if(player.isAI()){
+			Random r = new Random();
+			int index = r.nextInt(4);
+			// minus victory point cube from bank
+			int number = Bank.getInstance().getResourcePool().get(res);
+			number--;
+			Bank.getInstance().getResourcePool().put(res, number);
+			
+			// add victory point to selected card
+			int n = Bank.getInstance().getVpcOnCards().get(index);
+			n++;
+			Bank.getInstance().getVpcOnCards().put(index, n);
+			
+			GameScreen.setduringTurn(false);
+			GameScreen.setIndex(0);
+			Stage.popScene();
+			//GameScreen.setInitVicPointOver(true);
+		}else if(!player.isAI()){
+			if(!selFinish){
+				for(int index = 0; index < 4; index++)
 				{
-					// minus victory point cube from bank
-					int number = Bank.getInstance().getResourcePool().get(res);
-					number--;
-					Bank.getInstance().getResourcePool().put(res, number);
-					
-					// add victory point to selected card
-					int n = Bank.getInstance().getVpcOnCards().get(index);
-					n++;
-					Bank.getInstance().getVpcOnCards().put(index, n);
-					
-					selFinish = true;
-					ok.setLocation((400 - ok.width.get()) / 2, 200);
-					this.cardGroup.add(ok);
+					if(this.vicBtn[index].isClicked() && vicNumber > 0)
+					{
+						// minus victory point cube from bank
+						int number = Bank.getInstance().getResourcePool().get(res);
+						number--;
+						Bank.getInstance().getResourcePool().put(res, number);
+						
+						// add victory point to selected card
+						int n = Bank.getInstance().getVpcOnCards().get(index);
+						n++;
+						Bank.getInstance().getVpcOnCards().put(index, n);
+						
+						selFinish = true;
+						ok.setLocation((400 - ok.width.get()) / 2, 200);
+						this.cardGroup.add(ok);
+					}
 				}
 			}
-		}
+				
+			if(selFinish){
+					for(int index = 0; index < 4; index++)
+						this.vicBtn[index].setImage(this.victoryImg[index + 8]);
+				
+			}
 			
-		if(selFinish){
-				for(int index = 0; index < 4; index++)
-					this.vicBtn[index].setImage(this.victoryImg[index + 8]);
-			
+			if(ok.isMousePressed()){
+				time++;
+				int index = GameScreen.getIndex();
+				index++;
+				index = index % GameScreen.getNumOfPlayers();
+				GameScreen.setIndex(index);
+				if(time == GameScreen.getNumOfPlayers() || time == 3){
+					GameScreen.setduringTurn(false);
+					if(GameScreen.getNumOfPlayers() < 4)
+						index = GameScreen.getIndex() - GameScreen.getNumOfPlayers();
+					else
+						index = GameScreen.getIndex() - 3;
+					
+					if(index < 0)
+						index = index + GameScreen.getNumOfPlayers();
+					GameScreen.setIndex(index);
+					time = 0;
+				}
+				Stage.popScene();
+			}
 		}
 		
-		if(ok.isMousePressed()){
-			time++;
-			int index = GameScreen.getIndex();
-			index++;
-			index = index % GameScreen.getNumOfPlayers();
-			GameScreen.setIndex(index);
-			if(time == GameScreen.getNumOfPlayers() || time == 3){
-				GameScreen.setduringTurn(false);
-				if(GameScreen.getNumOfPlayers() < 4)
-					index = GameScreen.getIndex() - GameScreen.getNumOfPlayers();
-				else
-					index = GameScreen.getIndex() - 3;
-				
-				if(index < 0)
-					index = index + GameScreen.getNumOfPlayers();
-				GameScreen.setIndex(index);
-				time = 0;
-			}
-			Stage.popScene();
-		}
 		
 	}
 }

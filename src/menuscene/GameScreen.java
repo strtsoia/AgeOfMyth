@@ -214,6 +214,8 @@ public class GameScreen extends Scene2D {
 			if(!duringTurn){
 				round = 0;
 				duringTurn = true;
+				if(numOfPlayers == 2)
+					index = 0;
 			}
 			
 		}
@@ -466,15 +468,15 @@ public class GameScreen extends Scene2D {
 		if(finishBtn.isClicked()){
 			index++;
 			
-			if(player[index].isAI()){
+			index = index % numOfPlayers;
+			
+			if(numOfPlayers == 2){
 				PlayCardScreen pcScreen = new PlayCardScreen();
 				System.out.println("AI do");
-				pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
+				pcScreen.Init(player[1], this.cardButton, this.cardBtnToID, false);
 				Stage.pushScene(pcScreen);
-				round++;
 			}
 			
-			index = index % numOfPlayers;
 			if(index == startPlayer){
 				/*startPlayer++;
 				startPlayer = startPlayer % numOfPlayers;*/
@@ -491,7 +493,8 @@ public class GameScreen extends Scene2D {
 		}
 		
 		if(Input.isPressed(Input.KEY_0)){
-			Save(this);
+			index++;
+			index = index % numOfPlayers;
 		}
 	}
 
@@ -615,5 +618,15 @@ public class GameScreen extends Scene2D {
 		//xStreamManager.Save(g);
 		
 	}
+
+	public static int getRound() {
+		return round;
+	}
+
+	public static void setRound(int round) {
+		GameScreen.round = round;
+	}
+	
+	
 	
 }

@@ -97,20 +97,39 @@ public class DiscardCardScreen extends Scene2D{
 			Stage.replaceScene(rdcScreen);
 		}
 		
-		for(int index = 0; index < cardBtn.size(); index++){
-			if(cardBtn.get(index).isClicked()){
+		if(player.isAI()){
+			for(int index = 0; index < cardBtn.size(); index++)
+			{
 				int ID = btnToID.get(cardBtn.get(index));	// card ID
-					if(ID < 7){
-						cardForm.remove(cardBtn.get(index));
-						Card card = GlobalDef.getActionCard().get(ID);
-						player.DiscardCard(card);
-					}else{// random card
-						cardForm.remove(cardBtn.get(index));
-						Card card = getRandomCardMap().get(ID);
-						player.DiscardCard(card);
-					}
+				if(ID < 7){
+					cardForm.remove(cardBtn.get(index));
+					Card card = GlobalDef.getActionCard().get(ID);
+					player.DiscardCard(card);
+				}
+			}
+			RoundDrawCardScreen rdcScreen = new RoundDrawCardScreen();
+			rdcScreen.Init(player);
+			System.out.println("discard");
+			Stage.replaceScene(rdcScreen);
+		}
+		
+		else if(!player.isAI()){
+			for(int index = 0; index < cardBtn.size(); index++){
+				if(cardBtn.get(index).isClicked()){
+					int ID = btnToID.get(cardBtn.get(index));	// card ID
+						if(ID < 7){
+							cardForm.remove(cardBtn.get(index));
+							Card card = GlobalDef.getActionCard().get(ID);
+							player.DiscardCard(card);
+						}else{// random card
+							cardForm.remove(cardBtn.get(index));
+							Card card = getRandomCardMap().get(ID);
+							player.DiscardCard(card);
+						}
+				}
 			}
 		}
+		
 	}
 	
 	// get proper random card map

@@ -106,11 +106,12 @@ public class InitialCardScreen extends Scene2D{
 		int ID;
 		
 		if(player.isAI()){
-			Random r = new Random();
-			for(int index = 0; index < numOfCard; index++)
+			Random r = new Random();System.out.println("numOfCard is: " + numOfCard);
+			while(numOfCard != 0)
 			{
 				ID = r.nextInt(7);
-				if(isActionCardAvailable(ID)){
+				System.out.println("ID is: " + ID);
+				if(isActionCardAvailable(ID) && ID != 0){
 					Card card = GlobalDef.getActionCard().get(ID);
 					player.DrawCard(card);
 					numOfCard--;
