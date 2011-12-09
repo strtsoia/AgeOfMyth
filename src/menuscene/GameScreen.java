@@ -90,10 +90,12 @@ public class GameScreen extends Scene2D {
 	GlobalDef.Races[] playerRace;
 	
 	static boolean initPTileOver = false;
-	boolean startPTileInit = false;
+	static boolean startPTileInit = false;
 	static boolean initCardOver = false;
 	static boolean initVicPointOver = false;
+	boolean init = true;
 	boolean lock = false;
+	static int numOfTiles;
 	
 	InitExploreScreen initEScreen;
 	
@@ -331,7 +333,12 @@ public class GameScreen extends Scene2D {
 		if(!startPTileInit){
 			startPTileInit = true;
 			initEScreen = new InitExploreScreen();
-			initEScreen.GenerateRomdomTiles(6);
+			if(init){
+				initEScreen.GenerateRomdomTiles(6);
+				init = false;
+			}else{
+				initEScreen.GenerateRomdomTiles(numOfTiles);
+			}
 		}
 		
 		if(!initPTileOver){
@@ -581,6 +588,14 @@ public class GameScreen extends Scene2D {
 			return GlobalDef.getNorseCardID();
 	}
 	
+	public static void setStartPTileInit(boolean startPTileInit) {
+		GameScreen.startPTileInit = startPTileInit;
+	}
+
+	public static void setNumOfTiles(int numOfTiles) {
+		GameScreen.numOfTiles = numOfTiles;
+	}
+
 	private void Save(GameScreen g)
 	{
 		//XmlManager xStreamManager = XmlManager.GetInstance();

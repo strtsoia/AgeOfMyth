@@ -120,7 +120,11 @@ public class RoundVictoryScreen extends Scene2D{
 			GameScreen.setIndex(index);
 			if(time == GameScreen.getNumOfPlayers() || time == 3){
 				GameScreen.setduringTurn(false);
-				index = GameScreen.getIndex() - 3;
+				if(GameScreen.getNumOfPlayers() < 4)
+					index = GameScreen.getIndex() - GameScreen.getNumOfPlayers();
+				else
+					index = GameScreen.getIndex() - 3;
+				
 				if(index < 0)
 					index = index + GameScreen.getNumOfPlayers();
 				GameScreen.setIndex(index);

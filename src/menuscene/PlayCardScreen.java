@@ -83,10 +83,14 @@ public class PlayCardScreen extends Scene2D{
 					if(ID < 7){
 						Card card = GlobalDef.getActionCard().get(ID);
 						player.PlayCard(card);
+						if(ID == 2){
+							Stage.popScene();
+						}
 					}else{
 						Card card = getCard().get(ID);
 						player.PlayCard(card);
 					}
+					//Stage.popScene();
 				}			
 			}
 		}

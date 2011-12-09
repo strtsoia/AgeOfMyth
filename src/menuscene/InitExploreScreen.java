@@ -27,14 +27,17 @@ public class InitExploreScreen extends Scene2D {
 	
 	Group resForm;
 	Culture player;
+	static int times = 0;
 	
 	// how many tiles should be randomly draw from pool
 	public void Init(Culture c) {
-		player = c;
+		player = c;	
 	}
 	
 	public void GenerateRomdomTiles(int n)
 	{
+		randomTile.clear();
+		
 		Random r = new Random();
 		int[] tileID = new int[20];
 		for (int i = 0; i < 20; i++)
@@ -90,13 +93,17 @@ public class InitExploreScreen extends Scene2D {
 					// do background update
 					ResProduceTile tile = GlobalDef.getTileMap().get(ID);
 					player.getGameBoard().Explore(tile, ID);
+					
 					// switch players
 					int index = GameScreen.getIndex();
 					index++;
 					index = index % GameScreen.getNumOfPlayers();
+					times++;
 					GameScreen.setIndex(index);
-					if(index == GameScreen.getStartPlayer())
+					if(times == GameScreen.getNumOfPlayers()){
 						GameScreen.setInitPTileOver(true);
+						times = 0;
+					}
 					Stage.popScene();
 				}
 			}
