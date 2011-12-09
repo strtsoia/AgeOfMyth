@@ -16,7 +16,7 @@ public class CultureScreen extends Scene2D {
 
 
 	ImageSprite[] cubes = new ImageSprite[4];
-	Label click;
+	Label click, click1;
 
 	
 	private int xPos = Stage.getWidth() / 2;
@@ -28,7 +28,7 @@ public class CultureScreen extends Scene2D {
 	private boolean hit;
 	// get number of players
 	
-	int playerNumber = PlayerScreen.getNumber();
+	static int playerNumber = PlayerScreen.getNumber();
 	
 	ArrayList<Integer> sequence = new ArrayList<Integer>();
 	
@@ -50,14 +50,14 @@ public class CultureScreen extends Scene2D {
 		cubes[2] = new ImageSprite("/resource/favor.jpg", xPos, yPos);
 		cubes[3] = new ImageSprite("/resource/gold.jpg", xPos, yPos);
 
-		click = new Label("Click Me To Get Culture", xPos - 100,
+		
+		click = new Label("Click here to get your Culture", xPos - 100,
 				yPos + 100);
 		labelWidth = click.width.get();
-
 		add(new FilledSprite(WHITE));
 		add(cubes[3]);
 		add(click);
-
+		
 		for (int i = 0; i < playerNumber; i++) {
 			sequence.add(i % 3);
 		}
@@ -101,7 +101,16 @@ public class CultureScreen extends Scene2D {
 
 				hit = false;
 			}
-
+			
+			if (index == playerNumber) {
+				click1 = new Label("Loading. Please Wait .....", xPos - 100,
+						yPos + 100);
+				labelWidth = click1.width.get();
+				remove(click);
+				remove(cubes[3]);
+				add(click1);
+			}
+			
 		}
 
 	}

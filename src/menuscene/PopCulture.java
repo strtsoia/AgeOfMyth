@@ -14,6 +14,7 @@ public class PopCulture extends Scene2D {
 	
 	Label ok;
 	boolean hit = false;
+	static int playerNum = 0;
 	
 	GlobalDef.Races race;
 
@@ -25,19 +26,18 @@ public class PopCulture extends Scene2D {
 		int xPos = Stage.getWidth() / 2;
 		int yPos = Stage.getHeight() / 2;
 
+		
 		//CoreFont font = CoreFont.load("serif.font.png").tint(Colors.BLACK);
-		Label message = new Label("You get culture " + race, 0, 0);
+		Label message = new Label("Player " + ++playerNum +" gets culture : " + race, 0, 0);
 		message.setLocation(
 				(CultureScreen.getLableWidth() - message.width.get()) / 2, 0);
-		ok = new Label("Next One", 0, 0);
+		ok = new Label("Click here for next Player's Culture", 0, 0);
 		ok.setLocation((CultureScreen.getLableWidth() - ok.width.get()) / 2,
 				100 - ok.height.get());
 
 		form = new Group(xPos - 100, yPos + 150, CultureScreen.getLableWidth(),
 				100);
-		form.add(new StretchableSprite("border.9.png", 0, 0, CultureScreen
-				.getLableWidth(), 100));
-
+		//form.add(new StretchableSprite("border.9.png", 0, 0, CultureScreen.getLableWidth(), 100));
 		form.add(message);
 		form.add(ok);
 		add(form);

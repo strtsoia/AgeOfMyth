@@ -203,8 +203,8 @@ public class BattleRoundScreen extends Scene2D{
 		defDiceLabel.setFormatArg(defenderRolls);
 		group.add(defDiceLabel);
 		
-		attSixersLabel = new Label(bgFont, "Attacker gets %d sixers", 10, 175);
-		defSixersLabel = new Label(bgFont, "Defender gets %d sixers", 470, 175);
+		attSixersLabel = new Label(bgFont, "Attacker gets %d sixes", 10, 175);
+		defSixersLabel = new Label(bgFont, "Defender gets %d sixes", 470, 175);
 		rollingMsg = new Label(bgFont, "", 0, 0);
 		msg = new Label(bgFont, "", 0, 0);
 		ok = new Label(bgFont, "OK", 0, 0);

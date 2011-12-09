@@ -177,7 +177,7 @@ public class BattleScreen extends Scene2D {
 		// attacker wins the whole battle
 		if(attackerUnitBtn.size() > 0 && defenderUnitBtn.size() == 0)
 		{
-			battleOver.setText("Attacker wins battle");
+			battleOver.setText("Attacker : Player " + attacker.getPlayerID() + " wins battle");
 			battleOver.setLocation((150 - battleOver.width.get()) / 2, 550);
 			middleGroup.add(battleOver);
 			
@@ -202,7 +202,7 @@ public class BattleScreen extends Scene2D {
 			}
 		}else if(attackerUnitBtn.size() == 0 && defenderUnitBtn.size() > 0)
 		{
-			battleOver.setText("Defender wins battle");
+			battleOver.setText("Defender : Player " + defender.getPlayerID() + " wins battle");
 			battleOver.setLocation((150 - battleOver.width.get()) / 2, 550);
 			middleGroup.add(battleOver);
 			

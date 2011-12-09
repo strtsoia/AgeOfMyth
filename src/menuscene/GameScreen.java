@@ -1,27 +1,31 @@
 package menuscene;
 
 import global.GlobalDef;
-import battlecard.*;
-import building.StoreHouse;
-import component.Culture;
-import actioncard.*;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.thoughtworks.xstream.XStream;
+
+import pulpcore.Input;
 import pulpcore.Stage;
 import pulpcore.image.CoreImage;
 import pulpcore.scene.Scene2D;
-import pulpcore.sprite.ImageSprite;
+import pulpcore.sound.Sound;
+import pulpcore.sprite.Button;
 import pulpcore.sprite.Group;
+import pulpcore.sprite.ImageSprite;
 import pulpcore.sprite.Label;
-
 import settings.Bank;
-import settings.XmlManager;
 import sound.SoundManager;
 import utility.ResourceHandler;
+import actioncard.Card;
+import battlecard.BattleCard;
+import building.StoreHouse;
 
-import java.util.*;
-import pulpcore.sprite.Button;
-import pulpcore.sound.*;
-import pulpcore.Input;
+import component.Culture;
 
 public class GameScreen extends Scene2D {
 
@@ -96,6 +100,7 @@ public class GameScreen extends Scene2D {
 	boolean lock = false;
 	
 	InitExploreScreen initEScreen;
+	XStream xstream = new XStream();
 	
 	
 	// Initialize here
@@ -585,7 +590,8 @@ public class GameScreen extends Scene2D {
 	{
 		//XmlManager xStreamManager = XmlManager.GetInstance();
 		//xStreamManager.Save(g);
-		
+		xstream.alias("game", GameScreen.class);
+		String xml = xstream.toXML(g);
 	}
 	
 }

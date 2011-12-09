@@ -3,6 +3,7 @@ package global;
 import java.util.Hashtable;
 import building.*;
 import randomcard.*;
+import randomcard.RandomTrade;
 import tile.*;
 import battlecard.*;
 import actioncard.*;
