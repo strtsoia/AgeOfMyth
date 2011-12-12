@@ -279,18 +279,35 @@ public class BattleScreen extends Scene2D {
 					Retreat();
 				}
 				
-				for (int index = 0; index < defenderUnitBtn.size(); index++) {
-					if (defenderUnitBtn.get(index).isClicked()) {
-						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+				if(defender.isAI()){
+					if(defenderUnitBtn.size() > 0){
+						int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(0));
 						this.defRoundID = ID;
 						int row = ID / 4; int col = ID % 4;
-						defenderUnitBtn.get(index).setImage(
+						defenderUnitBtn.get(0).setImage(
 								defenderBattleCardImg[row * 12 + col + 8]);
 						defImg = new ImageSprite(
 								defenderBattleCardImg[row * 12 + col + 4], 0, 225);
 						defenderGroup.add(defImg);
 						finish = true;
 						defenderRetreatBtn.setImage(retreatImg[2]);
+						
+					}
+					
+				}else if(!defender.isAI()){
+					for (int index = 0; index < defenderUnitBtn.size(); index++) {
+						if (defenderUnitBtn.get(index).isClicked()) {
+							int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(index));
+							this.defRoundID = ID;
+							int row = ID / 4; int col = ID % 4;
+							defenderUnitBtn.get(index).setImage(
+									defenderBattleCardImg[row * 12 + col + 8]);
+							defImg = new ImageSprite(
+									defenderBattleCardImg[row * 12 + col + 4], 0, 225);
+							defenderGroup.add(defImg);
+							finish = true;
+							defenderRetreatBtn.setImage(retreatImg[2]);
+						}
 					}
 				}
 			}

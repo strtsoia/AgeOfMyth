@@ -62,6 +62,7 @@ public class BattleRoundScreen extends Scene2D{
 	static boolean cyclopsThrowing;
 	static boolean berserk;
 	boolean brag;
+	boolean AIover;
 	
 	public void Init(Culture attacker, Culture defender, BattleCard attackerUnit, BattleCard defenderUnit, int attID, int defID,
 			ImageSprite attImg, ImageSprite defImg, boolean brag)
@@ -73,6 +74,7 @@ public class BattleRoundScreen extends Scene2D{
 		cyclopsThrowing = false;
 		berserk = false;
 		negWT = true;
+		AIover = false;
 		this.brag = brag;
 		attSixers = 0;
 		defSixers = 0;
@@ -265,12 +267,12 @@ public class BattleRoundScreen extends Scene2D{
 				this.attSixersLabel.setFormatArg(attSixers);
 				group.add(attSixersLabel);
 				attackRound = false;
+				AIover = false;
 			}
-		}else if(!attackRound){
+		}else if(!attackRound && !AIover){
 			this.rollingMsg.setText("Defender rolls Dice");
 			
-			// generate how many sixers for attacker
-			if(dice.isMousePressed()){
+			if(defender.isAI()){
 				for (int time = 0; time < defenderRolls; time++) {
 					Random r = new Random();
 					int number = r.nextInt(6);
@@ -281,9 +283,27 @@ public class BattleRoundScreen extends Scene2D{
 				
 				this.defSixersLabel.setFormatArg(defSixers);
 				group.add(defSixersLabel);
+				AIover = true;
 				rolling = false;
 				finishRound = true;
+			}else if(!defender.isAI()){
+				// generate how many sixers for defender
+				if(dice.isMousePressed()){
+					for (int time = 0; time < defenderRolls; time++) {
+						Random r = new Random();
+						int number = r.nextInt(6);
+						if (number == 5) {
+							defSixers++;
+						}
+					}
+					
+					this.defSixersLabel.setFormatArg(defSixers);
+					group.add(defSixersLabel);
+					rolling = false;
+					finishRound = true;
+				}
 			}
+			
 		}
 		
 		// both sides roll dices, determine which side win
