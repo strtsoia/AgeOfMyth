@@ -467,9 +467,28 @@ public class PreBattleScreen extends Scene2D {
 						defenderUnitBtn.get(index).setImage(
 								defenderBattleCardImg[row * 12 + col + 8]);
 					}
-				} else { // some type of units may be not available, then
+				} else if(defenderSideChoice){ // some type of units may be not available, then
 							// disable this button
-					for (int index = 0; index < defenderUnitBtn.size(); index++) {
+					if(players[opponent].isAI()){
+						if(defenderUnitBtn.size() > 0){
+							int ID = defenderBtnMapUnitID.get(defenderUnitBtn.get(0));
+							defenderUnitsID.add(ID);
+							Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent].getRace());
+							BattleCard bCard = table.get(ID);
+							Hashtable<BattleCard, Integer> unitTable = players[opponent]
+									.getGameBoard().getHoldingUnits();
+							int number = unitTable.get(bCard);
+							if (number > 0) {
+								players[opponent].getGameBoard()
+										.RemoveUnits(ID);
+								defAddUnits++;
+								defenderUnits.add(table.get(ID));
+							}
+							bothFinish = true;
+						}
+						
+					}else if(!players[opponent].isAI()){
+						for (int index = 0; index < defenderUnitBtn.size(); index++) {
 						int ID = defenderBtnMapUnitID.get(defenderUnitBtn
 								.get(index));
 						int row = ID / 4;
@@ -482,36 +501,38 @@ public class PreBattleScreen extends Scene2D {
 								.get(bCard) == 0)
 							defenderUnitBtn.get(index).setImage(
 									defenderBattleCardImg[row * 12 + col + 8]);
-					}
-				}
+						}
+						
+						// background operation of defender side
+						if (defenderSideChoice && defAddUnits < maxUnits) {
+							for (int index = 0; index < defenderUnitBtn.size(); index++) {
+								if (defenderUnitBtn.get(index).isClicked()) {
+									int ID = defenderBtnMapUnitID.get(defenderUnitBtn
+											.get(index));
+									defenderUnitsID.add(ID);
+									Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent]
+											.getRace());
 
-				// background operation of defender side
-				if (defenderSideChoice && defAddUnits < maxUnits) {
-					for (int index = 0; index < defenderUnitBtn.size(); index++) {
-						if (defenderUnitBtn.get(index).isClicked()) {
-							System.out.println("two");
-							int ID = defenderBtnMapUnitID.get(defenderUnitBtn
-									.get(index));
-							defenderUnitsID.add(ID);
-							Hashtable<Integer, BattleCard> table = getUnitMap(players[opponent]
-									.getRace());
-
-							BattleCard bCard = table.get(ID);
-							Hashtable<BattleCard, Integer> unitTable = players[opponent]
-									.getGameBoard().getHoldingUnits();
-							int number = unitTable.get(bCard);
-							if (number > 0) {
-								players[opponent].getGameBoard()
-										.RemoveUnits(ID);
-								defAddUnits++;
-								defenderUnits.add(table.get(ID));
+									BattleCard bCard = table.get(ID);
+									Hashtable<BattleCard, Integer> unitTable = players[opponent]
+											.getGameBoard().getHoldingUnits();
+									int number = unitTable.get(bCard);
+									if (number > 0) {
+										players[opponent].getGameBoard()
+												.RemoveUnits(ID);
+										defAddUnits++;
+										defenderUnits.add(table.get(ID));
+									}
+								}
+							}
+							if (defAddUnits == maxUnits) {
+								bothFinish = true;
 							}
 						}
 					}
-					if (defAddUnits == maxUnits) {
-						bothFinish = true;
-					}
+					
 				}
+
 			} else if (bothFinish) {
 				// then go to battle screen
 				BattleScreen bScreen = new BattleScreen();
