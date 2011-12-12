@@ -14,7 +14,6 @@ import pulpcore.sprite.Group;
 import pulpcore.sprite.Label;
 
 import settings.Bank;
-import settings.XmlManager;
 import sound.SoundManager;
 import utility.ResourceHandler;
 
@@ -94,7 +93,6 @@ public class GameScreen extends Scene2D {
 	static boolean initCardOver = false;
 	static boolean initVicPointOver = false;
 	boolean init = true;
-	boolean lock = false;
 	static int numOfTiles;
 	
 	InitExploreScreen initEScreen;
@@ -106,7 +104,12 @@ public class GameScreen extends Scene2D {
 		Bank.getInstance();
 
 		numOfPlayers = PlayerScreen.getNumber();
+		if(numOfPlayers == 1){
+			numOfPlayers = 2;
+			System.out.println("number of player is: " + numOfPlayers);
+		}
 		player = new Culture[numOfPlayers];
+		
 		
 		playerRace = CultureScreen.getPlayerCulture(); // create each players
 		for(int i = 0; i < numOfPlayers; i++) 
@@ -195,9 +198,8 @@ public class GameScreen extends Scene2D {
 		cardButton = new ArrayList<Button>();
 		cardBtnToID = new Hashtable<Button, Integer>();
 		
-		if(numOfPlayers == 2){
+		if(PlayerScreen.getNumber() == 1)
 			player[1].setAI(true);
-		}
 	}
 
 	public void update(int elapsedTime) {
@@ -449,19 +451,17 @@ public class GameScreen extends Scene2D {
 		}
 		
 		// if play card button is pressed
-		if(playBtn.isClicked() && !lock){
+		if(playBtn.isClicked()){
 			PlayCardScreen pcScreen = new PlayCardScreen();
 			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
 			Stage.pushScene(pcScreen);		
-			lock = true;
 		}
 		
 		// if burn card button is pressed
-		if(burnBtn.isClicked() && !lock){
+		if(burnBtn.isClicked()){
 			PlayCardScreen pcScreen = new PlayCardScreen();
 			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, true);
 			Stage.pushScene(pcScreen);	
-			lock = true;
 		}
 		
 		// if finish turn button is pressed
@@ -470,7 +470,7 @@ public class GameScreen extends Scene2D {
 			
 			index = index % numOfPlayers;
 			
-			if(numOfPlayers == 2){
+			if(PlayerScreen.getNumber() == 1){
 				PlayCardScreen pcScreen = new PlayCardScreen();
 				System.out.println("AI do");
 				pcScreen.Init(player[1], this.cardButton, this.cardBtnToID, false);
@@ -483,7 +483,6 @@ public class GameScreen extends Scene2D {
 				round++;
 				System.out.println(round);
 			}
-			lock = false;
 		}
 		
 		if(Input.isPressed(Input.KEY_D)){

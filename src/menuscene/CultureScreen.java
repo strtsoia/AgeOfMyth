@@ -28,17 +28,15 @@ public class CultureScreen extends Scene2D {
 	private boolean hit;
 	// get number of players
 	
-	int playerNumber = PlayerScreen.getNumber();
+	static int playerNumber = PlayerScreen.getNumber();
 	
 	ArrayList<Integer> sequence = new ArrayList<Integer>();
+	
+	private static GlobalDef.Races[] playerCulture;
 	
 	Random random = new Random();
 	
 	int index = 0;
-
-	// store culture of each player
-	private static GlobalDef.Races[] playerCulture = new GlobalDef.Races[PlayerScreen
-			.getNumber()];
 
 	public static double getLableWidth() {
 		return labelWidth;
@@ -50,14 +48,18 @@ public class CultureScreen extends Scene2D {
 		cubes[2] = new ImageSprite("/resource/favor.jpg", xPos, yPos);
 		cubes[3] = new ImageSprite("/resource/gold.jpg", xPos, yPos);
 
-		click = new Label("Click Me To Get Culture", xPos - 100,
-				yPos + 100);
+		click = new Label("Click Me To Get Culture", xPos - 100, yPos + 100);
 		labelWidth = click.width.get();
 
 		add(new FilledSprite(WHITE));
 		add(cubes[3]);
 		add(click);
-
+		
+		if(playerNumber == 1)
+			playerNumber = 2;
+		// store culture of each player
+		playerCulture = new GlobalDef.Races[playerNumber];
+		
 		for (int i = 0; i < playerNumber; i++) {
 			sequence.add(i % 3);
 		}
@@ -67,7 +69,7 @@ public class CultureScreen extends Scene2D {
 			int pos = random.nextInt(playerNumber);
 			Collections.swap(sequence, pos, 0);
 		}
-
+		
 	}
 
 	public void update(int elapsedTime) {
@@ -109,4 +111,9 @@ public class CultureScreen extends Scene2D {
 	public static GlobalDef.Races[] getPlayerCulture() {
 		return playerCulture;
 	}
+
+	public static int getPlayerNumber() {
+		return playerNumber;
+	}	
+	
 }
