@@ -13,8 +13,6 @@ import utility.ResourceHandler;
 public class Board {
 
 	/* production area */
-	/**
-	 */
 	int[][] productionOccupied = new int[4][4];
 	// different culture has different board terrain,must be determined by
 	// subclass
@@ -32,7 +30,9 @@ public class Board {
 
 	private int numOfVillager;
 	private Culture player;
-
+	
+	private int vicCubes;
+	
 	public int[][] getCityOccupied() {
 		return cityOccupied;
 	}
@@ -64,6 +64,14 @@ public class Board {
 	public void setHoldingUnits(Hashtable<BattleCard, Integer> holdingUnits) {
 		this.holdingUnits = holdingUnits;
 	}
+	
+	public int getVicCubes() {
+		return vicCubes;
+	}
+
+	public void setVicCubes(int vicCubes) {
+		this.vicCubes = vicCubes;
+	}
 
 	// constructor
 	public Board(GlobalDef.Races r, Culture c) {
@@ -72,6 +80,7 @@ public class Board {
 		InitialHoldingArea(r);
 		numOfVillager = 0;
 		player = c;
+		vicCubes = 0;
 	}
 
 	private void InitialHoldingArea(GlobalDef.Races race) {

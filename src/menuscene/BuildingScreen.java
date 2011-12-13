@@ -220,8 +220,7 @@ public class BuildingScreen extends Scene2D {
 				if(!wonderBuild)
 					Stage.popScene();
 				else{
-					EndGameScreen eScreen = new EndGameScreen();
-					Stage.replaceScene(eScreen);
+					GameScreen.setGameover(true);
 					
 				}
 			}

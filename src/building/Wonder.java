@@ -10,8 +10,6 @@ import component.Culture;
 
 public class Wonder extends Building {
 
-	/**
-	 */
 	private Hashtable<GlobalDef.Resources, Integer> cost = new Hashtable<GlobalDef.Resources, Integer>();
 	private static Wonder wonder;
 

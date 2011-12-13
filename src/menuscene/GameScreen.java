@@ -82,6 +82,8 @@ public class GameScreen extends Scene2D {
 	static int startPlayer = 0;
 	static int round = 0;
 	static boolean duringTurn = true;
+	static int lastWinID = -1;
+	static boolean gameover = false;
 	
 	String strBoardType;
 	String sideType;
@@ -203,298 +205,303 @@ public class GameScreen extends Scene2D {
 	}
 
 	public void update(int elapsedTime) {
-		// if 3 rounds finish
-		if(round == 3){
-			Spoliage();
-			
-			// discard card
-			if(duringTurn){
-				DiscardCardScreen dcScreen = new DiscardCardScreen();
-				dcScreen.Init(player[index], this.cardButton, this.cardBtnToID);
-				Stage.pushScene(dcScreen);
-			}
-			if(!duringTurn){
-				round = 0;
-				duringTurn = true;
-				if(numOfPlayers == 2)
-					index = 0;
-			}
-			
+		if(gameover){
+			decideOver();
 		}
+		else{
+			// if 3 rounds finish
+			if(round == 3){
+				Spoliage();
 				
-		// update background board for different players
-		if (player[index].getRace() == GlobalDef.Races.Greek) {
-			strBoardType = "GreekBoard.jpg";
-			sideType = "greekpopback.jpg";
-		} else if (player[index].getRace() == GlobalDef.Races.Egypt) {
-			strBoardType = "EgyptBoard.jpg";
-			sideType = "egyptpopback.jpg";
-		}else if(player[index].getRace() == GlobalDef.Races.Norse){
-			strBoardType = "NorseBoard.jpg";
-			sideType = "norsepopback.jpg";
-		}
-		side.setImage(sideType);
-		board.setImage(strBoardType);
-		
-		/* showing resources */
-		for (int i = 0; i < 4; i++) {
-			// first remove
-			ImageSprite img = new ImageSprite(resourceImg[i], i * 50, 0);
-			sideGroup.add(img);
-			GlobalDef.Resources res = GlobalDef.getResourceMap().get(i);
-			resourceLabel[i].setFormatArg(player[index].getGameBoard()
-					.getHoldResource().get(res));
-			sideGroup.add(resourceLabel[i]);
-		}
-
-		/* show current age */
-		this.currentAgeLabel.setFormatArg(player[index].getCurrentAge()
-				.toString());
-		sideGroup.add(currentAgeLabel);
-
-		/* holding units showing */
-		// first remove
-		for (int i = 0; i < holdUnitsImg.size(); i++)
-			sideGroup.remove(holdUnitsImg.get(i));
-		for (int i = 0; i < this.numOfUnitsLabel.size(); i++)
-			sideGroup.remove(this.numOfUnitsLabel.get(i));
-
-		if (player[index].getRace() == GlobalDef.Races.Egypt)
-			unitsImg = egyptUnitsImg;
-		else if (player[index].getRace() == GlobalDef.Races.Greek)
-			unitsImg = greekUnitsImg;
-		else if(player[index].getRace() == GlobalDef.Races.Norse)
-			unitsImg = norseUnitsImg;
-
-		int numOfUnits = -1;
-		Hashtable<BattleCard, Integer> mapTable = getUnitID(player[index]
-				.getRace());
-		Hashtable<BattleCard, Integer> table = player[index].getGameBoard()
-				.getHoldingUnits();
-		Set<BattleCard> kSet = table.keySet();
-		Iterator<BattleCard> iter = kSet.iterator();
-		while (iter.hasNext()) {
-			BattleCard bc = iter.next();
-			int number = table.get(bc);
-			if (number > 0) {
-				numOfUnits++;
-				int ID = mapTable.get(bc);
-				int row = ID / 4;
-				int col = ID % 4; // position of pic
-				int i = numOfUnits / 4;
-				int j = numOfUnits % 4;
-				ImageSprite img = new ImageSprite(unitsImg[row * 12 + col + 4],
-						0, 0);
-				img.setSize(50, 50);
-				int xOrg = j * 50;
-				int yOrg = 100 + i * 80;
-				img.setLocation(xOrg, yOrg);
-				holdUnitsImg.add(img);
+				// discard card
+				if(duringTurn){
+					DiscardCardScreen dcScreen = new DiscardCardScreen();
+					dcScreen.Init(player[index], this.cardButton, this.cardBtnToID);
+					Stage.pushScene(dcScreen);
+				}
+				if(!duringTurn){
+					round = 0;
+					duringTurn = true;
+					if(numOfPlayers == 2)
+						index = 0;
+				}
+				
+			}
+			
+			// update background board for different players
+			if (player[index].getRace() == GlobalDef.Races.Greek) {
+				strBoardType = "GreekBoard.jpg";
+				sideType = "greekpopback.jpg";
+			} else if (player[index].getRace() == GlobalDef.Races.Egypt) {
+				strBoardType = "EgyptBoard.jpg";
+				sideType = "egyptpopback.jpg";
+			}else if(player[index].getRace() == GlobalDef.Races.Norse){
+				strBoardType = "NorseBoard.jpg";
+				sideType = "norsepopback.jpg";
+			}
+			side.setImage(sideType);
+			board.setImage(strBoardType);
+			
+			/* showing resources */
+			for (int i = 0; i < 4; i++) {
+				// first remove
+				ImageSprite img = new ImageSprite(resourceImg[i], i * 50, 0);
 				sideGroup.add(img);
-				Label label = new Label("%d", xOrg + 15, yOrg + 60);
-				label.setFormatArg(number);
-				this.numOfUnitsLabel.add(label);
-				sideGroup.add(label);
+				GlobalDef.Resources res = GlobalDef.getResourceMap().get(i);
+				resourceLabel[i].setFormatArg(player[index].getGameBoard()
+						.getHoldResource().get(res));
+				sideGroup.add(resourceLabel[i]);
 			}
-		}
-		
-		// update city area, first clear city area, just remove all building
-		// image from board
-		Iterator<ImageSprite> bIter = bList.iterator();
-		while (bIter.hasNext())
-			remove(bIter.next());
 
-		// update building area picture according to board info
-		int[][] cityBuilding = player[index].getGameBoard().getCityOccupied();
-		for (int row = 0; row < 4; row++)
-			for (int col = 0; col < 4; col++) {
-				if (cityBuilding[row][col] >= 0) {
-					ImageSprite img = new ImageSprite(
-							buildTileImg[cityBuilding[row][col]], 0, 0, 50, 50);
-					img.setLocation(310 + col * 75, 320 + row * 75);
-					bList.add(img);
-					add(img);
+			/* show current age */
+			this.currentAgeLabel.setFormatArg(player[index].getCurrentAge()
+					.toString());
+			sideGroup.add(currentAgeLabel);
+			
+			/* holding units showing */
+			// first remove
+			for (int i = 0; i < holdUnitsImg.size(); i++)
+				sideGroup.remove(holdUnitsImg.get(i));
+			for (int i = 0; i < this.numOfUnitsLabel.size(); i++)
+				sideGroup.remove(this.numOfUnitsLabel.get(i));
+
+			if (player[index].getRace() == GlobalDef.Races.Egypt)
+				unitsImg = egyptUnitsImg;
+			else if (player[index].getRace() == GlobalDef.Races.Greek)
+				unitsImg = greekUnitsImg;
+			else if(player[index].getRace() == GlobalDef.Races.Norse)
+				unitsImg = norseUnitsImg;
+
+			int numOfUnits = -1;
+			Hashtable<BattleCard, Integer> mapTable = getUnitID(player[index]
+					.getRace());
+			Hashtable<BattleCard, Integer> table = player[index].getGameBoard()
+					.getHoldingUnits();
+			Set<BattleCard> kSet = table.keySet();
+			Iterator<BattleCard> iter = kSet.iterator();
+			while (iter.hasNext()) {
+				BattleCard bc = iter.next();
+				int number = table.get(bc);
+				if (number > 0) {
+					numOfUnits++;
+					int ID = mapTable.get(bc);
+					int row = ID / 4;
+					int col = ID % 4; // position of pic
+					int i = numOfUnits / 4;
+					int j = numOfUnits % 4;
+					ImageSprite img = new ImageSprite(unitsImg[row * 12 + col + 4],
+							0, 0);
+					img.setSize(50, 50);
+					int xOrg = j * 50;
+					int yOrg = 100 + i * 80;
+					img.setLocation(xOrg, yOrg);
+					holdUnitsImg.add(img);
+					sideGroup.add(img);
+					Label label = new Label("%d", xOrg + 15, yOrg + 60);
+					label.setFormatArg(number);
+					this.numOfUnitsLabel.add(label);
+					sideGroup.add(label);
 				}
 			}
+			
+			// update city area, first clear city area, just remove all building
+			// image from board
+			Iterator<ImageSprite> bIter = bList.iterator();
+			while (bIter.hasNext())
+				remove(bIter.next());
 
-		// update production area of player
-		Iterator<ImageSprite> pIter = pList.iterator();
-		while (pIter.hasNext())
-			remove(pIter.next());
-
-		int[][] productionTile = player[index].getGameBoard()
-				.getProductionOccupied();
-		for (int row = 0; row < 4; row++)
-			for (int col = 0; col < 4; col++) {
-				if (productionTile[row][col] >= 0) {
-					ImageSprite img = new ImageSprite(
-							productionTileImg[productionTile[row][col]], 0, 0,
-							50, 50);
-					img.setLocation(15 + col * 75, 310 + row * 75);
-					pList.add(img);
-					add(img);
+			// update building area picture according to board info
+			int[][] cityBuilding = player[index].getGameBoard().getCityOccupied();
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					if (cityBuilding[row][col] >= 0) {
+						ImageSprite img = new ImageSprite(
+								buildTileImg[cityBuilding[row][col]], 0, 0, 50, 50);
+						img.setLocation(310 + col * 75, 320 + row * 75);
+						bList.add(img);
+						add(img);
+					}
 				}
-			}
-		
-		
-		/* begin initialize production tile */
-		if(!startPTileInit){
-			startPTileInit = true;
-			initEScreen = new InitExploreScreen();
-			if(init){
-				initEScreen.GenerateRomdomTiles(6);
-				init = false;
-			}else{
-				initEScreen.GenerateRomdomTiles(numOfTiles);
-			}
-		}
-		
-		if(!initPTileOver){
-			initEScreen.Init(player[index]);
-			Stage.pushScene(initEScreen);
-		}
-		/* end initialization of production tiles*/
-		
-		/* victory point cubes */
-		if(!initVicPointOver && initPTileOver){
-			VictoryPointInitScreen vpiScreen = new VictoryPointInitScreen();
-			vpiScreen.Init(player[index]);
-			Stage.pushScene(vpiScreen);
-		}
-		/* end of victory point cubes */
-		
-		/* begin initialize each players card */
-		if(!initCardOver && initVicPointOver){
-			InitialCardScreen dcScreen = new InitialCardScreen();
-			dcScreen.Init(player[index]);
-			Stage.pushScene(dcScreen);	
-		}
-		/* end initialization card for player */
-		
-		/* draw cards parts */
-		for (int i = 0; i < holdCardImg.size(); i++)
-			sideGroup.remove(holdCardImg.get(i));
-		
-		if (player[index].getRace() == GlobalDef.Races.Egypt){
-			cardImg = egyptCardImg;
-			randomCardImg = egyptRCardImg;
-		}
-		else if (player[index].getRace() == GlobalDef.Races.Greek){
-			cardImg = greekCardImg;
-			randomCardImg = greekRCardImg;
-		}
-		else if(player[index].getRace() == GlobalDef.Races.Norse){
-			cardImg = norseCardImg;
-			randomCardImg = norseRCardImg;
-		}
-		
-		for(int i = 0; i < cardButton.size(); i++)
-			this.sideGroup.remove(cardButton.get(i));
-		
-		cardButton.clear();
-		// for card
-		Hashtable<Card, Integer> CardTable = getCardID();
-		
-		Hashtable<Card, Integer> holdCard = player[index].getCardHold();
-		Set<Card> cSet = holdCard.keySet();
-		Iterator<Card> cIter = cSet.iterator();
-		while(cIter.hasNext()){
-			Card card = cIter.next();
-			int number = holdCard.get(card);
-			while(number > 0){
-				int ID = CardTable.get(card);
-				int row = ID / 4;
-				int col = ID % 4;
-				
-				// action card
-				if(ID < 7){
-					CoreImage[] img = new CoreImage[]{cardImg[row * 12 + col], cardImg[row * 12 + col + 4],
-							cardImg[row * 12 + col + 8]};
-					Button btn = new Button(img, 0, 0);
-					btn.setSize(50, 75);
-					cardButton.add(btn);
-					cardBtnToID.put(btn, ID);
-					number--;
+			
+			// update production area of player
+			Iterator<ImageSprite> pIter = pList.iterator();
+			while (pIter.hasNext())
+				remove(pIter.next());
+
+			int[][] productionTile = player[index].getGameBoard()
+					.getProductionOccupied();
+			for (int row = 0; row < 4; row++)
+				for (int col = 0; col < 4; col++) {
+					if (productionTile[row][col] >= 0) {
+						ImageSprite img = new ImageSprite(
+								productionTileImg[productionTile[row][col]], 0, 0,
+								50, 50);
+						img.setLocation(15 + col * 75, 310 + row * 75);
+						pList.add(img);
+						add(img);
+					}
+				}
+			
+			/* begin initialize production tile */
+			if(!startPTileInit){
+				startPTileInit = true;
+				initEScreen = new InitExploreScreen();
+				if(init){
+					initEScreen.GenerateRomdomTiles(6);
+					init = false;
 				}else{
-					ID = ID - 7;
-					int r = ID / 5; int c = ID % 5;
-					CoreImage[] img = new CoreImage[]{randomCardImg[r * 15 + c], randomCardImg[r * 15 + c + 5],
-							randomCardImg[r * 15 + c + 10]};
-					Button btn = new Button(img, 0, 0);
-					btn.setSize(50, 75);
-					cardButton.add(btn);
-					ID = ID + 7;
-					cardBtnToID.put(btn, ID);
-					number--;
-				}		
+					initEScreen.GenerateRomdomTiles(numOfTiles);
+				}
 			}
-		}
-		
-		// show card button on screen
-		for(int i = 0; i < this.cardButton.size(); i++)
-		{
-			int row = i / 4;
-			int col = i % 4;
-			int xOrg = col * 50;
-			int yOrg = row * 75 + 320;
-			Button btn = cardButton.get(i);
-			btn.setLocation(xOrg, yOrg);
-			sideGroup.add(btn);
-		}
-		/* end draw cards parts */
-		
-		// if bank button is pressed
-		if(bankBtn.isClicked()){
-			BankScreen bScreen = new BankScreen();
-			bScreen.Init(player[index], true);
-			Stage.pushScene(bScreen);
-		}
-		
-		// if play card button is pressed
-		if(playBtn.isClicked()){
-			PlayCardScreen pcScreen = new PlayCardScreen();
-			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
-			Stage.pushScene(pcScreen);		
-		}
-		
-		// if burn card button is pressed
-		if(burnBtn.isClicked()){
-			PlayCardScreen pcScreen = new PlayCardScreen();
-			pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, true);
-			Stage.pushScene(pcScreen);	
-		}
-		
-		// if finish turn button is pressed
-		if(finishBtn.isClicked()){
-			index++;
 			
-			index = index % numOfPlayers;
+			if(!initPTileOver){
+				initEScreen.Init(player[index]);
+				Stage.pushScene(initEScreen);
+			}
+			/* end initialization of production tiles*/
 			
-			if(PlayerScreen.getNumber() == 1){
+			/* victory point cubes */
+			if(!initVicPointOver && initPTileOver){
+				VictoryPointInitScreen vpiScreen = new VictoryPointInitScreen();
+				vpiScreen.Init(player[index]);
+				Stage.pushScene(vpiScreen);
+			}
+			/* end of victory point cubes */
+			
+			/* begin initialize each players card */
+			if(!initCardOver && initVicPointOver){
+				InitialCardScreen dcScreen = new InitialCardScreen();
+				dcScreen.Init(player[index]);
+				Stage.pushScene(dcScreen);	
+			}
+			/* end initialization card for player */
+			
+			/* draw cards parts */
+			for (int i = 0; i < holdCardImg.size(); i++)
+				sideGroup.remove(holdCardImg.get(i));
+			
+			if (player[index].getRace() == GlobalDef.Races.Egypt){
+				cardImg = egyptCardImg;
+				randomCardImg = egyptRCardImg;
+			}
+			else if (player[index].getRace() == GlobalDef.Races.Greek){
+				cardImg = greekCardImg;
+				randomCardImg = greekRCardImg;
+			}
+			else if(player[index].getRace() == GlobalDef.Races.Norse){
+				cardImg = norseCardImg;
+				randomCardImg = norseRCardImg;
+			}
+			
+			for(int i = 0; i < cardButton.size(); i++)
+				this.sideGroup.remove(cardButton.get(i));
+			
+			cardButton.clear();
+			// for card
+			Hashtable<Card, Integer> CardTable = getCardID();
+			
+			Hashtable<Card, Integer> holdCard = player[index].getCardHold();
+			Set<Card> cSet = holdCard.keySet();
+			Iterator<Card> cIter = cSet.iterator();
+			while(cIter.hasNext()){
+				Card card = cIter.next();
+				int number = holdCard.get(card);
+				while(number > 0){
+					int ID = CardTable.get(card);
+					int row = ID / 4;
+					int col = ID % 4;
+					
+					// action card
+					if(ID < 7){
+						CoreImage[] img = new CoreImage[]{cardImg[row * 12 + col], cardImg[row * 12 + col + 4],
+								cardImg[row * 12 + col + 8]};
+						Button btn = new Button(img, 0, 0);
+						btn.setSize(50, 75);
+						cardButton.add(btn);
+						cardBtnToID.put(btn, ID);
+						number--;
+					}else{
+						ID = ID - 7;
+						int r = ID / 5; int c = ID % 5;
+						CoreImage[] img = new CoreImage[]{randomCardImg[r * 15 + c], randomCardImg[r * 15 + c + 5],
+								randomCardImg[r * 15 + c + 10]};
+						Button btn = new Button(img, 0, 0);
+						btn.setSize(50, 75);
+						cardButton.add(btn);
+						ID = ID + 7;
+						cardBtnToID.put(btn, ID);
+						number--;
+					}		
+				}
+			}
+			
+			// show card button on screen
+			for(int i = 0; i < this.cardButton.size(); i++)
+			{
+				int row = i / 4;
+				int col = i % 4;
+				int xOrg = col * 50;
+				int yOrg = row * 75 + 320;
+				Button btn = cardButton.get(i);
+				btn.setLocation(xOrg, yOrg);
+				sideGroup.add(btn);
+			}
+			/* end draw cards parts */
+			
+			// if bank button is pressed
+			if(bankBtn.isClicked()){
+				BankScreen bScreen = new BankScreen();
+				bScreen.Init(player[index], true);
+				Stage.pushScene(bScreen);
+			}
+			
+			// if play card button is pressed
+			if(playBtn.isClicked()){
 				PlayCardScreen pcScreen = new PlayCardScreen();
-				System.out.println("AI do");
-				pcScreen.Init(player[1], this.cardButton, this.cardBtnToID, false);
-				Stage.pushScene(pcScreen);
+				pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, false);
+				Stage.pushScene(pcScreen);		
 			}
 			
-			if(index == startPlayer){
-				/*startPlayer++;
-				startPlayer = startPlayer % numOfPlayers;*/
-				round++;
-				System.out.println(round);
+			// if burn card button is pressed
+			if(burnBtn.isClicked()){
+				PlayCardScreen pcScreen = new PlayCardScreen();
+				pcScreen.Init(player[index], this.cardButton, this.cardBtnToID, true);
+				Stage.pushScene(pcScreen);	
 			}
+			
+			// if finish turn button is pressed
+			if(finishBtn.isClicked()){
+				index++;
+				
+				index = index % numOfPlayers;
+				
+				if(PlayerScreen.getNumber() == 1){
+					PlayCardScreen pcScreen = new PlayCardScreen();
+					System.out.println("AI do");
+					pcScreen.Init(player[1], this.cardButton, this.cardBtnToID, false);
+					Stage.pushScene(pcScreen);
+				}
+				
+				if(index == startPlayer){
+					/*startPlayer++;
+					startPlayer = startPlayer % numOfPlayers;*/
+					round++;
+					System.out.println(round);
+				}
+			}
+			
+			/*if(Input.isPressed(Input.KEY_D)){
+				DrawCardScreen dScreen = new DrawCardScreen();
+				dScreen.Init(player[index]);
+				Stage.pushScene(dScreen);
+			}
+			
+			if(Input.isPressed(Input.KEY_0)){
+				index++;
+				index = index % numOfPlayers;
+			}*/
 		}
 		
-		if(Input.isPressed(Input.KEY_D)){
-			DrawCardScreen dScreen = new DrawCardScreen();
-			dScreen.Init(player[index]);
-			Stage.pushScene(dScreen);
-		}
-		
-		if(Input.isPressed(Input.KEY_0)){
-			index++;
-			index = index % numOfPlayers;
-		}
 	}
 
 	public static int getNumOfPlayers() {
@@ -626,6 +633,130 @@ public class GameScreen extends Scene2D {
 		GameScreen.round = round;
 	}
 	
+	public static int getLastWinID() {
+		return lastWinID;
+	}
+
+	public static void setLastWinID(int lastWinID) {
+		GameScreen.lastWinID = lastWinID;
+	}
 	
+	
+	public static boolean isGameover() {
+		return gameover;
+	}
+
+	public static void setGameover(boolean gameover) {
+		GameScreen.gameover = gameover;
+	}
+
+	private void MostBuild()
+	{
+		int index = 0;
+		int mostBuild = 0;
+		
+		for(int i = 0; i < numOfPlayers; i++)
+		{
+			int number = 0;
+			int[][] b = player[index].getGameBoard().getCityOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(b[row][col] >= 0){
+						number++;
+					}
+				}
+			if(number > mostBuild){
+				mostBuild = number;
+				index = i;
+			}
+		}
+		
+		// get vicPoint cubes
+		int n = player[index].getGameBoard().getVicCubes();
+		n = n + Bank.getInstance().getVpcOnCards().get(0);
+		player[index].getGameBoard().setVicCubes(n); 
+	}
+	
+	private void LargestArmy()
+	{
+		// who has largest army
+		int index = 0;
+		int maxArmy = 0;
+		for(int i = 0; i < numOfPlayers; i++)
+		{
+			// calculate number of units
+			Hashtable<BattleCard, Integer> uTable = player[i].getGameBoard().getHoldingUnits();
+			int number = 0;
+			Set<BattleCard> kSet = uTable.keySet();
+			Iterator<BattleCard> iter = kSet.iterator();
+			while(iter.hasNext()){
+				BattleCard bc = iter.next();
+				number += uTable.get(bc);
+			}
+			if(number > maxArmy){
+				maxArmy = number;
+				index = i;
+			}
+		}
+		
+		// get vicPoint cubes
+		int n = player[index].getGameBoard().getVicCubes();
+		n = n + Bank.getInstance().getVpcOnCards().get(1);
+		player[index].getGameBoard().setVicCubes(n);
+	}
+	
+	private void winlastBattle()
+	{
+		// get vicPoint cubes
+		int n = player[lastWinID].getGameBoard().getVicCubes();
+		n = n + Bank.getInstance().getVpcOnCards().get(2);
+		player[lastWinID].getGameBoard().setVicCubes(n);
+	}
+	
+	private void Wonder()
+	{
+		for(int i = 0; i < numOfPlayers; i++)
+		{
+			int[][] b = player[index].getGameBoard().getCityOccupied();
+			for(int row = 0; row < 4; row++)
+				for(int col = 0; col < 4; col++){
+					if(b[row][col] == 12){
+						int n = player[i].getGameBoard().getVicCubes();
+						n = n + Bank.getInstance().getVpcOnCards().get(3);
+						player[i].getGameBoard().setVicCubes(n);
+					}
+				}
+		}
+	}
+	
+	private void decideOver()
+	{
+		int id = 0;
+		int mostV = 0;
+		
+		if(Bank.getInstance().getResourcePool().get(GlobalDef.Resources.VICTORY) > 0)
+			return;
+		else{
+			LargestArmy();
+			MostBuild();
+			winlastBattle();
+			Wonder();
+		}
+		
+		// decide who has most victory point cubes
+		for(int i = 0; i < numOfPlayers; i++)
+		{
+			int number = player[i].getGameBoard().getVicCubes();
+			if(number > mostV){
+				id = i;
+				mostV = number;
+			}
+		}
+		
+		EndGameScreen eScreen = new EndGameScreen();
+		eScreen.Init(id);
+		Stage.replaceScene(eScreen);
+		
+	}
 	
 }

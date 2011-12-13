@@ -430,5 +430,7 @@ public class Culture {
 	public void setAI(boolean isAI) {
 		this.isAI = isAI;
 	}
+	
+	
 
 }

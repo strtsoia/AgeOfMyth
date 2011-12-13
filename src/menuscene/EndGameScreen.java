@@ -10,6 +10,12 @@ public class EndGameScreen extends Scene2D{
 	ImageSprite background;
 	Label reStart;
 	Label exit;
+	Label msg;
+	int ID;
+	
+	public void Init(int id){
+		ID = id;
+	}
 	
 	@Override
 	public void load() {
@@ -17,6 +23,10 @@ public class EndGameScreen extends Scene2D{
 				Stage.getHeight());
 
 		add(background);
+		
+		msg = new Label("player " + ID + "wins!", 0, 0);
+		msg.setLocation((Stage.getWidth() - msg.width.get()) / 2, 325);
+		add(msg);
 		
 		reStart = new Label("ReStart Game", 0, 0);
 		reStart.setLocation((Stage.getWidth() - reStart.width.get()) / 2, 350);

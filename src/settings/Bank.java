@@ -32,6 +32,12 @@ public class Bank {
 		case 4:
 			InitialResourcePool(30);
 			break;
+		case 5:
+			InitialResourcePool(40);
+			break;
+		case 6:
+			InitialResourcePool(50);
+			break;
 		default:// use for debug
 			InitialResourcePool(80);
 			break;
