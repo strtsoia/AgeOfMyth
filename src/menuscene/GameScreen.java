@@ -205,9 +205,10 @@ public class GameScreen extends Scene2D {
 	}
 
 	public void update(int elapsedTime) {
-		if(gameover){
+		if(gameover || Bank.getInstance().getResourcePool().get(GlobalDef.Resources.VICTORY) == 0){
 			decideOver();
 		}
+		
 		else{
 			// if 3 rounds finish
 			if(round == 3){
@@ -734,14 +735,11 @@ public class GameScreen extends Scene2D {
 		int id = 0;
 		int mostV = 0;
 		
-		if(Bank.getInstance().getResourcePool().get(GlobalDef.Resources.VICTORY) > 0)
-			return;
-		else{
-			LargestArmy();
-			MostBuild();
-			winlastBattle();
-			Wonder();
-		}
+		LargestArmy();
+		MostBuild();
+		winlastBattle();
+		Wonder();
+		
 		
 		// decide who has most victory point cubes
 		for(int i = 0; i < numOfPlayers; i++)
