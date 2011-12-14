@@ -78,8 +78,8 @@ public class CultureScreen extends Scene2D {
 		}
 
 		if (index == playerNumber) {
-			GameSetting.GetInstance();
-			Stage.setScene(new GameScreen());
+			RollStartPlayScreen pScreen = new RollStartPlayScreen();
+			Stage.replaceScene(pScreen);
 		}
 
 		if (click.isMouseReleased() && hit) {
