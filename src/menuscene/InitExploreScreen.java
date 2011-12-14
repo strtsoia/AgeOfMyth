@@ -29,6 +29,7 @@ public class InitExploreScreen extends Scene2D {
 	Culture player;
 	static int times = 0;
 	boolean bbreak;
+	static boolean init = true;
 	
 	// how many tiles should be randomly draw from pool
 	public void Init(Culture c) {
@@ -80,53 +81,84 @@ public class InitExploreScreen extends Scene2D {
 
 	@Override
 	public void update(int elapsedTime) {
-		Integer ID;
-		// AI
-		if(player.isAI()){
-			ID = randomTile.get(0);
-			randomTile.remove(ID); 
-			// do background update
-			ResProduceTile tile = GlobalDef.getTileMap().get(ID);
-			player.getGameBoard().Explore(tile, ID);
-			// switch players
-			int index = 0;
-			GameScreen.setIndex(index);
-			GameScreen.setInitPTileOver(true);
-			times = 0;
+		
+		if(init){
+			GenerateRomdomTiles(6);
+			int ID;
+			for(int i = 0; i < this.randomTile.size(); i++){
+				ID = randomTile.get(i);
+				ResProduceTile tile = GlobalDef.getTileMap().get(ID);
+				player.getGameBoard().Explore(tile, ID);
+			}
 			
+			int index = GameScreen.getIndex();
+			index++;
+			index = index % GameScreen.getNumOfPlayers();
+			times++;
+			GameScreen.setIndex(index);
 			Stage.popScene();
+			
+			if(times == GameScreen.getNumOfPlayers()){
+				init = false;
+				GameScreen.setInitPTileOver(true);
+				times = 0;
+			}
 		}
 		
-		// determine which tile has been selected
-		if(!player.isAI()){
-			for (int row = 0; row < 5; row++)
-				for (int col = 0; col < 4; col++) {
-					if (!randomTile.contains(row * 4 + col)) {
-						resBtn[row][col].setImage(resTileImg[row * 12 + col + 8]);
-					}
-					if (randomTile.contains(row * 4 + col)
-							&& resBtn[row][col].isClicked()) {
-						ID = row * 4 + col;
-						randomTile.remove(ID); // this tile has been selected, so
-												// disable it
-						// do background update
-						ResProduceTile tile = GlobalDef.getTileMap().get(ID);
-						player.getGameBoard().Explore(tile, ID);
-						
-						// switch players
-						int index = GameScreen.getIndex();
-						index++;
-						index = index % GameScreen.getNumOfPlayers();
-						times++;
-						GameScreen.setIndex(index);
-						if(times == GameScreen.getNumOfPlayers()){
-							GameScreen.setInitPTileOver(true);
-							times = 0;
+		
+		if(!init){
+			
+			Integer ID;
+			// AI
+			if(player.isAI()){
+				ID = randomTile.get(0);
+				randomTile.remove(ID); 
+				// do background update
+				ResProduceTile tile = GlobalDef.getTileMap().get(ID);
+				player.getGameBoard().Explore(tile, ID);
+				// switch players
+				int index = 0;
+				GameScreen.setIndex(index);
+				GameScreen.setInitPTileOver(true);
+				times = 0;
+			
+				Stage.popScene();
+			}
+			
+			// determine which tile has been selected
+			if(!player.isAI()){
+				for (int row = 0; row < 5; row++)
+					for (int col = 0; col < 4; col++) {
+						if (!randomTile.contains(row * 4 + col)) {
+							resBtn[row][col].setImage(resTileImg[row * 12 + col + 8]);
 						}
-						Stage.popScene();
+						if (randomTile.contains(row * 4 + col)
+								&& resBtn[row][col].isClicked()) {
+							ID = row * 4 + col;
+							randomTile.remove(ID); // this tile has been selected, so
+													// disable it
+							// do background update
+							ResProduceTile tile = GlobalDef.getTileMap().get(ID);
+							player.getGameBoard().Explore(tile, ID);
+							
+							// switch players
+							int index = GameScreen.getIndex();
+							index++;
+							index = index % GameScreen.getNumOfPlayers();
+							times++;
+							GameScreen.setIndex(index);
+							if(times == GameScreen.getNumOfPlayers()){
+								GameScreen.setInitPTileOver(true);
+								times = 0;
+							}
+							Stage.popScene();
+						}
 					}
-				}
+			}
 		}
+		
+		
+		
 		
 	}
 }

@@ -495,12 +495,12 @@ public class GameScreen extends Scene2D {
 				DrawCardScreen dScreen = new DrawCardScreen();
 				dScreen.Init(player[index]);
 				Stage.pushScene(dScreen);
-			}
+			}*/
 			
 			if(Input.isPressed(Input.KEY_0)){
 				index++;
 				index = index % numOfPlayers;
-			}*/
+			}
 		}
 		
 	}
